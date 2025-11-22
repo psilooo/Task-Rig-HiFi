@@ -2,6 +2,7 @@ import React from 'react';
 import { Reveal } from './ui/Reveal';
 import { Bot, Zap, Shield, ChevronRight, Terminal, LayoutGrid, Network, Globe, Cpu, Check, Database, Lock } from 'lucide-react';
 import { Hero } from './Hero';
+import { TaskRigLogo } from './ui/TaskRigLogo';
 
 interface LandingPageProps {
   onLoginClick: () => void;
@@ -17,7 +18,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-20">
         <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
             <div className="flex items-center gap-3">
-                <div className="w-3 h-3 bg-orange-500 rounded-sm shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div>
+                <TaskRigLogo className="h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
                 <div className="font-heading font-bold text-2xl tracking-tight text-white">TASK RIG</div>
             </div>
             <div className="hidden md:flex items-center gap-8">
