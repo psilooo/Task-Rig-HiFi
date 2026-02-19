@@ -87,6 +87,8 @@ export const DotMatrixLogo: React.FC = () => {
                         const radius = Math.sqrt(centeredX * centeredX + centeredY * centeredY);
                         const isGear = radius > 45;
 
+                        if (!isGear) continue;
+
                         const edge = isEdge(x, y);
 
                         // Create extruded depth
