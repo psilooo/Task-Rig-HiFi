@@ -283,36 +283,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
             {/* Footer */}
             <footer className="bg-zinc-950 pt-20 pb-10 px-6 border-t border-zinc-800 relative z-10">
-                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                    <div className="col-span-1 md:col-span-2">
-                        <div className="flex items-center gap-2 mb-6">
-                            <div className="w-3 h-3 bg-zinc-800 rounded-sm"></div>
-                            <div className="font-heading font-bold text-2xl tracking-tight text-white">TASK RIG</div>
-                        </div>
-                        <p className="text-zinc-500 font-mono text-sm max-w-xs leading-relaxed">
-                            Advanced AI orchestration for the modern service economy. Built for speed, security, and scale.
-                        </p>
+                <div className="max-w-7xl mx-auto flex flex-col items-center mb-16">
+                    <div className="flex items-center gap-3 mb-6">
+                        <TaskRigLogo className="h-6 w-auto text-zinc-700" />
+                        <div className="font-heading font-bold text-2xl tracking-tight text-zinc-600">TASK RIG</div>
                     </div>
-
-                    <div>
-                        <h4 className="text-white font-heading font-bold uppercase tracking-wider mb-6">Platform</h4>
-                        <ul className="space-y-3">
-                            {['Intelligence', 'Infrastructure', 'Security', 'Changelog'].map(item => (
-                                <li key={item}><a href="#" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors">{item}</a></li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h4 className="text-white font-heading font-bold uppercase tracking-wider mb-6">Legal</h4>
-                        <ul className="space-y-3">
-                            <li>
-                                <a href="/privacy" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors">Privacy Protocol</a>
-                            </li>
-                            {['Terms of Service', 'SLA', 'Data Usage'].map(item => (
-                                <li key={item}><a href="#" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors">{item}</a></li>
-                            ))}
-                        </ul>
+                    <p className="text-zinc-500 font-mono text-sm max-w-sm text-center leading-relaxed mb-8">
+                        Advanced AI orchestration for the modern service economy. Built for speed, security, and scale.
+                    </p>
+                    <div className="flex gap-6">
+                        <a href="/privacy" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors border-b border-transparent hover:border-orange-500/30 pb-1">Privacy Protocol</a>
                     </div>
                 </div>
 
