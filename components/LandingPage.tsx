@@ -298,7 +298,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                 <div className="max-w-7xl mx-auto border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div className="text-zinc-600 font-mono text-[10px] uppercase tracking-widest">
-                        © 2025 Task Rig Systems Inc. All Rights Reserved.
+                        © 2026 Task Rig Systems Inc. All Rights Reserved.
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full bg-emerald-900"></div>
