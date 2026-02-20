@@ -26,8 +26,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             href="tel:+15551234567"
                             className="group flex items-center gap-2 px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
                         >
-                            Call Demo
                             <Phone size={14} className="transition-colors" />
+                            Call Demo
                         </a>
                         <button
                             onClick={onLoginClick}
