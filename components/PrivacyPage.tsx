@@ -16,7 +16,7 @@ export const PrivacyPage: React.FC = () => {
                 <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <TaskRigLogo className="h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
-                        <div className="font-heading font-bold text-2xl tracking-tight text-white translate-y-[2px]">TASK RIG</div>
+                        <div className="font-heading font-bold text-2xl tracking-tight text-white">TASK RIG</div>
                     </div>
                     <a href="/" className="group flex items-center gap-2 px-4 py-2 text-zinc-400 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors">
                         <ArrowLeft size={14} className="text-zinc-500 group-hover:text-orange-500 transition-colors" />
@@ -139,7 +139,7 @@ export const PrivacyPage: React.FC = () => {
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-2">
                         <TaskRigLogo className="w-5 h-auto text-zinc-800" />
-                        <span className="font-heading font-bold text-lg tracking-tight text-zinc-700 translate-y-[2px]">TASK RIG</span>
+                        <span className="font-heading font-bold text-lg tracking-tight text-zinc-700">TASK RIG</span>
                     </div>
                     <div className="text-zinc-600 font-mono text-[10px] uppercase tracking-widest text-center flex-1">
                         © 2026 Task Rig Systems Inc. All Rights Reserved.

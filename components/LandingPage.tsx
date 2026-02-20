@@ -19,7 +19,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <TaskRigLogo className="h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
-                        <div className="font-heading font-bold text-2xl tracking-tight text-white translate-y-[2px]">TASK RIG</div>
+                        <div className="font-heading font-bold text-2xl tracking-tight text-white">TASK RIG</div>
                     </div>
                     <button
                         onClick={onLoginClick}
@@ -281,7 +281,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 <div className="max-w-7xl mx-auto flex flex-col items-center mb-16">
                     <div className="flex items-center gap-3 mb-6">
                         <TaskRigLogo className="h-6 w-auto text-zinc-700" />
-                        <div className="font-heading font-bold text-2xl tracking-tight text-zinc-600 translate-y-[2px]">TASK RIG</div>
+                        <div className="font-heading font-bold text-2xl tracking-tight text-zinc-600">TASK RIG</div>
                     </div>
                     <p className="text-zinc-500 font-mono text-sm max-w-sm text-center leading-relaxed mb-8">
                         Advanced AI orchestration for the modern service economy. Built for speed, security, and scale.
