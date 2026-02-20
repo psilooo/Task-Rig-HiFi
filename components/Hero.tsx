@@ -100,10 +100,9 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                         {/* Main Title - Adjusted Spacing and Typography to match Figma */}
                         <Reveal delay={0.1}>
-                            <h1 className="font-heading font-bold text-[4.5rem] md:text-[5rem] lg:text-[5.5rem] leading-[1.0] text-zinc-100 tracking-wide flex flex-col items-center relative z-10 w-full">
-                                <span className="drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">DEPLOY INTELLIGENT</span>
-                                <span className="text-zinc-300 relative"
-                                    style={{ textShadow: '0 0 25px rgba(255, 255, 255, 0.5), 0 0 50px rgba(255, 255, 255, 0.3)' }}>
+                            <h1 className="font-heading font-bold text-[3.5rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.0] text-zinc-100 tracking-wide flex flex-col items-center relative z-10 w-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                                <span>DEPLOY INTELLIGENT</span>
+                                <span className="text-zinc-300 relative">
                                     WORKFORCE
                                 </span>
                             </h1>
