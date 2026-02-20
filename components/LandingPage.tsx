@@ -409,7 +409,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 2: FEATURES + HOW IT WORKS (Interactive Tabs)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10">
+            <section id="features" className="py-28 md:py-40 px-6 relative z-10">
                 {/* Background accent */}
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
 
@@ -494,7 +494,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 3: INDUSTRIES + INTEGRATIONS (Two-Column Split)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10 border-y border-white/5">
+            <section id="industries" className="py-28 md:py-40 px-6 relative z-10 border-y border-white/5">
                 {/* Background accent */}
                 <div className="absolute bottom-0 left-0 w-[600px] h-[400px] bg-orange-500/[0.015] blur-[150px] rounded-full pointer-events-none" />
 
@@ -578,7 +578,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 4: LIVE DEMO - Animated Chat (Full-Width Star Section)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10" ref={chatRef}>
+            <section id="demo" className="py-28 md:py-40 px-6 relative z-10" ref={chatRef}>
                 {/* Radial gradient background */}
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_50%,rgba(255,106,21,0.04),transparent)] pointer-events-none" />
 
@@ -645,7 +645,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 5: METRICS + TESTIMONIALS (Merged)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10 border-y border-white/5">
+            <section id="testimonials" className="py-28 md:py-40 px-6 relative z-10 border-y border-white/5">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-orange-500/[0.02] blur-[120px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
@@ -761,7 +761,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 7: FAQ + FINAL CTA (Merged)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10 border-t border-white/5">
+            <section id="faq" className="py-28 md:py-40 px-6 relative z-10 border-t border-white/5">
                 <div className="max-w-3xl mx-auto">
                     {/* FAQ */}
                     <div className="text-center mb-14">
