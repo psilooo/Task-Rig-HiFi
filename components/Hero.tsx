@@ -38,8 +38,8 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
                     </div>
                     {/* Orange Vertical Line - Top Left */}
-                    <div className="absolute top-0 left-[16%] w-[1px] h-[26%] bg-[#FF6A15]/40 shadow-[0_0_8px_rgba(255,106,21,0.5)] overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-[15%] bg-white animate-scan-vertical shadow-[0_0_10px_white]"></div>
+                    <div className="absolute top-0 left-[16%] w-[1px] h-[26%] bg-[#FF6A15]/20 overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-[30%] bg-gradient-to-b from-transparent via-[#FF6A15] to-transparent animate-scan-vertical shadow-[0_0_15px_#FF6A15]"></div>
                     </div>
 
                     {/* Bottom Left Crosshair */}
@@ -47,9 +47,9 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         <div className="absolute w-[17px] h-[1px] bg-zinc-600/60"></div>
                         <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
                     </div>
-                    {/* Orange Horizontal Line - Bottom Left */}
-                    <div className="absolute bottom-[28%] left-0 w-[14%] h-[1px] bg-[#FF6A15]/40 shadow-[0_0_8px_rgba(255,106,21,0.5)] overflow-hidden">
-                        <div className="absolute top-0 left-0 h-full w-[20%] bg-white animate-scan-horizontal shadow-[0_0_10px_white]" style={{ animationDelay: '0.5s' }}></div>
+                    {/* Orange Horizontal Line - Bottom Left (Extends strictly from left edge to crosshair) */}
+                    <div className="absolute bottom-[28%] left-0 right-[84%] h-[1px] bg-[#FF6A15]/20 overflow-hidden">
+                        <div className="absolute top-0 left-0 h-full w-[40%] bg-gradient-to-r from-transparent via-[#FF6A15] to-transparent animate-scan-horizontal shadow-[0_0_15px_#FF6A15]" style={{ animationDelay: '0.5s' }}></div>
                     </div>
 
                     {/* Top Right Crosshair */}
@@ -57,9 +57,9 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         <div className="absolute w-[17px] h-[1px] bg-zinc-600/60"></div>
                         <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
                     </div>
-                    {/* Orange Horizontal Line - Top Right */}
-                    <div className="absolute top-[28%] right-0 w-[14%] h-[1px] bg-[#FF6A15]/40 shadow-[0_0_8px_rgba(255,106,21,0.5)] overflow-hidden">
-                        <div className="absolute top-0 right-0 h-full w-[20%] bg-white animate-scan-horizontal-reverse shadow-[0_0_10px_white]" style={{ animationDelay: '1s' }}></div>
+                    {/* Orange Horizontal Line - Top Right (Extends strictly from crosshair to right edge) */}
+                    <div className="absolute top-[28%] left-[84%] right-0 h-[1px] bg-[#FF6A15]/20 overflow-hidden">
+                        <div className="absolute top-0 right-0 h-full w-[40%] bg-gradient-to-l from-transparent via-[#FF6A15] to-transparent animate-scan-horizontal-reverse shadow-[0_0_15px_#FF6A15]" style={{ animationDelay: '1s' }}></div>
                     </div>
 
                     {/* Bottom Right Crosshair */}
@@ -68,8 +68,8 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
                     </div>
                     {/* Orange Vertical Line - Bottom Right */}
-                    <div className="absolute bottom-0 right-[16%] w-[1px] h-[26%] bg-[#FF6A15]/40 shadow-[0_0_8px_rgba(255,106,21,0.5)] overflow-hidden">
-                        <div className="absolute bottom-0 left-0 w-full h-[15%] bg-white animate-scan-vertical-reverse shadow-[0_0_10px_white]" style={{ animationDelay: '1.5s' }}></div>
+                    <div className="absolute bottom-0 right-[16%] w-[1px] h-[26%] bg-[#FF6A15]/20 overflow-hidden">
+                        <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-transparent via-[#FF6A15] to-transparent animate-scan-vertical-reverse shadow-[0_0_15px_#FF6A15]" style={{ animationDelay: '1.5s' }}></div>
                     </div>
                 </div>
 
