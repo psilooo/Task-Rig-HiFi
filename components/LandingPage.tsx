@@ -1,6 +1,6 @@
 import React from 'react';
 import { Reveal } from './ui/Reveal';
-import { Bot, Zap, Shield, ChevronRight, Terminal, LayoutGrid, Network, Globe, Cpu, Check, Database, Lock } from 'lucide-react';
+import { Bot, Zap, Shield, ChevronRight, Terminal, LayoutGrid, Network, Globe, Cpu, Check, Database, Lock, Phone } from 'lucide-react';
 import { Hero } from './Hero';
 import { TaskRigLogo } from './ui/TaskRigLogo';
 
@@ -21,13 +21,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         <TaskRigLogo className="h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
                         <div className="font-heading font-bold text-2xl tracking-tight text-white">TASK RIG</div>
                     </div>
-                    <button
-                        onClick={onLoginClick}
-                        className="group flex items-center gap-2 px-5 py-2 border border-zinc-800 hover:border-orange-500/50 bg-zinc-900 text-zinc-300 hover:text-white font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
-                    >
-                        Login
-                        <ChevronRight size={14} className="text-zinc-500 group-hover:text-orange-500 transition-colors" />
-                    </button>
+                    <div className="flex items-center gap-3">
+                        <a
+                            href="tel:+15551234567"
+                            className="group flex items-center gap-2 px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
+                        >
+                            <Phone size={14} className="transition-colors" />
+                            Try Task Rig
+                        </a>
+                        <button
+                            onClick={onLoginClick}
+                            className="group flex items-center gap-2 px-5 py-2 border border-zinc-800 hover:border-orange-500/50 bg-zinc-900 text-zinc-300 hover:text-white font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
+                        >
+                            Login
+                            <ChevronRight size={14} className="text-zinc-500 group-hover:text-orange-500 transition-colors" />
+                        </button>
+                    </div>
                 </div>
             </nav>
 
