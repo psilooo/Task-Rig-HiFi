@@ -7,7 +7,7 @@ import {
     Zap, Activity, Shield, Rocket,
     UserPlus, Brain, Link, Play,
     ChevronDown, ChevronRight, Check, Phone,
-    Star, ArrowRight, Twitter, Linkedin, Github,
+    Star, ArrowRight,
     Bot, Sparkles, Send, User,
     MonitorSmartphone
 } from 'lucide-react';
@@ -297,13 +297,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             a: 'Yes. All data is encrypted in transit and at rest. We are SOC 2 compliant and never use your customer data to train models for other businesses. Your data stays yours.',
         },
     ];
-
-    const footerLinks = {
-        Product: ['Features', 'Integrations', 'Pricing', 'Changelog'],
-        Resources: ['Documentation', 'API Reference', 'Blog', 'Case Studies'],
-        Company: ['About', 'Careers', 'Contact', 'Partners'],
-        Legal: ['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'GDPR'],
-    };
 
     return (
         <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-hidden selection:bg-orange-500/30">
@@ -798,59 +791,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             </section>
 
 
-            {/* ============================================================ */}
-            {/* 13. FOOTER */}
-            {/* ============================================================ */}
-            <footer className="bg-zinc-950 pt-20 pb-10 px-6 border-t border-white/5 relative z-10">
-                <div className="max-w-7xl mx-auto">
-                    {/* Footer Top */}
-                    <div className="grid grid-cols-1 md:grid-cols-6 gap-10 mb-16">
-                        {/* Brand + Newsletter */}
-                        <div className="md:col-span-2">
-                            <div className="flex items-center gap-3 mb-4">
-                                <TaskRigLogo className="h-6 w-auto text-orange-500" />
-                                <div className="font-heading font-bold text-xl tracking-tight text-white">TASK RIG</div>
-                            </div>
-                            <p className="text-zinc-500 font-mono text-xs leading-relaxed mb-6">
-                                AI-powered customer service for blue-collar businesses. Handle email, chat, and Messenger automatically.
-                            </p>
-                            <div className="flex gap-2">
-                                <input
-                                    type="email"
-                                    placeholder="your@email.com"
-                                    className="flex-1 px-3 py-2 bg-zinc-900 border border-white/10 rounded-md text-sm font-mono text-white placeholder-zinc-600 focus:outline-none focus:border-orange-500/50 transition-colors"
-                                />
-                                <button className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-black font-mono text-xs font-bold uppercase tracking-wider rounded-md transition-colors">
-                                    Join
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Link Columns */}
-                        {Object.entries(footerLinks).map(([heading, links]) => (
-                            <div key={heading}>
-                                <h4 className="font-heading font-bold text-sm text-white uppercase tracking-wide mb-4">{heading}</h4>
-                                <ul className="space-y-2.5">
-                                    {links.map((link) => (
-                                        <li key={link}>
-                                            <a href="#" className="text-zinc-500 hover:text-orange-500 font-mono text-xs transition-colors">{link}</a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
+            {/* Footer */}
+            <footer className="bg-zinc-950 pt-20 pb-10 px-6 border-t border-zinc-800 relative z-10">
+                <div className="max-w-7xl mx-auto flex flex-col items-center mb-16">
+                    <div className="flex items-center gap-3 mb-6">
+                        <TaskRigLogo className="h-6 w-auto text-zinc-700" />
+                        <div className="font-heading font-bold text-2xl tracking-tight text-zinc-600">TASK RIG</div>
                     </div>
+                    <p className="text-zinc-500 font-mono text-sm max-w-sm text-center leading-relaxed mb-8">
+                        Advanced AI orchestration for the modern service economy. Built for speed, security, and scale.
+                    </p>
+                    <div className="flex gap-6">
+                        <a href="/privacy" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors border-b border-transparent hover:border-orange-500/30 pb-1">Privacy Protocol</a>
+                    </div>
+                </div>
 
-                    {/* Footer Bottom */}
-                    <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div className="text-zinc-600 font-mono text-[10px] uppercase tracking-widest">
-                            &copy; 2026 Task Rig Systems Inc. All Rights Reserved.
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <a href="#" className="text-zinc-600 hover:text-orange-500 transition-colors"><Twitter size={16} /></a>
-                            <a href="#" className="text-zinc-600 hover:text-orange-500 transition-colors"><Linkedin size={16} /></a>
-                            <a href="#" className="text-zinc-600 hover:text-orange-500 transition-colors"><Github size={16} /></a>
-                        </div>
+                <div className="max-w-7xl mx-auto border-t border-zinc-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div className="text-zinc-600 font-mono text-[10px] uppercase tracking-widest">
+                        © 2026 Task Rig Systems Inc. All Rights Reserved.
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-emerald-900"></div>
+                        <span className="text-zinc-700 font-mono text-[10px] uppercase tracking-widest">Systems Normal</span>
                     </div>
                 </div>
             </footer>
