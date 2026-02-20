@@ -15,7 +15,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
 
             {/* Navigation - Fixed Top */}
-            <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-20">
+            <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/70 backdrop-blur-md h-20">
                 <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <TaskRigLogo className="h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
