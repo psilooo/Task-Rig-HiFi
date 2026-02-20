@@ -17,7 +17,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <DynamicNoise opacity={0.10} />
 
                 {/* Central Canvas Logo */}
-                <div className="absolute inset-0 flex items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 -mt-72 md:-mt-80 mr-6">
+                <div className="absolute inset-0 flex items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 mt-16 mr-6">
                     <DotMatrixLogo />
                 </div>
 
@@ -72,7 +72,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <div className="w-full relative z-20 flex justify-center">
 
                     {/* CENTER COLUMN: Main Action Area */}
-                    <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0 mt-32 md:mt-48">
+                    <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0 mt-8">
 
                         {/* Badge Context */}
                         <Reveal>
