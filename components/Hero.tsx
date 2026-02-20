@@ -25,54 +25,65 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-orange-600/5 blur-[100px] rounded-full"></div>
             </div>
 
+            {/* Absolute HUD Accents - Full Viewport Extents */}
+            <div className="absolute inset-0 pointer-events-none hidden md:block z-10 overflow-hidden">
+                {/* Top Left */}
+                <div className="absolute top-[28%] left-[4%] lg:left-[8%] xl:left-[14%]">
+                    {/* Crosshair (Center point is 0,0 of this div relative to its own coordinate space) */}
+                    <div className="absolute top-0 left-0 animate-pulse">
+                        <div className="absolute top-0 -left-[8px] w-[17px] h-[1px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
+                        <div className="absolute -top-[8px] left-0 w-[1px] h-[17px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
+                    </div>
+                    {/* Vertical Line UP */}
+                    <div className="absolute bottom-0 left-0 w-[1px] h-[50vh] bg-[#FF6A15]/30 overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-[150px] bg-gradient-to-b from-transparent via-[#FF6A15] to-transparent animate-scan-vertical shadow-[0_0_15px_#FF6A15]"></div>
+                    </div>
+                </div>
+
+                {/* Bottom Left */}
+                <div className="absolute bottom-[28%] left-[4%] lg:left-[8%] xl:left-[14%]">
+                    {/* Crosshair */}
+                    <div className="absolute top-0 left-0 animate-pulse" style={{ animationDelay: '1s' }}>
+                        <div className="absolute top-0 -left-[8px] w-[17px] h-[1px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
+                        <div className="absolute -top-[8px] left-0 w-[1px] h-[17px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
+                    </div>
+                    {/* Horizontal Line LEFT */}
+                    <div className="absolute right-0 top-0 h-[1px] w-[50vw] bg-[#FF6A15]/30 overflow-hidden">
+                        <div className="absolute top-0 left-0 h-full w-[250px] bg-gradient-to-r from-transparent via-[#FF6A15] to-transparent animate-scan-horizontal shadow-[0_0_15px_#FF6A15]" style={{ animationDelay: '0.5s' }}></div>
+                    </div>
+                </div>
+
+                {/* Top Right */}
+                <div className="absolute top-[28%] right-[4%] lg:right-[8%] xl:right-[14%]">
+                    {/* Crosshair */}
+                    <div className="absolute top-0 left-0 animate-pulse" style={{ animationDelay: '0.5s' }}>
+                        <div className="absolute top-0 -left-[8px] w-[17px] h-[1px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
+                        <div className="absolute -top-[8px] left-0 w-[1px] h-[17px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
+                    </div>
+                    {/* Horizontal Line RIGHT */}
+                    <div className="absolute left-0 top-0 h-[1px] w-[50vw] bg-[#FF6A15]/30 overflow-hidden">
+                        <div className="absolute top-0 right-0 h-full w-[250px] bg-gradient-to-l from-transparent via-[#FF6A15] to-transparent animate-scan-horizontal-reverse shadow-[0_0_15px_#FF6A15]" style={{ animationDelay: '1s' }}></div>
+                    </div>
+                </div>
+
+                {/* Bottom Right */}
+                <div className="absolute bottom-[28%] right-[4%] lg:right-[8%] xl:right-[14%]">
+                    {/* Crosshair */}
+                    <div className="absolute top-0 left-0 animate-pulse" style={{ animationDelay: '1.5s' }}>
+                        <div className="absolute top-0 -left-[8px] w-[17px] h-[1px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
+                        <div className="absolute -top-[8px] left-0 w-[1px] h-[17px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
+                    </div>
+                    {/* Vertical Line DOWN */}
+                    <div className="absolute top-0 left-0 w-[1px] h-[50vh] bg-[#FF6A15]/30 overflow-hidden">
+                        <div className="absolute bottom-0 left-0 w-full h-[150px] bg-gradient-to-t from-transparent via-[#FF6A15] to-transparent animate-scan-vertical-reverse shadow-[0_0_15px_#FF6A15]" style={{ animationDelay: '1.5s' }}></div>
+                    </div>
+                </div>
+            </div>
+
 
 
             {/* Main Content Container */}
             <div className="flex-1 flex items-center justify-center relative z-20 w-full max-w-7xl mx-auto px-4 md:px-8 py-12">
-
-                {/* Absolute HUD Accents - mimicking the fine lines and crosshairs in Figma */}
-                <div className="absolute inset-0 pointer-events-none hidden md:block">
-                    {/* Top Left Crosshair */}
-                    <div className="absolute top-[28%] left-[16%] animate-pulse z-10 w-0 h-0">
-                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[17px] h-[1px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
-                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[1px] h-[17px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
-                    </div>
-                    {/* Orange Vertical Line - Top Left */}
-                    <div className="absolute top-0 left-[16%] -translate-x-1/2 w-[1px] h-[28%] bg-[#FF6A15]/20 overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-[30%] bg-gradient-to-b from-transparent via-[#FF6A15] to-transparent animate-scan-vertical shadow-[0_0_15px_#FF6A15]"></div>
-                    </div>
-
-                    {/* Bottom Left Crosshair */}
-                    <div className="absolute bottom-[28%] left-[16%] animate-pulse z-10 w-0 h-0" style={{ animationDelay: '1s' }}>
-                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[17px] h-[1px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
-                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[1px] h-[17px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
-                    </div>
-                    {/* Orange Horizontal Line - Bottom Left (Extends strictly from left edge to crosshair) */}
-                    <div className="absolute bottom-[28%] left-0 w-[16%] -translate-y-1/2 h-[1px] bg-[#FF6A15]/20 overflow-hidden">
-                        <div className="absolute top-0 left-0 h-full w-[40%] bg-gradient-to-r from-transparent via-[#FF6A15] to-transparent animate-scan-horizontal shadow-[0_0_15px_#FF6A15]" style={{ animationDelay: '0.5s' }}></div>
-                    </div>
-
-                    {/* Top Right Crosshair */}
-                    <div className="absolute top-[28%] right-[16%] animate-pulse z-10 w-0 h-0" style={{ animationDelay: '0.5s' }}>
-                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[17px] h-[1px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
-                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[1px] h-[17px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
-                    </div>
-                    {/* Orange Horizontal Line - Top Right (Extends strictly from crosshair to right edge) */}
-                    <div className="absolute top-[28%] right-0 w-[16%] -translate-y-1/2 h-[1px] bg-[#FF6A15]/20 overflow-hidden">
-                        <div className="absolute top-0 right-0 h-full w-[40%] bg-gradient-to-l from-transparent via-[#FF6A15] to-transparent animate-scan-horizontal-reverse shadow-[0_0_15px_#FF6A15]" style={{ animationDelay: '1s' }}></div>
-                    </div>
-
-                    {/* Bottom Right Crosshair */}
-                    <div className="absolute bottom-[28%] right-[16%] animate-pulse z-10 w-0 h-0" style={{ animationDelay: '1.5s' }}>
-                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[17px] h-[1px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
-                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-[1px] h-[17px] bg-zinc-400/80 shadow-[0_0_5px_rgba(255,255,255,0.3)]"></div>
-                    </div>
-                    {/* Orange Vertical Line - Bottom Right */}
-                    <div className="absolute bottom-0 right-[16%] -translate-x-1/2 w-[1px] h-[28%] bg-[#FF6A15]/20 overflow-hidden">
-                        <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-transparent via-[#FF6A15] to-transparent animate-scan-vertical-reverse shadow-[0_0_15px_#FF6A15]" style={{ animationDelay: '1.5s' }}></div>
-                    </div>
-                </div>
-
 
                 <div className="w-full relative z-20 flex justify-center">
 
