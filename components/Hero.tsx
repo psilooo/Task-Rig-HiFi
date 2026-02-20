@@ -68,7 +68,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <div className="w-full relative z-20 flex justify-center">
 
                     {/* CENTER COLUMN: Main Action Area */}
-                    <div className="relative flex flex-col items-center text-center max-w-2xl w-[600px] shrink-0 mt-8">
+                    <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0 mt-8">
 
                         {/* Badge Context */}
                         <Reveal>
@@ -80,7 +80,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                         {/* Main Title - Adjusted Spacing and Typography to match Figma */}
                         <Reveal delay={0.1}>
-                            <h1 className="font-heading font-bold text-[3.5rem] md:text-[4rem] lg:text-[4.5rem] leading-[1.0] text-zinc-100 tracking-wide flex flex-col items-center relative z-10 w-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                            <h1 className="font-heading font-bold text-[3rem] md:text-[3.5rem] lg:text-[4rem] leading-[1.0] text-zinc-100 tracking-wide flex flex-col items-center relative z-10 w-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] whitespace-nowrap">
                                 <span>DEPLOY INTELLIGENT</span>
                                 <span className="text-zinc-300 relative">
                                     WORKFORCE
