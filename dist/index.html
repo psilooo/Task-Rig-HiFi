@@ -123,6 +123,27 @@
     .clip-path-slant {
       clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
     }
+
+    /* Marquee animation for social proof strip */
+    .marquee-track {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .marquee-content {
+      display: flex;
+      width: max-content;
+      animation: marquee-scroll 30s linear infinite;
+    }
+
+    .marquee-content:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes marquee-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
   </style>
 
   <link rel="stylesheet" href="/index.css">
@@ -139,7 +160,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-BkcxASsr.js"></script>
+  <script type="module" crossorigin src="/assets/index-pGgqxrPP.js"></script>
 </head>
 
 <body>
