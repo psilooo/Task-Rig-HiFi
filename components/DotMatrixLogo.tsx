@@ -174,8 +174,9 @@ export const DotMatrixLogo: React.FC = () => {
                 // Techno Alpha/Flicker
                 const baseAlpha = Math.max(0.1, Math.min(0.9, scaleProjected * 1.2 - 0.2));
 
-                // Sharp scanline flicker (moving downwards based on time)
-                const scanline = (time % 80 > yProjected * 0.2 && time % 80 < yProjected * 0.2 + 5) ? 1 : 0.5;
+                // Sharp scanline flicker (much slower now)
+                const slowTime = time * 0.2;
+                const scanline = (slowTime % 150 > yProjected * 0.2 && slowTime % 150 < yProjected * 0.2 + 5) ? 1 : 0.5;
 
                 // Random complete blackout for some pixels (data loss)
                 const dataLoss = Math.random() > 0.97 ? 0 : 1;

@@ -53,7 +53,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
     return (
         <div className={`fixed inset-0 z-[100] bg-zinc-950 flex flex-col items-center justify-center transition-opacity duration-500 ${isExiting ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             {/* Background Ambience */}
-            <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay"></div>
+            <div className="absolute inset-0 bg-[url('/noise.svg')] animate-noise opacity-10 mix-blend-overlay"></div>
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none"></div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-orange-600/5 blur-[80px] rounded-full pointer-events-none"></div>
 
