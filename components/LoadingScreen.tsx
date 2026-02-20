@@ -11,25 +11,42 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
     const [isExiting, setIsExiting] = useState(false);
 
     useEffect(() => {
-        // Simulate loading sequence
-        const t1 = setTimeout(() => { setProgress(30); setText('ESTABLISHING MAINFRAME CONNECTION...'); }, 400);
-        const t2 = setTimeout(() => { setProgress(60); setText('DECRYPTING PROTOCOLS...'); }, 800);
-        const t3 = setTimeout(() => { setProgress(90); setText('MOUNTING INTERFACE...'); }, 1200);
-        const t4 = setTimeout(() => { setProgress(100); setText('SYSTEM READY'); }, 1500);
+        const duration = 1800; // Total simulated loading time
+        const startTime = Date.now();
+        let animationFrameId: number;
+
+        const updateLoading = () => {
+            const elapsed = Date.now() - startTime;
+            const p = Math.min(1, elapsed / duration);
+
+            // Apply easeOutQuart curve to make it start fast and slow down at the end like a real loader
+            const easeP = 1 - Math.pow(1 - p, 4);
+            const currentProgress = Math.floor(easeP * 100);
+
+            setProgress(currentProgress);
+
+            if (currentProgress < 30) setText('INITIALIZING SECURE LINK...');
+            else if (currentProgress < 60) setText('ESTABLISHING MAINFRAME CONNECTION...');
+            else if (currentProgress < 90) setText('DECRYPTING PROTOCOLS...');
+            else if (currentProgress < 100) setText('MOUNTING INTERFACE...');
+            else setText('SYSTEM READY');
+
+            if (p < 1) {
+                animationFrameId = requestAnimationFrame(updateLoading);
+            }
+        };
+
+        animationFrameId = requestAnimationFrame(updateLoading);
 
         // Trigger fade out
-        const t5 = setTimeout(() => { setIsExiting(true); }, 1800);
-
+        const tFade = setTimeout(() => { setIsExiting(true); }, 2000); // 2000ms ensures it sits at 100% briefly before fading
         // Unmount completely
-        const t6 = setTimeout(() => { onComplete(); }, 2300); // 500ms for css fade transition
+        const tUnmount = setTimeout(() => { onComplete(); }, 2500); // 500ms for css fade transition
 
         return () => {
-            clearTimeout(t1);
-            clearTimeout(t2);
-            clearTimeout(t3);
-            clearTimeout(t4);
-            clearTimeout(t5);
-            clearTimeout(t6);
+            cancelAnimationFrame(animationFrameId);
+            clearTimeout(tFade);
+            clearTimeout(tUnmount);
         };
     }, [onComplete]);
 
@@ -58,7 +75,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
 
                     <div className="h-[2px] w-full bg-zinc-900 border-x border-zinc-800 relative overflow-hidden">
                         <div
-                            className="absolute top-0 left-0 h-full bg-[#FF6A15] shadow-[0_0_10px_rgba(255,106,21,0.8)] transition-all duration-300 ease-out"
+                            className="absolute top-0 left-0 h-full bg-[#FF6A15] shadow-[0_0_10px_rgba(255,106,21,0.8)] transition-none"
                             style={{ width: `${progress}%` }}
                         ></div>
                     </div>
