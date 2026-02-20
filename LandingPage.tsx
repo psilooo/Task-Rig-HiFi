@@ -44,7 +44,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 <div className="max-w-7xl mx-auto px-6 py-6 md:py-8">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-zinc-500 font-mono text-[10px] md:text-xs uppercase tracking-widest">
                         <span>Trusted By Automated Systems Corp</span>
-                        <div className="flex items-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                        <div className="flex items-center flex-wrap gap-4 md:gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
                             <span className="flex items-center gap-2"><Globe size={16} /> Nexus Global</span>
                             <span className="flex items-center gap-2"><Cpu size={16} /> Core Dynamics</span>
                             <span className="flex items-center gap-2"><Network size={16} /> Hyper Grid</span>
@@ -70,7 +70,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         <div className="space-y-20">
                             {/* Step 1 */}
                             <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                                <div className="md:text-right order-2 md:order-1 pl-20 md:pl-0">
+                                <div className="md:text-right order-2 md:order-1 pl-16 md:pl-0">
                                     <Reveal>
                                         <h3 className="font-heading font-bold text-3xl text-white mb-4 uppercase">1. Ingestion</h3>
                                         <p className="font-mono text-zinc-400 text-sm leading-relaxed mb-4">
@@ -83,7 +83,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     </Reveal>
                                 </div>
                                 <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-zinc-950 border-2 border-orange-500 z-10 rounded-full box-content shadow-[0_0_15px_rgba(249,115,22,0.5)]"></div>
-                                <div className="order-1 md:order-2 pl-20 md:pl-0">
+                                <div className="order-1 md:order-2 pl-16 md:pl-0">
                                     <Reveal delay={0.1}>
                                         <div className="p-6 border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm rounded-sm">
                                             <div className="font-mono text-[10px] text-zinc-500 mb-2">INPUT STREAM</div>
@@ -99,7 +99,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                             {/* Step 2 */}
                             <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                                <div className="order-2 pl-20 md:pl-0 md:text-right md:order-1">
+                                <div className="order-2 pl-16 md:pl-0 md:text-right md:order-1">
                                     <Reveal delay={0.1}>
                                         <div className="p-6 border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm rounded-sm relative overflow-hidden">
                                             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent animate-pulse"></div>
@@ -113,7 +113,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     </Reveal>
                                 </div>
                                 <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-zinc-950 border-2 border-white z-10 rounded-full box-content"></div>
-                                <div className="order-1 pl-20 md:pl-0 md:order-2">
+                                <div className="order-1 pl-16 md:pl-0 md:order-2">
                                     <Reveal>
                                         <h3 className="font-heading font-bold text-3xl text-white mb-4 uppercase">2. Execution</h3>
                                         <p className="font-mono text-zinc-400 text-sm leading-relaxed mb-4">
@@ -129,7 +129,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                             {/* Step 3 */}
                             <div className="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                                <div className="md:text-right order-2 md:order-1 pl-20 md:pl-0">
+                                <div className="md:text-right order-2 md:order-1 pl-16 md:pl-0">
                                     <Reveal>
                                         <h3 className="font-heading font-bold text-3xl text-white mb-4 uppercase">3. Settlement</h3>
                                         <p className="font-mono text-zinc-400 text-sm leading-relaxed mb-4">
@@ -142,7 +142,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     </Reveal>
                                 </div>
                                 <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 bg-zinc-950 border-2 border-emerald-500 z-10 rounded-full box-content"></div>
-                                <div className="order-1 md:order-2 pl-20 md:pl-0">
+                                <div className="order-1 md:order-2 pl-16 md:pl-0">
                                     <Reveal delay={0.1}>
                                         <div className="p-6 border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm rounded-sm">
                                             <div className="flex items-center gap-3 mb-2">
@@ -180,7 +180,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             { icon: Network, title: "Omni-Link", desc: "Unified communication stream integrating SMS, Email, VoIP, and Social channels." }
                         ].map((feature, idx) => (
                             <Reveal key={idx} delay={idx * 0.1} className="h-full">
-                                <div className="group h-full p-8 border border-zinc-800 bg-zinc-950/40 hover:bg-zinc-900/80 backdrop-blur-sm transition-all hover:border-orange-500/30 rounded-sm flex flex-col">
+                                <div className="group h-full p-6 md:p-8 border border-zinc-800 bg-zinc-950/40 hover:bg-zinc-900/80 backdrop-blur-sm transition-all hover:border-orange-500/30 rounded-sm flex flex-col">
                                     <div className="w-12 h-12 bg-zinc-950 rounded-sm flex items-center justify-center mb-6 border border-zinc-800 group-hover:border-orange-500/50 transition-colors shadow-lg">
                                         <feature.icon className="text-orange-500" size={24} />
                                     </div>
@@ -206,7 +206,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {/* Tier 1 */}
                         <Reveal delay={0} className="h-full">
-                            <div className="h-full p-8 border border-zinc-800 bg-zinc-950 rounded-sm flex flex-col">
+                            <div className="h-full p-6 md:p-8 border border-zinc-800 bg-zinc-950 rounded-sm flex flex-col">
                                 <div className="mb-4">
                                     <h3 className="font-mono text-orange-500 uppercase tracking-widest text-xs mb-2">Unit</h3>
                                     <div className="font-heading font-bold text-4xl text-white">Scout</div>
@@ -230,7 +230,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                         {/* Tier 2 */}
                         <Reveal delay={0.1} className="h-full">
-                            <div className="h-full p-8 border border-orange-500/30 bg-zinc-900/80 rounded-sm flex flex-col relative shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+                            <div className="h-full p-6 md:p-8 border border-orange-500/30 bg-zinc-900/80 rounded-sm flex flex-col relative shadow-[0_0_40px_rgba(0,0,0,0.5)]">
                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-600 text-black text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
                                     Recommended
                                 </div>
@@ -257,7 +257,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                         {/* Tier 3 */}
                         <Reveal delay={0.2} className="h-full">
-                            <div className="h-full p-8 border border-zinc-800 bg-zinc-950 rounded-sm flex flex-col">
+                            <div className="h-full p-6 md:p-8 border border-zinc-800 bg-zinc-950 rounded-sm flex flex-col">
                                 <div className="mb-4">
                                     <h3 className="font-mono text-zinc-500 uppercase tracking-widest text-xs mb-2">Fleet</h3>
                                     <div className="font-heading font-bold text-4xl text-white">Commander</div>

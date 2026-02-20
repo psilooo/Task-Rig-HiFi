@@ -188,12 +188,12 @@ export const DotMatrixLogo: React.FC = () => {
     }, []);
 
     return (
-        <div className="relative flex items-center justify-center">
+        <div className="relative flex items-center justify-center w-full max-w-[400px]">
             {/* Glow behind the logo */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-orange-600/20 blur-[40px] rounded-full pointer-events-none"></div>
             <canvas
                 ref={canvasRef}
-                className="pointer-events-none mix-blend-screen opacity-100"
+                className="pointer-events-none mix-blend-screen opacity-100 max-w-full h-auto"
             />
         </div>
     );
