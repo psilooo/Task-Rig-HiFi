@@ -99,7 +99,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                                 <button className="relative w-full sm:w-auto px-8 py-3 bg-zinc-950/40 border border-zinc-700 hover:border-zinc-400 text-zinc-300 hover:text-white font-mono text-[11px] font-bold uppercase tracking-widest transition-all clip-path-slant flex justify-center items-center gap-3 group backdrop-blur-md">
                                     <div className="absolute inset-0 bg-white/[0.02] group-hover:bg-white/[0.05] transition-colors pointer-events-none block"></div>
-                                    VIEW MANIFEST
+                                    LEARN MORE
                                     <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-60 group-hover:opacity-100">
                                         <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
                                     </svg>
@@ -111,7 +111,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                                 >
                                     <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
                                     <span className="relative z-10 flex items-center gap-2">
-                                        INITIALIZE
+                                        GET STARTED
                                         <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">
                                             <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
                                         </svg>
