@@ -72,15 +72,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <div className="w-full relative z-20 flex justify-center">
 
                     {/* CENTER COLUMN: Main Action Area */}
-                    <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0 mt-4 md:mt-8">
-
-                        {/* Badge Context */}
-                        <Reveal>
-                            <div className="inline-flex items-center gap-3 mb-4 px-3 py-1 border border-zinc-800/80 bg-zinc-900/50 backdrop-blur-md">
-                                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_5px_rgba(16,185,129,1)]"></span>
-                                <span className="text-[9px] font-mono text-zinc-400 uppercase tracking-widest">System Ready</span>
-                            </div>
-                        </Reveal>
+                    <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0">
 
                         {/* Main Title - Adjusted Spacing and Typography to match Figma */}
                         <Reveal delay={0.1}>
