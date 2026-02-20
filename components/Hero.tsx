@@ -9,7 +9,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
     return (
-        <section className="relative min-h-[85vh] flex flex-col bg-zinc-950 overflow-hidden">
+        <section className="relative min-h-[100dvh] flex flex-col bg-zinc-950 overflow-hidden">
 
             {/* Background Image & Ambience */}
             <div className="absolute inset-0 pointer-events-none z-0">
