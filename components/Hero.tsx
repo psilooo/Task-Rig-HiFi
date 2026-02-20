@@ -72,7 +72,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <div className="w-full relative z-20 flex justify-center">
 
                     {/* CENTER COLUMN: Main Action Area */}
-                    <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0 mt-8">
+                    <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0 mt-32 md:mt-48">
 
                         {/* Badge Context */}
                         <Reveal>
