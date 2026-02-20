@@ -16,7 +16,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay"></div>
 
                 {/* Central Canvas Logo */}
-                <div className="absolute inset-0 flex items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 mt-12 mr-6">
+                <div className="absolute inset-0 flex items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 mt-16 mr-6">
                     <DotMatrixLogo />
                 </div>
 
@@ -73,7 +73,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         {/* Badge Context */}
                         <Reveal>
                             <div className="inline-flex items-center gap-3 mb-4 px-3 py-1 border border-zinc-800/80 bg-zinc-900/50 backdrop-blur-md">
-                                <span className="w-1.5 h-1.5 bg-orange-600 rounded-full shadow-[0_0_5px_rgba(234,88,12,1)]"></span>
+                                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_5px_rgba(16,185,129,1)]"></span>
                                 <span className="text-[9px] font-mono text-zinc-400 uppercase tracking-widest">System Ready</span>
                             </div>
                         </Reveal>
