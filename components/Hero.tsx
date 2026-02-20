@@ -11,9 +11,9 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
         <section className="relative min-h-[85vh] flex flex-col bg-zinc-950 overflow-hidden">
 
             {/* Background Image & Ambience */}
-            <div className="absolute inset-0 pointer-events-none z-0">
+            <div className="absolute inset-0 pointer-events-none -z-10">
                 {/* Noise Background */}
-                <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-25 mix-blend-overlay"></div>
+                <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay"></div>
 
                 {/* Central Canvas Logo */}
                 <div className="absolute inset-0 flex items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 mt-10">
