@@ -345,26 +345,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
 
             {/* Navigation - Fixed Top */}
-            <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-20">
-                <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                        <TaskRigLogo className="h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
-                        <div className="font-heading font-bold text-2xl tracking-tight text-white">TASK RIG</div>
+            <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-14 md:h-20">
+                <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex justify-between items-center">
+                    <div className="flex items-center gap-2 md:gap-3">
+                        <TaskRigLogo className="h-5 md:h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
+                        <div className="font-heading font-bold text-base md:text-2xl tracking-tight text-white whitespace-nowrap">TASK RIG</div>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 md:gap-3">
                         <a
                             href="tel:+15551234567"
-                            className="group flex items-center gap-2 px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
+                            className="group flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 bg-orange-500 hover:bg-orange-600 text-white font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
                         >
-                            <Phone size={14} className="transition-colors" />
+                            <Phone size={12} className="md:hidden transition-colors" />
+                            <Phone size={14} className="hidden md:block transition-colors" />
                             Call Demo
                         </a>
                         <button
                             onClick={onLoginClick}
-                            className="group flex items-center gap-2 px-5 py-2 border border-zinc-800 hover:border-orange-500/50 bg-zinc-900 text-zinc-300 hover:text-white font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
+                            className="group flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 border border-zinc-800 hover:border-orange-500/50 bg-zinc-900 text-zinc-300 hover:text-white font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
                         >
                             Login
-                            <ArrowRight size={14} className="text-zinc-500 group-hover:text-orange-500 transition-colors" />
+                            <ArrowRight size={12} className="md:hidden text-zinc-500 group-hover:text-orange-500 transition-colors" />
+                            <ArrowRight size={14} className="hidden md:block text-zinc-500 group-hover:text-orange-500 transition-colors" />
                         </button>
                     </div>
                 </div>
