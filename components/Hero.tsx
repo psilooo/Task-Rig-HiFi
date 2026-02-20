@@ -10,10 +10,15 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
     return (
         <section className="relative min-h-[85vh] flex flex-col bg-zinc-950 overflow-hidden">
 
-            {/* Background Grid & Ambience */}
-            <div className="absolute inset-0 pointer-events-none">
-                {/* Main Grid */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#27272a_1px,transparent_1px),linear-gradient(to_bottom,#27272a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_40%,transparent_100%)] opacity-20"></div>
+            {/* Background Image & Ambience */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+                {/* Noise Background */}
+                <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-50 mix-blend-overlay"></div>
+
+                {/* Central Canvas Logo */}
+                <div className="absolute inset-0 flex items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 mt-10">
+                    <DotMatrixLogo />
+                </div>
 
                 {/* Subtle Central Glow */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-orange-600/5 blur-[100px] rounded-full"></div>
@@ -46,40 +51,44 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                 {/* Absolute HUD Accents - mimicking the fine lines and crosshairs in Figma */}
                 <div className="absolute inset-0 pointer-events-none hidden md:block">
-                    {/* Center Vertical/Horizontal grid frame context */}
-                    <div className="absolute top-0 bottom-0 left-[20%] w-[1px] bg-zinc-800/30"></div>
-                    <div className="absolute top-0 bottom-0 right-[20%] w-[1px] bg-zinc-800/30"></div>
+                    {/* Top Left Crosshair */}
+                    <div className="absolute top-[28%] left-[16%] flex items-center justify-center">
+                        <div className="absolute w-[17px] h-[1px] bg-zinc-600/60"></div>
+                        <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
+                    </div>
+                    {/* Orange Vertical Line - Top Left */}
+                    <div className="absolute top-0 left-[16%] w-[1px] h-[26%] bg-[#FF6A15]"></div>
 
-                    {/* Crosshairs near center block */}
-                    <div className="absolute top-[38%] left-[20%] -translate-x-1/2 -translate-y-1/2 text-zinc-600 font-mono text-xs">+</div>
-                    <div className="absolute bottom-[28%] left-[20%] -translate-x-1/2 translate-y-1/2 text-zinc-600 font-mono text-xs">+</div>
+                    {/* Bottom Left Crosshair */}
+                    <div className="absolute bottom-[28%] left-[16%] flex items-center justify-center">
+                        <div className="absolute w-[17px] h-[1px] bg-zinc-600/60"></div>
+                        <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
+                    </div>
+                    {/* Orange Horizontal Line - Bottom Left */}
+                    <div className="absolute bottom-[28%] left-0 w-[14%] h-[1px] bg-[#FF6A15]"></div>
 
-                    <div className="absolute top-[38%] right-[20%] translate-x-1/2 -translate-y-1/2 text-zinc-600 font-mono text-xs">+</div>
-                    <div className="absolute bottom-[28%] right-[20%] translate-x-1/2 translate-y-1/2 text-zinc-600 font-mono text-xs">+</div>
+                    {/* Top Right Crosshair */}
+                    <div className="absolute top-[28%] right-[16%] flex items-center justify-center">
+                        <div className="absolute w-[17px] h-[1px] bg-zinc-600/60"></div>
+                        <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
+                    </div>
+                    {/* Orange Horizontal Line - Top Right */}
+                    <div className="absolute top-[28%] right-0 w-[14%] h-[1px] bg-[#FF6A15]"></div>
 
-                    {/* Orange tracking lines on edges of center block */}
-                    <div className="absolute top-[38%] left-[27%] w-[2px] h-16 bg-orange-600/50 shadow-[0_0_10px_rgba(234,88,12,0.3)]"></div>
-                    <div className="absolute bottom-[20%] left-[27%] w-[2px] h-16 bg-orange-600/50 shadow-[0_0_10px_rgba(234,88,12,0.3)]"></div>
-                    <div className="absolute top-[38%] right-[27%] w-[2px] h-16 bg-orange-600/50 shadow-[0_0_10px_rgba(234,88,12,0.3)]"></div>
+                    {/* Bottom Right Crosshair */}
+                    <div className="absolute bottom-[28%] right-[16%] flex items-center justify-center">
+                        <div className="absolute w-[17px] h-[1px] bg-zinc-600/60"></div>
+                        <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
+                    </div>
+                    {/* Orange Vertical Line - Bottom Right */}
+                    <div className="absolute bottom-0 right-[16%] w-[1px] h-[26%] bg-[#FF6A15]"></div>
                 </div>
 
-                <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 lg:gap-16 items-center">
 
-                    {/* LEFT COLUMN: Telemetry (Hidden on Mobile) */}
-                    <div className="hidden lg:flex flex-col gap-12 items-end text-right z-10 w-full pr-8">
-                        <div className="space-y-1">
-                            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Active Nodes</div>
-                            <div className="text-3xl font-heading text-zinc-300">8,492</div>
-                        </div>
-                        {/* Decorative Divider removed as per Figma design which has clean space */}
-                        <div className="space-y-1">
-                            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Protocol</div>
-                            <div className="text-xl font-mono text-orange-600 tracking-wider">INIT_SEQ_09</div>
-                        </div>
-                    </div>
+                <div className="w-full relative z-20 flex justify-center">
 
                     {/* CENTER COLUMN: Main Action Area */}
-                    <div className="relative flex flex-col items-center text-center max-w-2xl mx-auto z-20 w-[600px] shrink-0">
+                    <div className="relative flex flex-col items-center text-center max-w-2xl w-[600px] shrink-0 mt-8">
 
                         {/* Badge Context */}
                         <Reveal>
@@ -89,19 +98,13 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                             </div>
                         </Reveal>
 
-                        {/* Central Canvas Logo */}
-                        <div className="relative mb-6 -mt-12 scale-[1.1] origin-bottom mix-blend-screen overflow-visible">
-                            <DotMatrixLogo />
-                        </div>
-
                         {/* Main Title - Adjusted Spacing and Typography to match Figma */}
                         <Reveal delay={0.1}>
-                            <h1 className="font-heading font-bold text-[5rem] md:text-[5.5rem] lg:text-[6rem] leading-[0.85] uppercase text-zinc-100 tracking-tight flex flex-col items-center relative z-10 w-full">
-                                <span className="drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">Deploy</span>
-                                <span className="drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">Intelligent</span>
-                                <span className="text-orange-500 mt-1 relative mix-blend-screen"
-                                    style={{ textShadow: '0 0 20px rgba(249, 115, 22, 0.4), 0 0 40px rgba(249, 115, 22, 0.2)' }}>
-                                    Workforce
+                            <h1 className="font-heading font-bold text-[4.5rem] md:text-[5rem] lg:text-[5.5rem] leading-[1.0] text-zinc-100 tracking-wide flex flex-col items-center relative z-10 w-full">
+                                <span className="drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">DEPLOY INTELLIGENT</span>
+                                <span className="text-zinc-300 relative"
+                                    style={{ textShadow: '0 0 25px rgba(255, 255, 255, 0.5), 0 0 50px rgba(255, 255, 255, 0.3)' }}>
+                                    WORKFORCE
                                 </span>
                             </h1>
                         </Reveal>
@@ -117,24 +120,25 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                         {/* Actions - Reordered and restyled */}
                         <Reveal delay={0.3}>
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full">
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
 
-                                <button className="relative w-full sm:w-auto px-10 py-4 border border-zinc-700 bg-transparent text-zinc-300 hover:text-white hover:border-zinc-500 font-mono text-xs font-bold uppercase tracking-widest transition-all clip-path-slant flex justify-center items-center gap-3 group">
-                                    {/* Inner glow effect on border */}
+                                <button className="relative w-full sm:w-auto px-8 py-3 bg-zinc-950/40 border border-zinc-700 hover:border-zinc-400 text-zinc-300 hover:text-white font-mono text-[11px] font-bold uppercase tracking-widest transition-all clip-path-slant flex justify-center items-center gap-3 group backdrop-blur-md">
                                     <div className="absolute inset-0 bg-white/[0.02] group-hover:bg-white/[0.05] transition-colors pointer-events-none block"></div>
-                                    <span className="w-1.5 h-1.5 bg-zinc-600 group-hover:bg-zinc-400 transition-colors block"></span>
-                                    View Manifest
+                                    VIEW MANIFEST
+                                    <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-60 group-hover:opacity-100">
+                                        <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
+                                    </svg>
                                 </button>
 
                                 <button
                                     onClick={onLoginClick}
-                                    className="relative w-full sm:w-auto px-10 py-4 bg-orange-600 hover:bg-orange-500 text-black font-heading font-bold text-lg uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_30px_rgba(234,88,12,0.25)] hover:shadow-[0_0_40px_rgba(234,88,12,0.4)] flex justify-center items-center gap-3"
+                                    className="relative w-full sm:w-auto px-12 py-3 bg-[#FF6A15] hover:bg-[#ff853f] text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(255,106,21,0.25)] hover:shadow-[0_0_30px_rgba(255,106,21,0.4)] flex justify-center items-center gap-3"
                                 >
-                                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
+                                    <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
                                     <span className="relative z-10 flex items-center gap-2">
-                                        Initialize
-                                        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5">
-                                            <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" />
+                                        INITIALIZE
+                                        <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">
+                                            <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
                                         </svg>
                                     </span>
                                 </button>
@@ -143,18 +147,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         </Reveal>
                     </div>
 
-                    {/* RIGHT COLUMN: Telemetry (Hidden on Mobile) */}
-                    <div className="hidden lg:flex flex-col gap-12 items-start text-left z-10 w-full pl-8">
-                        <div className="space-y-1">
-                            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Network Load</div>
-                            <div className="text-3xl font-heading text-zinc-400">12%</div>
-                        </div>
-                        {/* Decorative Divider removed */}
-                        <div className="space-y-1">
-                            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Latency</div>
-                            <div className="text-xl font-mono text-emerald-500">14ms</div>
-                        </div>
-                    </div>
+
 
                 </div>
             </div>

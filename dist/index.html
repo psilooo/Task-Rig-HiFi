@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Rig // AI Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              zinc: {
+                850: '#1f1f22', // Custom intermediate shade
+                900: '#18181b',
+                950: '#09090b',
+              },
+              red: {
+                800: '#991b1b',
+                900: '#7f1d1d',
+              },
+              orange: {
+                500: '#f97316', // Tailwind default, but explicit
+                600: '#ea580c',
+              }
+            },
+            fontFamily: {
+              heading: ['fktgnarly', '"IBM Plex Sans Condensed"', 'sans-serif'],
+              body: ['fktgnarly', '"Instrument Serif"', 'serif'],
+              mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+            },
+            backgroundImage: {
+              'grid-pattern': "linear-gradient(to right, #3f3f4620 1px, transparent 1px), linear-gradient(to bottom, #3f3f4620 1px, transparent 1px)",
+            },
+            keyframes: {
+              'scan-vertical': {
+                '0%': { top: '-10%', opacity: '0' },
+                '20%': { opacity: '1' },
+                '80%': { opacity: '1' },
+                '100%': { top: '110%', opacity: '0' },
+              },
+              'scan-vertical-reverse': {
+                '0%': { bottom: '-10%', opacity: '0' },
+                '20%': { opacity: '1' },
+                '80%': { opacity: '1' },
+                '100%': { bottom: '110%', opacity: '0' },
+              }
+            },
+            animation: {
+              'scan-vertical': 'scan-vertical 4s linear infinite',
+              'scan-vertical-reverse': 'scan-vertical-reverse 4s linear infinite',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      @font-face {
+        font-family: 'fktgnarly';
+        src: url('/fonts/1693382538-fktgnarly_wght-vf.ttf') format('truetype');
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      body {
+        background-color: #18181b; /* Zinc 900 */
+        color: #f4f4f5; /* Zinc 100 */
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #18181b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #f97316; /* Orange 500 */
+        border-radius: 4px;
+        box-shadow: 0 0 15px rgba(249, 115, 22, 0.4); /* Glow effect matching header */
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #ea580c; /* Orange 600 */
+      }
+      
+      .grid-bg {
+        background-size: 40px 40px;
+        mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+      }
+      
+      /* Custom utility for slanted buttons */
+      .clip-path-slant {
+        clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+      }
+    </style>
+
+<link rel="stylesheet" href="/index.css">
+  <script type="importmap">
+{
+  "imports": {
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.24",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.4.1",
+    "clsx": "https://aistudiocdn.com/clsx@^2.1.1",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/assets/index-D3f9b053.js"></script>
+</head>
+  <body>
+    <div id="root"></div>
+</body>
+</html>
