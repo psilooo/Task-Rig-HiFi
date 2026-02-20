@@ -17,7 +17,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <DynamicNoise opacity={0.10} />
 
                 {/* Central Canvas Logo */}
-                <div className="absolute inset-0 flex items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 mt-16 mr-6">
+                <div className="absolute inset-0 flex items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 -mt-48 md:-mt-56 mr-6">
                     <DotMatrixLogo />
                 </div>
 
