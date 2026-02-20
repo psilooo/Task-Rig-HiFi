@@ -24,27 +24,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-orange-600/5 blur-[100px] rounded-full"></div>
             </div>
 
-            {/* Telemetry Bar - Positioned to sit flush under the 80px (h-20) Nav */}
-            <div className="mt-20 w-full border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-sm flex justify-between items-center px-6 md:px-12 py-2.5 z-30 text-[10px] font-mono text-zinc-500 uppercase tracking-widest shadow-lg shadow-black/50">
-                <div className="flex items-center gap-8">
-                    <span className="text-orange-500 flex items-center gap-2 font-bold">
-                        {/* Custom waveform icon replacing lucide Activity for a more 'raw' look closer to Figma */}
-                        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 6L3 6L5 2L8 10L11 6L15 6" stroke="#f97316" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
-                        </svg>
-                        SYS.ONLINE
-                    </span>
-                    <span className="hidden md:inline w-px h-3 bg-zinc-800"></span>
-                    <span className="hidden md:inline text-zinc-400">GRID: ALPHA-7</span>
-                </div>
-                <div className="flex items-center gap-4 md:gap-8">
-                    <div className="hidden md:flex items-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_5px_#10b981]"></span>
-                        <span className="text-zinc-400">LINK STABLE</span>
-                    </div>
-                    <span className="text-zinc-600">V.2.4.1</span>
-                </div>
-            </div>
+
 
             {/* Main Content Container */}
             <div className="flex-1 flex items-center justify-center relative z-20 w-full max-w-7xl mx-auto px-4 md:px-8 py-12">
