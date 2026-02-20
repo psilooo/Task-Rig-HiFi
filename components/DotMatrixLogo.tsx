@@ -117,12 +117,8 @@ export const DotMatrixLogo: React.FC = () => {
         const render = () => {
             ctx.clearRect(0, 0, renderSize, renderSize);
 
-            // Techno stutter effect: normally rotate slowly, occasionally snap/stutter
-            if (Math.random() > 0.98) {
-                angleY += (Math.random() - 0.5) * 0.1; // Sudden jerk
-            } else {
-                angleY += 0.003;
-            }
+            // Smooth continuous rotation
+            angleY += 0.008;
             time += 1;
 
             const cosY = Math.cos(angleY);
@@ -132,10 +128,8 @@ export const DotMatrixLogo: React.FC = () => {
             const centerY = renderSize / 2;
             const fov = 350;
 
-            // Define "glitch bands" - horizontal slices that will phase shift this frame
-            const activeGlitchBandY = Math.random() > 0.85 ? (Math.random() * renderSize) - (renderSize / 2) : null;
-            const glitchBandHeight = Math.random() * 20 + 5;
-            const glitchShiftX = (Math.random() - 0.5) * 60;
+            // Trippy time-based phase for wavy deformations
+            const trippyPhase = time * 0.03;
 
             // Draw points
             for (let i = 0; i < points.length; i++) {
@@ -145,49 +139,36 @@ export const DotMatrixLogo: React.FC = () => {
                 let z1 = p.z;
                 let y1 = p.y;
 
-                // Sharp horizontal glitch tearing (Phase effect)
-                if (activeGlitchBandY !== null && Math.abs(y1 - activeGlitchBandY) < glitchBandHeight) {
-                    x1 += glitchShiftX;
-                }
-
-                // Random Z-axis "transmission error" popping
-                if (Math.random() > 0.999) {
-                    z1 += (Math.random() - 0.5) * 200;
-                }
-
-                // Only rotate the outer gear points
+                // Apply smooth rotation first to outer gear
                 if (p.isGear) {
                     x1 = p.x * cosY + p.z * sinY;
                     z1 = -p.x * sinY + p.z * cosY;
                 }
 
-                // Perspective projection
-                const distance = z1 + 250;
+                // Orthographic flat projection (No division by Z!)
+                // This creates the "looks 3D but is perfectly flat 2D" optical illusion
+                const isometicScale = 1.3;
+                const xProjected = x1 * isometicScale + centerX;
+                const yProjected = y1 * isometicScale + centerY;
 
-                if (distance <= 0) continue;
+                // Use Z simply for drawing color/opacity, not position
+                // Z goes from roughly -75 to 75. Normalize to 0-1 for depth shading.
+                const normalizedZ = Math.max(0, Math.min(1, (z1 + 75) / 150));
 
-                const scaleProjected = fov / distance;
+                // Base opacity is dimmer in the back, brighter in the front
+                const baseAlpha = 0.2 + (normalizedZ * 0.8);
 
-                const xProjected = x1 * scaleProjected + centerX;
-                const yProjected = y1 * scaleProjected + centerY;
-
-                // Techno Alpha/Flicker
-                const baseAlpha = Math.max(0.1, Math.min(0.9, scaleProjected * 1.2 - 0.2));
-
-                // Sharp scanline flicker (much slower now)
+                // Sharp scanline flicker
                 const slowTime = time * 0.2;
-                const scanline = (slowTime % 150 > yProjected * 0.2 && slowTime % 150 < yProjected * 0.2 + 5) ? 1 : 0.5;
+                const scanline = (slowTime % 150 > yProjected * 0.2 && slowTime % 150 < yProjected * 0.2 + 5) ? 1 : 0.6;
 
-                // Random complete blackout for some pixels (data loss)
-                const dataLoss = Math.random() > 0.97 ? 0 : 1;
+                // Occasional data loss flicker
+                const flicker = Math.random() > 0.98 ? 0.3 : 1;
 
-                // Sharp square flicker
-                const flicker = Math.random() > 0.95 ? 0.2 : 1;
+                ctx.fillStyle = `rgba(249, 115, 22, ${baseAlpha * scanline * flicker})`;
 
-                ctx.fillStyle = `rgba(249, 115, 22, ${baseAlpha * scanline * dataLoss * flicker})`;
-
-                // Fast draw method (sharp rectangles, no organic size modulation)
-                const currentDotSize = dotSize * scaleProjected;
+                // Flat dot size
+                const currentDotSize = dotSize * isometicScale;
                 ctx.fillRect(
                     xProjected - currentDotSize / 2,
                     yProjected - currentDotSize / 2,
