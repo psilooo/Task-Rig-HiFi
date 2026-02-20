@@ -13,7 +13,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
             {/* Background Image & Ambience */}
             <div className="absolute inset-0 pointer-events-none z-0">
                 {/* Noise Background */}
-                <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-50 mix-blend-overlay"></div>
+                <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-25 mix-blend-overlay"></div>
 
                 {/* Central Canvas Logo */}
                 <div className="absolute inset-0 flex items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 mt-10">
@@ -57,7 +57,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
                     </div>
                     {/* Orange Vertical Line - Top Left */}
-                    <div className="absolute top-0 left-[16%] w-[1px] h-[26%] bg-[#FF6A15]"></div>
+                    <div className="absolute top-0 left-[16%] w-[1px] h-[26%] bg-[#FF6A15] shadow-[0_0_8px_rgba(255,106,21,0.8)]"></div>
 
                     {/* Bottom Left Crosshair */}
                     <div className="absolute bottom-[28%] left-[16%] flex items-center justify-center">
@@ -65,7 +65,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
                     </div>
                     {/* Orange Horizontal Line - Bottom Left */}
-                    <div className="absolute bottom-[28%] left-0 w-[14%] h-[1px] bg-[#FF6A15]"></div>
+                    <div className="absolute bottom-[28%] left-0 w-[14%] h-[1px] bg-[#FF6A15] shadow-[0_0_8px_rgba(255,106,21,0.8)]"></div>
 
                     {/* Top Right Crosshair */}
                     <div className="absolute top-[28%] right-[16%] flex items-center justify-center">
@@ -73,7 +73,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         <div className="absolute w-[1px] h-[17px] bg-zinc-600/60"></div>
                     </div>
                     {/* Orange Horizontal Line - Top Right */}
-                    <div className="absolute top-[28%] right-0 w-[14%] h-[1px] bg-[#FF6A15]"></div>
+                    <div className="absolute top-[28%] right-0 w-[14%] h-[1px] bg-[#FF6A15] shadow-[0_0_8px_rgba(255,106,21,0.8)]"></div>
 
                     {/* Bottom Right Crosshair */}
                     <div className="absolute bottom-[28%] right-[16%] flex items-center justify-center">
