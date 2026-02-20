@@ -19,7 +19,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <TaskRigLogo className="h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
-                        <div className="font-heading font-bold text-2xl tracking-tight text-white">TASK RIG</div>
+                        <div className="font-heading font-bold text-2xl tracking-tight text-white mt-1">TASK RIG</div>
                     </div>
                     <div className="hidden md:flex items-center gap-8">
                         <a href="#protocol" className="text-xs font-mono uppercase tracking-widest text-zinc-400 hover:text-orange-500 transition-colors">Protocol</a>
