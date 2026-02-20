@@ -1,0 +1,70 @@
+import React, { useEffect, useState } from 'react';
+import { TaskRigLogo } from './ui/TaskRigLogo';
+
+interface LoadingScreenProps {
+    onComplete: () => void;
+}
+
+export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
+    const [progress, setProgress] = useState(0);
+    const [text, setText] = useState('INITIALIZING SECURE LINK...');
+    const [isExiting, setIsExiting] = useState(false);
+
+    useEffect(() => {
+        // Simulate loading sequence
+        const t1 = setTimeout(() => { setProgress(30); setText('ESTABLISHING MAINFRAME CONNECTION...'); }, 400);
+        const t2 = setTimeout(() => { setProgress(60); setText('DECRYPTING PROTOCOLS...'); }, 800);
+        const t3 = setTimeout(() => { setProgress(90); setText('MOUNTING INTERFACE...'); }, 1200);
+        const t4 = setTimeout(() => { setProgress(100); setText('SYSTEM READY'); }, 1500);
+
+        // Trigger fade out
+        const t5 = setTimeout(() => { setIsExiting(true); }, 1800);
+
+        // Unmount completely
+        const t6 = setTimeout(() => { onComplete(); }, 2300); // 500ms for css fade transition
+
+        return () => {
+            clearTimeout(t1);
+            clearTimeout(t2);
+            clearTimeout(t3);
+            clearTimeout(t4);
+            clearTimeout(t5);
+            clearTimeout(t6);
+        };
+    }, [onComplete]);
+
+    return (
+        <div className={`fixed inset-0 z-[100] bg-zinc-950 flex flex-col items-center justify-center transition-opacity duration-500 ${isExiting ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+            {/* Background Ambience */}
+            <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-10 mix-blend-overlay"></div>
+            <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-orange-600/5 blur-[80px] rounded-full pointer-events-none"></div>
+
+            {/* Main Content */}
+            <div className="relative z-10 flex flex-col items-center gap-10 max-w-sm w-full px-6">
+
+                {/* Pulsing Logo */}
+                <div className="relative flex justify-center items-center w-24 h-24">
+                    <div className="absolute inset-0 border border-orange-500/20 rounded-full animate-ping opacity-20"></div>
+                    <TaskRigLogo className="w-16 h-16 text-orange-500 drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]" />
+                </div>
+
+                {/* Loader Bar */}
+                <div className="w-full space-y-3">
+                    <div className="flex justify-between items-end">
+                        <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-widest leading-none">{text}</span>
+                        <span className="font-mono text-[10px] text-orange-500 font-bold leading-none">{progress}%</span>
+                    </div>
+
+                    <div className="h-[2px] w-full bg-zinc-900 border-x border-zinc-800 relative overflow-hidden">
+                        <div
+                            className="absolute top-0 left-0 h-full bg-[#FF6A15] shadow-[0_0_10px_rgba(255,106,21,0.8)] transition-all duration-300 ease-out"
+                            style={{ width: `${progress}%` }}
+                        ></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    );
+};
