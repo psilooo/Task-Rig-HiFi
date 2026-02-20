@@ -50,11 +50,25 @@
               '20%': { opacity: '1' },
               '80%': { opacity: '1' },
               '100%': { bottom: '110%', opacity: '0' },
+            },
+            'scan-horizontal': {
+              '0%': { left: '-10%', opacity: '0' },
+              '20%': { opacity: '1' },
+              '80%': { opacity: '1' },
+              '100%': { left: '110%', opacity: '0' },
+            },
+            'scan-horizontal-reverse': {
+              '0%': { right: '-10%', opacity: '0' },
+              '20%': { opacity: '1' },
+              '80%': { opacity: '1' },
+              '100%': { right: '110%', opacity: '0' },
             }
           },
           animation: {
-            'scan-vertical': 'scan-vertical 4s linear infinite',
-            'scan-vertical-reverse': 'scan-vertical-reverse 4s linear infinite'
+            'scan-vertical': 'scan-vertical 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'scan-vertical-reverse': 'scan-vertical-reverse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'scan-horizontal': 'scan-horizontal 3.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'scan-horizontal-reverse': 'scan-horizontal-reverse 4.5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
           }
         }
       }
