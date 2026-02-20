@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Reveal } from './ui/Reveal';
 import { DotMatrixLogo } from './DotMatrixLogo';
 import { DynamicNoise } from './DynamicNoise';
@@ -105,9 +106,9 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                                     </svg>
                                 </button>
 
-                                <button
-                                    onClick={onLoginClick}
-                                    className="relative w-full sm:w-auto px-12 py-3 bg-[#FF6A15] hover:bg-[#ff853f] text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(255,106,21,0.25)] hover:shadow-[0_0_30px_rgba(255,106,21,0.4)] flex justify-center items-center gap-3"
+                                <Link
+                                    to="/get-started"
+                                    className="relative w-full sm:w-auto px-12 py-3 bg-[#FF6A15] hover:bg-[#ff853f] text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(255,106,21,0.25)] hover:shadow-[0_0_30px_rgba(255,106,21,0.4)] flex justify-center items-center gap-3 no-underline"
                                 >
                                     <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
                                     <span className="relative z-10 flex items-center gap-2">
@@ -116,7 +117,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                                             <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
                                         </svg>
                                     </span>
-                                </button>
+                                </Link>
 
                             </div>
                         </Reveal>

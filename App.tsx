@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
 import { DashboardHero } from './components/DashboardHero';
 import { StatsGrid } from './components/StatsGrid';
@@ -8,6 +9,7 @@ import { AccountSettings } from './components/AccountSettings';
 import { LoginPage } from './components/LoginPage';
 import { LandingPage } from './components/LandingPage';
 import { PrivacyPage } from './components/PrivacyPage';
+import { GetStartedPage } from './components/GetStartedPage';
 import { Tab, TimeRange } from './types';
 import { Reveal } from './components/ui/Reveal';
 import { LoadingScreen } from './components/LoadingScreen';
@@ -19,23 +21,8 @@ const App: React.FC = () => {
   const [view, setView] = useState<ViewState>('landing');
   const [activeTab, setActiveTab] = useState<Tab>(Tab.AGENT);
   const [timeRange, setTimeRange] = useState<TimeRange>('1d');
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
-  useEffect(() => {
-    const handleLocationChange = () => {
-      setCurrentPath(window.location.pathname);
-    };
-
-    window.addEventListener('popstate', handleLocationChange);
-    return () => window.removeEventListener('popstate', handleLocationChange);
-  }, []);
-
-  // Render the current view
-  const renderView = () => {
-    if (currentPath === '/privacy') {
-      return <PrivacyPage />;
-    }
-
+  const renderLandingView = () => {
     if (view === 'landing') {
       return <LandingPage onLoginClick={() => setView('login')} />;
     }
@@ -112,8 +99,11 @@ const App: React.FC = () => {
   return (
     <>
       {initialLoading && <LoadingScreen onComplete={() => setInitialLoading(false)} />}
-      {/* Background pre-rendered app structure */}
-      {renderView()}
+      <Routes>
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/get-started" element={<GetStartedPage />} />
+        <Route path="*" element={renderLandingView()} />
+      </Routes>
     </>
   );
 };
