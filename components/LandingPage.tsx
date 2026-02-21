@@ -356,30 +356,73 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                SECTION 1: SOCIAL PROOF MARQUEE
+                SECTION 1: SOCIAL PROOF — TRUST SIGNAL
             ════════════════════════════════════════════════════════════════ */}
-            <div className="border-b border-white/5 bg-zinc-900/30 relative z-10 overflow-hidden">
-                <div className="py-6">
-                    <ScrollReveal>
-                        <div className="flex items-center justify-center gap-8 mb-4">
-                            <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-zinc-800" />
-                            <span className="text-zinc-600 font-mono text-[10px] uppercase tracking-[0.25em]">Trusted by 500+ businesses</span>
-                            <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-zinc-800" />
-                        </div>
-                    </ScrollReveal>
-                    <div className="marquee-track">
-                        <div className="marquee-content">
-                            {[...Array(2)].map((_, setIdx) => (
-                                <React.Fragment key={setIdx}>
-                                    {['Apex Plumbing Co.', 'Ironclad HVAC', 'Summit Legal Group', 'Keystone Properties', 'Trident Auto', 'BrightPath Dental', 'Forge Construction', 'Vertex Realty'].map((name, i) => (
-                                        <span key={`${setIdx}-${i}`} className="text-zinc-500 font-mono text-xs uppercase tracking-[0.15em] whitespace-nowrap px-8 hover:text-zinc-300 transition-colors cursor-default">
-                                            {name}
-                                            <span className="text-orange-500/30 ml-8">///</span>
-                                        </span>
-                                    ))}
-                                </React.Fragment>
-                            ))}
-                        </div>
+            <div className="border-b border-white/5 relative z-10 overflow-hidden">
+                {/* Background ambient glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] bg-orange-500/[0.03] blur-[120px] rounded-full pointer-events-none" />
+
+                <div className="py-10 md:py-14 px-4 md:px-6">
+                    <div className="max-w-5xl mx-auto">
+                        {/* Stats Row */}
+                        <ScrollReveal>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10">
+                                {[
+                                    { value: '500+', label: 'Businesses Trust Us', icon: Users, accent: 'from-orange-500/20 to-orange-600/5' },
+                                    { value: '10M+', label: 'Messages Handled', icon: Zap, accent: 'from-orange-500/15 to-amber-500/5' },
+                                    { value: '99.9%', label: 'Platform Uptime', icon: Shield, accent: 'from-orange-500/10 to-orange-400/5' },
+                                ].map((stat, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, y: 16, scale: 0.97 }}
+                                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                                        viewport={{ once: true, margin: '-40px' }}
+                                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 }}
+                                        className="group relative"
+                                    >
+                                        <div className={`relative overflow-hidden rounded-xl border border-white/[0.07] bg-gradient-to-br ${stat.accent} backdrop-blur-md p-5 md:p-6 text-center transition-all duration-500 hover:border-orange-500/25 hover:shadow-[0_0_30px_rgba(249,115,22,0.08)]`}>
+                                            {/* Subtle inner glow */}
+                                            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
+                                            {/* Top edge accent */}
+                                            <div className="absolute top-0 left-[20%] right-[20%] h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                            <div className="relative">
+                                                <div className="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-orange-500/15 transition-colors">
+                                                    <stat.icon size={15} className="text-orange-500" />
+                                                </div>
+                                                <div className="font-heading font-bold text-3xl md:text-4xl text-white mb-1 tracking-tight">
+                                                    <AnimatedCounter value={stat.value} duration={2.2} />
+                                                </div>
+                                                <div className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]">{stat.label}</div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </ScrollReveal>
+
+                        {/* Company badges */}
+                        <ScrollReveal delay={0.2}>
+                            <div className="flex items-center justify-center gap-6 mb-4">
+                                <div className="h-px flex-1 max-w-[60px] bg-gradient-to-r from-transparent to-zinc-800" />
+                                <span className="text-zinc-600 font-mono text-[9px] uppercase tracking-[0.3em]">Trusted by industry leaders</span>
+                                <div className="h-px flex-1 max-w-[60px] bg-gradient-to-l from-transparent to-zinc-800" />
+                            </div>
+                            <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
+                                {['Apex Plumbing Co.', 'Ironclad HVAC', 'Summit Legal Group', 'Keystone Properties', 'Trident Auto', 'BrightPath Dental', 'Forge Construction', 'Vertex Realty'].map((name, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.4, delay: 0.3 + i * 0.05 }}
+                                        className="px-3 py-1.5 md:px-4 md:py-2 border border-white/[0.06] bg-white/[0.02] rounded-full font-mono text-[10px] md:text-[11px] text-zinc-500 uppercase tracking-wider hover:border-orange-500/20 hover:text-zinc-400 transition-all duration-300 cursor-default"
+                                    >
+                                        {name}
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </ScrollReveal>
                     </div>
                 </div>
             </div>
