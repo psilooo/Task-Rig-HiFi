@@ -7,7 +7,8 @@ import {
     ChevronDown, Check, Phone,
     Star, ArrowRight,
     Bot, Send, User,
-    MonitorSmartphone, Sparkles
+    Sparkles,
+    Link2
 } from 'lucide-react';
 import { Hero } from './Hero';
 import { TaskRigLogo } from './ui/TaskRigLogo';
@@ -258,7 +259,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
         { value: '99.9%', label: 'Uptime', icon: Shield },
         { value: '<2s', label: 'Response Time', icon: Zap },
         { value: '40%', label: 'More Bookings', icon: Rocket },
-        { value: '500+', label: 'Businesses', icon: MonitorSmartphone },
+        { value: '30+', label: 'Integrations', icon: Link2 },
     ];
 
     const testimonials = [
@@ -356,7 +357,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                SECTION 1: SOCIAL PROOF — TRUST SIGNAL (Techno-Brutalism)
+                SECTION 1: INTEGRATION PARTNERS + SYSTEM STATUS (Techno-Brutalism)
             ════════════════════════════════════════════════════════════════ */}
             <div className="border-y-2 border-zinc-800 relative z-10 bg-zinc-950">
                 <div className="max-w-7xl mx-auto">
@@ -369,22 +370,47 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.2em]">Live</span>
                     </div>
 
-                    {/* Stats Dashboard Strip */}
+                    {/* Integration Partners + System Stats */}
                     <ScrollReveal>
-                        <div className="grid grid-cols-1 md:grid-cols-4">
+                        <div className="grid grid-cols-1 md:grid-cols-5">
+                            {/* Integration Partners — 3 columns */}
                             {[
-                                { value: '500+', label: 'Active Clients', tag: 'ORGS' },
-                                { value: '10M+', label: 'Messages Processed', tag: 'MSG' },
-                                { value: '99.9%', label: 'Platform Uptime', tag: 'SLA' },
-                                { value: '<2s', label: 'Avg Response', tag: 'LAT' },
-                            ].map((stat, i) => (
+                                { name: 'Twilio', desc: 'SMS, voice & WhatsApp messaging', tag: 'COMMS' },
+                                { name: 'Zendesk', desc: 'Helpdesk ticketing & CRM sync', tag: 'CRM' },
+                                { name: 'Stripe', desc: 'Payment processing & invoicing', tag: 'PAY' },
+                            ].map((partner, i) => (
                                 <motion.div
                                     key={i}
                                     initial={{ opacity: 0, y: 12 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, margin: '-40px' }}
                                     transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-                                    className={`border-b md:border-b-0 border-zinc-800 ${i < 3 ? 'md:border-r' : ''} p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors`}
+                                    className="border-b md:border-b-0 md:border-r border-zinc-800 p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors"
+                                >
+                                    <div className="flex items-center justify-between mb-3">
+                                        <div className="flex items-center gap-2">
+                                            <Link2 size={10} className="text-orange-500/60" />
+                                            <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em]">Integration</span>
+                                        </div>
+                                        <span className="font-mono text-[9px] text-orange-500/60 uppercase tracking-wider border border-orange-500/20 px-1.5 py-0.5">{partner.tag}</span>
+                                    </div>
+                                    <div className="font-mono font-bold text-2xl md:text-3xl text-white tracking-tight mb-1.5">{partner.name}</div>
+                                    <div className="font-mono text-[11px] text-zinc-500 leading-relaxed">{partner.desc}</div>
+                                </motion.div>
+                            ))}
+
+                            {/* System Stats — 2 columns */}
+                            {[
+                                { value: '99.9%', label: 'Platform Uptime', tag: 'SLA' },
+                                { value: '<2s', label: 'Avg Response', tag: 'LAT' },
+                            ].map((stat, i) => (
+                                <motion.div
+                                    key={`stat-${i}`}
+                                    initial={{ opacity: 0, y: 12 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: '-40px' }}
+                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.24 + i * 0.08 }}
+                                    className={`border-b md:border-b-0 border-zinc-800 ${i < 1 ? 'md:border-r' : ''} p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors`}
                                 >
                                     <div className="flex items-center justify-between mb-3">
                                         <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em]">{stat.label}</span>
@@ -766,7 +792,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                 Ready to Transform<br />Your Customer Service?
                             </h2>
                             <p className="text-zinc-400 font-mono text-sm max-w-lg mx-auto mb-10">
-                                Join 500+ businesses that use Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
+                                Businesses use Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
                             </p>
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <button
