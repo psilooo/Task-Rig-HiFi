@@ -154,11 +154,11 @@ export const GetStartedPage: React.FC = () => {
             </nav>
 
             {/* Main Content */}
-            <div className="flex-1 flex items-center justify-center relative z-10 pt-20 pb-12 px-4">
+            <div className="flex-1 flex items-center justify-center relative z-10 pt-28 pb-16 px-6">
                 <div className="w-full max-w-2xl mx-auto">
 
                     {/* Progress Indicator */}
-                    <div className="mb-10">
+                    <div className="mb-8">
                         <div className="flex items-center justify-between mb-3">
                             <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
                                 Step {step} of {TOTAL_STEPS}
@@ -180,7 +180,7 @@ export const GetStartedPage: React.FC = () => {
                     </div>
 
                     {/* Step Content */}
-                    <div className="bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-sm rounded-sm p-6 md:p-10 shadow-2xl min-h-[420px] flex flex-col">
+                    <div className="bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-sm rounded-sm p-8 md:p-10 shadow-2xl min-h-[400px] flex flex-col">
                         <AnimatePresence mode="wait" custom={direction}>
                             {step === 1 && (
                                 <motion.div
@@ -193,9 +193,9 @@ export const GetStartedPage: React.FC = () => {
                                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                                     className="flex-1 flex flex-col"
                                 >
-                                    <div className="mb-8">
+                                    <div className="mb-6">
                                         <span className="font-mono text-orange-500 text-xs uppercase tracking-widest mb-2 block">/// Initialize</span>
-                                        <h2 className="font-heading font-bold text-3xl md:text-4xl text-white uppercase tracking-tight mb-3">
+                                        <h2 className="font-heading font-bold text-3xl md:text-4xl text-white uppercase tracking-tight mb-2">
                                             What brings you here?
                                         </h2>
                                         <p className="font-mono text-sm text-zinc-400">
@@ -210,7 +210,7 @@ export const GetStartedPage: React.FC = () => {
                                                 <button
                                                     key={uc.id}
                                                     onClick={() => setSelectedUseCase(uc.id)}
-                                                    className={`w-full text-left p-5 border transition-all group flex items-start gap-4 rounded-sm ${
+                                                    className={`w-full text-left px-5 py-4 border transition-all group flex items-center gap-4 rounded-sm ${
                                                         isSelected
                                                             ? 'border-orange-500/50 bg-orange-500/[0.06]'
                                                             : 'border-zinc-800 bg-zinc-950/40 hover:border-zinc-700 hover:bg-zinc-900/50'
@@ -223,8 +223,8 @@ export const GetStartedPage: React.FC = () => {
                                                     }`}>
                                                         <uc.icon size={20} className={isSelected ? 'text-orange-500' : 'text-zinc-500 group-hover:text-zinc-400'} />
                                                     </div>
-                                                    <div>
-                                                        <div className={`font-heading font-bold text-lg uppercase tracking-wide mb-1 ${
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className={`font-heading font-bold text-lg uppercase tracking-wide mb-0.5 ${
                                                             isSelected ? 'text-white' : 'text-zinc-300'
                                                         }`}>
                                                             {uc.label}
@@ -233,13 +233,13 @@ export const GetStartedPage: React.FC = () => {
                                                             {uc.desc}
                                                         </div>
                                                     </div>
-                                                    {isSelected && (
-                                                        <div className="ml-auto shrink-0 mt-1">
+                                                    <div className="shrink-0 w-5 flex items-center justify-center">
+                                                        {isSelected && (
                                                             <div className="w-5 h-5 rounded-full bg-orange-500 flex items-center justify-center">
                                                                 <Check size={12} className="text-black" />
                                                             </div>
-                                                        </div>
-                                                    )}
+                                                        )}
+                                                    </div>
                                                 </button>
                                             );
                                         })}
@@ -258,9 +258,9 @@ export const GetStartedPage: React.FC = () => {
                                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                                     className="flex-1 flex flex-col"
                                 >
-                                    <div className="mb-8">
+                                    <div className="mb-6">
                                         <span className="font-mono text-orange-500 text-xs uppercase tracking-widest mb-2 block">/// Configure</span>
-                                        <h2 className="font-heading font-bold text-3xl md:text-4xl text-white uppercase tracking-tight mb-3">
+                                        <h2 className="font-heading font-bold text-3xl md:text-4xl text-white uppercase tracking-tight mb-2">
                                             Tell us about your team
                                         </h2>
                                         <p className="font-mono text-sm text-zinc-400">
@@ -285,10 +285,10 @@ export const GetStartedPage: React.FC = () => {
 
                                         {/* Team Size */}
                                         <div>
-                                            <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-2">
+                                            <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-3">
                                                 Team Size
                                             </label>
-                                            <div className="flex flex-wrap gap-2">
+                                            <div className="flex flex-wrap gap-2.5">
                                                 {teamSizes.map((size) => (
                                                     <button
                                                         key={size}
@@ -307,7 +307,7 @@ export const GetStartedPage: React.FC = () => {
 
                                         {/* Industry */}
                                         <div>
-                                            <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-2">
+                                            <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-3">
                                                 Industry
                                             </label>
                                             <div className="flex flex-wrap gap-2">
@@ -315,7 +315,7 @@ export const GetStartedPage: React.FC = () => {
                                                     <button
                                                         key={ind}
                                                         onClick={() => setIndustry(ind)}
-                                                        className={`px-3 py-1.5 font-mono text-[11px] border transition-all rounded-sm ${
+                                                        className={`px-3.5 py-2 font-mono text-[11px] border transition-all rounded-sm ${
                                                             industry === ind
                                                                 ? 'border-orange-500/50 bg-orange-500/10 text-orange-500'
                                                                 : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
@@ -341,9 +341,9 @@ export const GetStartedPage: React.FC = () => {
                                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                                     className="flex-1 flex flex-col"
                                 >
-                                    <div className="mb-8">
+                                    <div className="mb-6">
                                         <span className="font-mono text-orange-500 text-xs uppercase tracking-widest mb-2 block">/// Connect</span>
-                                        <h2 className="font-heading font-bold text-3xl md:text-4xl text-white uppercase tracking-tight mb-3">
+                                        <h2 className="font-heading font-bold text-3xl md:text-4xl text-white uppercase tracking-tight mb-2">
                                             How can we reach you?
                                         </h2>
                                         <p className="font-mono text-sm text-zinc-400">
@@ -351,7 +351,7 @@ export const GetStartedPage: React.FC = () => {
                                         </p>
                                     </div>
 
-                                    <div className="space-y-5 flex-1">
+                                    <div className="space-y-6 flex-1">
                                         {/* Full Name */}
                                         <div>
                                             <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-2">
@@ -399,7 +399,7 @@ export const GetStartedPage: React.FC = () => {
                         </AnimatePresence>
 
                         {/* Navigation Buttons */}
-                        <div className="flex items-center justify-between mt-8 pt-6 border-t border-zinc-800/50">
+                        <div className="flex items-center justify-between mt-auto pt-8 border-t border-zinc-800/50">
                             <button
                                 onClick={goBack}
                                 disabled={step === 1}
@@ -444,7 +444,7 @@ export const GetStartedPage: React.FC = () => {
                     </div>
 
                     {/* Step Indicators */}
-                    <div className="flex items-center justify-center gap-2 mt-6">
+                    <div className="flex items-center justify-center gap-2.5 mt-8">
                         {[1, 2, 3].map((s) => (
                             <div
                                 key={s}
