@@ -78,7 +78,11 @@ export const DynamicNoise: React.FC<DynamicNoiseProps> = ({ opacity = 0.1 }) => 
         <canvas
             ref={canvasRef}
             className="absolute inset-0 w-full h-full pointer-events-none mix-blend-overlay z-0"
-            style={{ opacity }}
+            style={{
+                opacity,
+                maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+            }}
         />
     );
 };
