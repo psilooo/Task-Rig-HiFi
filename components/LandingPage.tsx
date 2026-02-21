@@ -428,14 +428,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                     {/* Tabbed Feature Explorer */}
                     <ScrollReveal>
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                            {/* Tab Buttons - Left Column */}
-                            <div className="lg:col-span-4 flex lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
+                        <div className="flex flex-col items-center">
+                            {/* Tab Buttons - Centered Row */}
+                            <div className="flex flex-wrap justify-center gap-2 mb-10 overflow-x-auto pb-2 w-full">
                                 {featureTabs.map((tab, i) => (
                                     <button
                                         key={i}
                                         onClick={() => setActiveFeature(i)}
-                                        className={`flex items-center gap-3 px-5 py-4 rounded-lg text-left transition-all duration-300 whitespace-nowrap lg:whitespace-normal flex-shrink-0 lg:flex-shrink lg:w-full ${activeFeature === i
+                                        className={`flex items-center gap-3 px-5 py-4 rounded-lg text-left transition-all duration-300 whitespace-nowrap flex-shrink-0 ${activeFeature === i
                                             ? 'bg-orange-500/10 border border-orange-500/30 shadow-[0_0_20px_rgba(255,106,21,0.06)]'
                                             : 'bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04]'
                                             }`}
@@ -445,14 +445,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         </div>
                                         <div>
                                             <div className={`font-heading font-bold text-sm uppercase tracking-wide transition-colors ${activeFeature === i ? 'text-white' : 'text-zinc-400'}`}>{tab.label}</div>
-                                            <div className="text-[11px] font-mono text-zinc-600 hidden lg:block mt-0.5">{tab.title}</div>
+                                            <div className="text-[11px] font-mono text-zinc-600 hidden md:block mt-0.5">{tab.title}</div>
                                         </div>
                                     </button>
                                 ))}
                             </div>
 
-                            {/* Active Feature Content - Right Column */}
-                            <div className="lg:col-span-8">
+                            {/* Active Feature Content - Centered Below */}
+                            <div className="w-full max-w-4xl">
                                 <AnimatePresence mode="wait">
                                     <motion.div
                                         key={activeFeature}
@@ -462,10 +462,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                                     >
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                                            <div>
+                                            <div className="text-center md:text-left">
                                                 <h3 className="font-heading font-bold text-2xl md:text-3xl text-white uppercase tracking-tight mb-4">{featureTabs[activeFeature].title}</h3>
                                                 <p className="text-zinc-400 font-mono text-sm leading-relaxed mb-6">{featureTabs[activeFeature].desc}</p>
-                                                <div className="flex items-center gap-4">
+                                                <div className="flex items-center justify-center md:justify-start gap-4">
                                                     <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
                                                         <Sparkles size={12} className="text-orange-500" />
                                                         <span>AI-Powered</span>
