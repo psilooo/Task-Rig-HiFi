@@ -3,7 +3,6 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
     Users,
     Clock, GitBranch, CalendarCheck, Layers, Globe,
-    Zap, Shield, Rocket,
     ChevronDown, Check, Phone,
     Star, ArrowRight,
     Bot, Send, User,
@@ -253,13 +252,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
         { sender: 'ai', text: "I'd be happy to help you schedule an AC repair! I can see you're located in the Phoenix area. We have availability tomorrow between 9 AM-12 PM or Thursday 2 PM-5 PM. Which works better for you?" },
         { sender: 'customer', text: 'Tomorrow morning works.' },
         { sender: 'ai', text: "You're all set! I've booked a technician for tomorrow, Feb 21, between 9 AM-12 PM. You'll receive a confirmation text shortly. Is there anything else I can help with?" },
-    ];
-
-    const metrics = [
-        { value: '99.9%', label: 'Uptime', icon: Shield },
-        { value: '<2s', label: 'Response Time', icon: Zap },
-        { value: '40%', label: 'More Bookings', icon: Rocket },
-        { value: '30+', label: 'Integrations', icon: Link2 },
     ];
 
     const testimonials = [
@@ -624,29 +616,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                SECTION 4: METRICS + TESTIMONIALS (Merged)
+                SECTION 4: TESTIMONIALS
             ════════════════════════════════════════════════════════════════ */}
             <section className="py-24 md:py-32 px-6 relative z-10 border-y border-white/5">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-orange-500/[0.02] blur-[120px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
-                    {/* Metrics Bar */}
-                    <ScrollReveal>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 rounded-xl overflow-hidden mb-16 md:mb-20">
-                            {metrics.map((m, i) => (
-                                <div key={i} className="bg-zinc-950 p-8 md:p-10 text-center group hover:bg-white/[0.02] transition-colors">
-                                    <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500/15 transition-colors">
-                                        <m.icon size={18} className="text-orange-500" />
-                                    </div>
-                                    <div className="font-heading font-bold text-3xl md:text-4xl text-white mb-1">
-                                        <AnimatedCounter value={m.value} />
-                                    </div>
-                                    <div className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest">{m.label}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </ScrollReveal>
-
                     {/* Testimonials */}
                     <div className="text-center mb-12">
                         <ScrollReveal>
