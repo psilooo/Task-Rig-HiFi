@@ -22,9 +22,9 @@ const industries = [
 
 const slideVariants = {
     enter: (direction: number) => ({
-        x: direction > 0 ? 80 : -80,
+        x: direction > 0 ? 60 : -60,
         opacity: 0,
-        filter: 'blur(4px)',
+        filter: 'blur(2px)',
     }),
     center: {
         x: 0,
@@ -32,10 +32,18 @@ const slideVariants = {
         filter: 'blur(0px)',
     },
     exit: (direction: number) => ({
-        x: direction < 0 ? 80 : -80,
+        x: direction < 0 ? 60 : -60,
         opacity: 0,
-        filter: 'blur(4px)',
+        filter: 'blur(2px)',
     }),
+};
+
+const springTransition = {
+    type: 'spring' as const,
+    stiffness: 300,
+    damping: 30,
+    opacity: { duration: 0.25, ease: 'easeOut' },
+    filter: { duration: 0.25, ease: 'easeOut' },
 };
 
 export const GetStartedPage: React.FC = () => {
@@ -48,6 +56,7 @@ export const GetStartedPage: React.FC = () => {
     const [companyName, setCompanyName] = useState('');
     const [teamSize, setTeamSize] = useState<string | null>(null);
     const [industry, setIndustry] = useState<string | null>(null);
+    const [customIndustry, setCustomIndustry] = useState('');
     const [contactName, setContactName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -76,7 +85,7 @@ export const GetStartedPage: React.FC = () => {
 
     const canAdvance = () => {
         if (step === 1) return selectedUseCase !== null;
-        if (step === 2) return companyName.trim() !== '' && teamSize !== null && industry !== null;
+        if (step === 2) return companyName.trim() !== '' && teamSize !== null && industry !== null && (industry !== 'Other' || customIndustry.trim() !== '');
         if (step === 3) return contactName.trim() !== '' && email.trim() !== '';
         return false;
     };
@@ -190,7 +199,7 @@ export const GetStartedPage: React.FC = () => {
                                     initial="enter"
                                     animate="center"
                                     exit="exit"
-                                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                    transition={springTransition}
                                     className="flex-1 flex flex-col"
                                 >
                                     <div className="mb-6">
@@ -255,7 +264,7 @@ export const GetStartedPage: React.FC = () => {
                                     initial="enter"
                                     animate="center"
                                     exit="exit"
-                                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                    transition={springTransition}
                                     className="flex-1 flex flex-col"
                                 >
                                     <div className="mb-6">
@@ -306,7 +315,7 @@ export const GetStartedPage: React.FC = () => {
                                         </div>
 
                                         {/* Industry */}
-                                        <div>
+                                        <div className="mb-6">
                                             <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-3">
                                                 Industry
                                             </label>
@@ -314,7 +323,10 @@ export const GetStartedPage: React.FC = () => {
                                                 {industries.map((ind) => (
                                                     <button
                                                         key={ind}
-                                                        onClick={() => setIndustry(ind)}
+                                                        onClick={() => {
+                                                            setIndustry(ind);
+                                                            if (ind !== 'Other') setCustomIndustry('');
+                                                        }}
                                                         className={`px-3.5 py-2 font-mono text-[11px] border transition-all rounded-sm ${
                                                             industry === ind
                                                                 ? 'border-orange-500/50 bg-orange-500/10 text-orange-500'
@@ -325,6 +337,26 @@ export const GetStartedPage: React.FC = () => {
                                                     </button>
                                                 ))}
                                             </div>
+                                            <AnimatePresence>
+                                                {industry === 'Other' && (
+                                                    <motion.div
+                                                        initial={{ height: 0, opacity: 0 }}
+                                                        animate={{ height: 'auto', opacity: 1 }}
+                                                        exit={{ height: 0, opacity: 0 }}
+                                                        transition={{ type: 'spring', stiffness: 300, damping: 30, opacity: { duration: 0.2 } }}
+                                                        className="overflow-hidden"
+                                                    >
+                                                        <input
+                                                            type="text"
+                                                            value={customIndustry}
+                                                            onChange={(e) => setCustomIndustry(e.target.value)}
+                                                            placeholder="Enter your industry"
+                                                            autoFocus
+                                                            className="mt-3 w-full bg-zinc-950/60 border border-zinc-800 focus:border-orange-500/50 px-4 py-3 font-mono text-sm text-white placeholder:text-zinc-600 outline-none transition-colors rounded-sm"
+                                                        />
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -338,7 +370,7 @@ export const GetStartedPage: React.FC = () => {
                                     initial="enter"
                                     animate="center"
                                     exit="exit"
-                                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                    transition={springTransition}
                                     className="flex-1 flex flex-col"
                                 >
                                     <div className="mb-6">
