@@ -352,7 +352,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 SECTION 2+3: PRODUCT SHOWCASE — Features & Live Demo
                 Unified two-panel layout with shared visual container
             ════════════════════════════════════════════════════════════════ */}
-            <section className="pt-12 pb-24 md:pt-16 md:pb-32 px-4 md:px-6 relative z-10" ref={chatRef}>
+            <section className="pt-4 pb-24 md:pt-6 md:pb-32 px-4 md:px-6 relative z-10" ref={chatRef}>
                 {/* Ambient glow effects */}
                 <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/[0.03] blur-[180px] rounded-full pointer-events-none" />
                 <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
