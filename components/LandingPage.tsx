@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
     Mail, MessageSquare, Facebook, CalendarDays, Users, BarChart3,
-    Wrench, Scale, Building2, HardHat, Home, Pipette, Car, Scissors,
+    Wrench, Scale, Building2, Home, Car,
     Clock, GitBranch, CalendarCheck, Layers, Globe, PhoneCall,
     Zap, Shield, Rocket,
     ChevronDown, Check, Phone,
@@ -248,25 +248,74 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
         },
     ];
 
-    const industries = [
-        { icon: Wrench, title: 'Home Services' },
-        { icon: Scale, title: 'Law Firms' },
-        { icon: Building2, title: 'Property Mgmt' },
-        { icon: HardHat, title: 'Construction' },
-        { icon: Home, title: 'Real Estate' },
-        { icon: Pipette, title: 'Plumbing' },
-        { icon: Car, title: 'Automotive' },
-        { icon: Scissors, title: 'Salons' },
+    const industryShowcase = [
+        {
+            icon: Wrench,
+            title: 'Home Services',
+            tagline: 'HVAC, Electrical, Plumbing & More',
+            description: 'AI handles service calls, dispatches technicians, and books follow-ups — so you never lose a lead to voicemail again.',
+            tools: [
+                { icon: PhoneCall, name: 'VoIP Dispatch' },
+                { icon: CalendarDays, name: 'Smart Scheduling' },
+                { icon: Users, name: 'CRM Sync' },
+                { icon: MessageSquare, name: 'Live Chat' },
+            ],
+            stat: { value: '40%', label: 'More bookings' },
+        },
+        {
+            icon: Scale,
+            title: 'Law Firms',
+            tagline: 'Client Intake, Scheduling & Case Routing',
+            description: 'Automate client screening, schedule consultations, and route inquiries to the right attorney — 24/7, in any language.',
+            tools: [
+                { icon: Mail, name: 'Email Intake' },
+                { icon: CalendarDays, name: 'Consultation Booking' },
+                { icon: Users, name: 'Case Management' },
+                { icon: Globe, name: 'Multilingual' },
+            ],
+            stat: { value: '3x', label: 'Faster intake' },
+        },
+        {
+            icon: Building2,
+            title: 'Property Management',
+            tagline: 'Maintenance, Leasing & Tenant Communication',
+            description: 'Tenants submit requests via chat, AI triages by urgency, and dispatches maintenance crews automatically.',
+            tools: [
+                { icon: MessageSquare, name: 'Tenant Chat' },
+                { icon: Wrench, name: 'Work Orders' },
+                { icon: BarChart3, name: 'Analytics' },
+                { icon: Mail, name: 'Notifications' },
+            ],
+            stat: { value: '60%', label: 'Fewer calls' },
+        },
+        {
+            icon: Car,
+            title: 'Automotive',
+            tagline: 'Service Booking, Estimates & Follow-ups',
+            description: 'From oil changes to major repairs — AI qualifies the job, provides estimates, and books the bay.',
+            tools: [
+                { icon: CalendarDays, name: 'Bay Scheduling' },
+                { icon: PhoneCall, name: 'Call Handling' },
+                { icon: Users, name: 'Customer History' },
+                { icon: BarChart3, name: 'Revenue Tracking' },
+            ],
+            stat: { value: '2x', label: 'Service capacity' },
+        },
+        {
+            icon: Home,
+            title: 'Real Estate',
+            tagline: 'Lead Capture, Showings & Follow-up',
+            description: 'Capture leads from every channel, qualify buyer intent, and schedule showings without lifting a finger.',
+            tools: [
+                { icon: Globe, name: 'Lead Capture' },
+                { icon: CalendarDays, name: 'Showing Scheduler' },
+                { icon: Mail, name: 'Drip Campaigns' },
+                { icon: Facebook, name: 'Social Inbox' },
+            ],
+            stat: { value: '5x', label: 'Lead response speed' },
+        },
     ];
-
-    const integrations = [
-        { icon: Mail, title: 'Email' },
-        { icon: MessageSquare, title: 'Live Chat' },
-        { icon: Facebook, title: 'Messenger' },
-        { icon: CalendarDays, title: 'Google Calendar' },
-        { icon: Users, title: 'CRM Systems' },
-        { icon: BarChart3, title: 'Analytics' },
-    ];
+    const [activeIndustry, setActiveIndustry] = useState(0);
 
     const chatMessages = [
         { sender: 'customer', text: 'Hi, I need to schedule an AC repair. My unit stopped blowing cold air.' },
@@ -492,85 +541,142 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                SECTION 3: INDUSTRIES + INTEGRATIONS (Two-Column Split)
+                SECTION 3: INDUSTRIES + INTEGRATIONS (Interactive Showcase)
             ════════════════════════════════════════════════════════════════ */}
             <section className="py-28 md:py-40 px-6 relative z-10 border-y border-white/5">
-                {/* Background accent */}
+                {/* Background accents */}
                 <div className="absolute bottom-0 left-0 w-[600px] h-[400px] bg-orange-500/[0.015] blur-[150px] rounded-full pointer-events-none" />
+                <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-orange-500/[0.01] blur-[120px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
+                    {/* Section Header */}
                     <div className="text-center mb-16 md:mb-20">
                         <ScrollReveal>
                             <SectionBadge text="Built For You" />
                             <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
                                 Your Industry.<br className="hidden md:block" /> Your Tools.
                             </h2>
+                            <p className="mt-5 text-zinc-400 font-mono text-sm max-w-lg mx-auto leading-relaxed">
+                                Select your industry to see exactly how Task Rig fits into your workflow.
+                            </p>
                         </ScrollReveal>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-                        {/* Industries - Left */}
-                        <ScrollReveal>
-                            <div>
-                                <h3 className="font-heading font-bold text-xl text-white uppercase tracking-wide mb-2">Industry Solutions</h3>
-                                <p className="text-zinc-500 font-mono text-xs mb-8">Designed for blue-collar and service businesses that depend on fast customer communication.</p>
-                                <div className="grid grid-cols-2 gap-3">
-                                    {industries.map((item, i) => (
-                                        <motion.div
-                                            key={i}
-                                            initial={{ opacity: 0, y: 8 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: i * 0.05, duration: 0.4 }}
-                                            className="group flex items-center gap-3 p-3.5 border border-white/5 bg-white/[0.02] rounded-lg hover:border-orange-500/20 hover:bg-white/[0.04] transition-all"
-                                        >
-                                            <div className="w-8 h-8 rounded-md bg-zinc-800/80 flex items-center justify-center group-hover:bg-orange-500/10 transition-colors flex-shrink-0">
-                                                <item.icon size={15} className="text-zinc-400 group-hover:text-orange-500 transition-colors" />
-                                            </div>
-                                            <span className="font-heading font-bold text-xs text-zinc-300 uppercase tracking-wide">{item.title}</span>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
-                        </ScrollReveal>
+                    <ScrollReveal>
+                        {/* Industry Selector - Pill Navigation */}
+                        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-12 md:mb-16">
+                            {industryShowcase.map((industry, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setActiveIndustry(i)}
+                                    className={`group relative flex items-center gap-2.5 px-4 md:px-6 py-3 md:py-3.5 rounded-full font-heading font-bold text-xs md:text-sm uppercase tracking-wide transition-all duration-300 ${
+                                        activeIndustry === i
+                                            ? 'bg-orange-500 text-black shadow-[0_0_30px_rgba(249,115,22,0.3)]'
+                                            : 'bg-white/[0.03] border border-white/10 text-zinc-400 hover:border-orange-500/30 hover:text-zinc-200 hover:bg-white/[0.05]'
+                                    }`}
+                                >
+                                    <industry.icon size={16} className={activeIndustry === i ? 'text-black' : 'text-zinc-500 group-hover:text-orange-500 transition-colors'} />
+                                    <span className="hidden sm:inline">{industry.title}</span>
+                                    <span className="sm:hidden">{industry.title.split(' ')[0]}</span>
+                                </button>
+                            ))}
+                        </div>
 
-                        {/* Integrations - Right */}
-                        <ScrollReveal delay={0.15}>
-                            <div>
-                                <h3 className="font-heading font-bold text-xl text-white uppercase tracking-wide mb-2">Integrations</h3>
-                                <p className="text-zinc-500 font-mono text-xs mb-8">Connect the tools your business already uses. Task Rig fits right into your workflow.</p>
-                                <div className="grid grid-cols-2 gap-3">
-                                    {integrations.map((item, i) => (
-                                        <motion.div
-                                            key={i}
-                                            initial={{ opacity: 0, y: 8 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: 0.15 + i * 0.05, duration: 0.4 }}
-                                            className="group flex items-center gap-3 p-3.5 border border-white/5 bg-white/[0.02] rounded-lg hover:border-orange-500/20 hover:bg-white/[0.04] transition-all"
-                                        >
-                                            <div className="w-8 h-8 rounded-md bg-zinc-800/80 flex items-center justify-center group-hover:bg-orange-500/10 transition-colors flex-shrink-0">
-                                                <item.icon size={15} className="text-zinc-400 group-hover:text-orange-500 transition-colors" />
+                        {/* Active Industry Showcase */}
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeIndustry}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -16 }}
+                                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                            >
+                                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.04] to-white/[0.01] backdrop-blur-md">
+                                    {/* Decorative glow behind the card */}
+                                    <div className="absolute -top-24 -right-24 w-64 h-64 bg-orange-500/[0.06] blur-[100px] rounded-full pointer-events-none" />
+                                    <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-orange-500/[0.04] blur-[80px] rounded-full pointer-events-none" />
+
+                                    <div className="relative grid grid-cols-1 lg:grid-cols-5 gap-0">
+                                        {/* Left: Industry Info (3 cols) */}
+                                        <div className="lg:col-span-3 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+                                            {/* Industry Icon + Title */}
+                                            <div className="flex items-center gap-4 mb-6">
+                                                <div className="w-14 h-14 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.1)]">
+                                                    {React.createElement(industryShowcase[activeIndustry].icon, { size: 26, className: 'text-orange-500' })}
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-heading font-bold text-2xl md:text-3xl text-white uppercase tracking-tight">
+                                                        {industryShowcase[activeIndustry].title}
+                                                    </h3>
+                                                    <p className="font-mono text-[11px] text-orange-500/70 uppercase tracking-wider mt-0.5">
+                                                        {industryShowcase[activeIndustry].tagline}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <span className="font-heading font-bold text-xs text-zinc-300 uppercase tracking-wide">{item.title}</span>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                                {/* Setup Steps inline */}
-                                <div className="mt-8 pt-8 border-t border-white/5">
-                                    <div className="flex items-center gap-6">
-                                        {['Create Account', 'Train AI', 'Connect', 'Go Live'].map((step, i) => (
-                                            <div key={i} className="flex items-center gap-2">
-                                                <div className="w-5 h-5 rounded-full bg-orange-500/10 flex items-center justify-center text-[9px] font-mono font-bold text-orange-500">{i + 1}</div>
-                                                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{step}</span>
-                                                {i < 3 && <ArrowRight size={10} className="text-zinc-700 ml-2" />}
+
+                                            {/* Description */}
+                                            <p className="text-zinc-400 font-mono text-sm leading-relaxed mb-8 max-w-lg">
+                                                {industryShowcase[activeIndustry].description}
+                                            </p>
+
+                                            {/* Stat Badge */}
+                                            <div className="inline-flex items-center gap-3 px-5 py-3 rounded-lg bg-orange-500/[0.08] border border-orange-500/20">
+                                                <span className="font-heading font-bold text-2xl md:text-3xl text-orange-500">
+                                                    {industryShowcase[activeIndustry].stat.value}
+                                                </span>
+                                                <span className="font-mono text-xs text-zinc-400 uppercase tracking-wider">
+                                                    {industryShowcase[activeIndustry].stat.label}
+                                                </span>
                                             </div>
-                                        ))}
+                                        </div>
+
+                                        {/* Right: Connected Tools (2 cols) */}
+                                        <div className="lg:col-span-2 p-8 md:p-12 lg:p-10 bg-white/[0.02] border-t lg:border-t-0 lg:border-l border-white/5 flex flex-col justify-center">
+                                            <div className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em] mb-6">Connected Tools</div>
+                                            <div className="space-y-3">
+                                                {industryShowcase[activeIndustry].tools.map((tool, i) => (
+                                                    <motion.div
+                                                        key={`${activeIndustry}-${i}`}
+                                                        initial={{ opacity: 0, x: 16 }}
+                                                        animate={{ opacity: 1, x: 0 }}
+                                                        transition={{ delay: 0.1 + i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                                                        className="group flex items-center gap-4 p-4 rounded-xl bg-white/[0.03] border border-white/5 hover:border-orange-500/20 hover:bg-white/[0.06] transition-all duration-300"
+                                                    >
+                                                        <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors flex-shrink-0">
+                                                            <tool.icon size={18} className="text-orange-500" />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <span className="font-heading font-bold text-sm text-zinc-200 uppercase tracking-wide">{tool.name}</span>
+                                                        </div>
+                                                        <div className="w-2 h-2 rounded-full bg-emerald-500/60" />
+                                                    </motion.div>
+                                                ))}
+                                            </div>
+
+                                            {/* Setup Steps */}
+                                            <div className="mt-8 pt-6 border-t border-white/5">
+                                                <div className="flex items-center justify-between">
+                                                    {['Connect', 'Train', 'Launch'].map((step, i) => (
+                                                        <React.Fragment key={i}>
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="w-6 h-6 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-[9px] font-mono font-bold text-orange-500">
+                                                                    {i + 1}
+                                                                </div>
+                                                                <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{step}</span>
+                                                            </div>
+                                                            {i < 2 && (
+                                                                <div className="flex-1 mx-2 h-px bg-gradient-to-r from-orange-500/20 to-transparent" />
+                                                            )}
+                                                        </React.Fragment>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </ScrollReveal>
-                    </div>
+                            </motion.div>
+                        </AnimatePresence>
+                    </ScrollReveal>
                 </div>
             </section>
 
