@@ -426,9 +426,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                     {/* Company ticker strip */}
                     <ScrollReveal delay={0.15}>
-                        <div className="border-t border-zinc-800 px-4 md:px-6 py-3 flex items-center gap-4 overflow-hidden">
+                        <div className="border-t border-zinc-800 px-4 md:px-6 py-3 flex items-center gap-4">
                             <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.3em] flex-shrink-0 border-r border-zinc-800 pr-4">Clients</span>
-                            <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+                            <div className="flex-1 flex items-center justify-between">
                                 {['APEX PLUMBING', 'IRONCLAD HVAC', 'SUMMIT LEGAL', 'KEYSTONE PROP.', 'TRIDENT AUTO', 'BRIGHTPATH DENTAL', 'FORGE CONST.', 'VERTEX REALTY'].map((name, i) => (
                                     <motion.span
                                         key={i}
@@ -436,9 +436,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         whileInView={{ opacity: 1 }}
                                         viewport={{ once: true }}
                                         transition={{ duration: 0.3, delay: 0.25 + i * 0.04 }}
-                                        className="font-mono text-[10px] text-zinc-500 tracking-wider flex-shrink-0 whitespace-nowrap"
+                                        className="font-mono text-[10px] text-zinc-500 tracking-wider whitespace-nowrap"
                                     >
-                                        {name}{i < 7 && <span className="text-zinc-700 mx-2">/</span>}
+                                        {name}
                                     </motion.span>
                                 ))}
                             </div>
