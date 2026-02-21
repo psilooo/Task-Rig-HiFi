@@ -386,65 +386,89 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                SECTION 2: FEATURES + HOW IT WORKS (Interactive Tabs)
+                SECTION 2+3: PRODUCT SHOWCASE — Features & Live Demo
+                Unified two-panel layout with shared visual container
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-6 relative z-10">
-                {/* Background accent */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
+            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10" ref={chatRef}>
+                {/* Ambient glow effects */}
+                <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/[0.03] blur-[180px] rounded-full pointer-events-none" />
+                <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-14 md:mb-18">
+                    {/* Unified header */}
+                    <div className="text-center mb-12 md:mb-16">
                         <ScrollReveal>
-                            <SectionBadge text="How It Works" />
+                            <SectionBadge text="Product Showcase" />
                             <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
-                                Smarter Than<br className="hidden md:block" /> a Chatbot
+                                Smarter Than a Chatbot.<br className="hidden md:block" />
+                                <span className="text-orange-500">See It Live.</span>
                             </h2>
-                            <p className="mt-5 text-zinc-400 font-mono text-sm max-w-lg mx-auto leading-relaxed">
-                                Task Rig doesn't just answer questions. It understands context, takes action, and learns your business.
+                            <p className="mt-5 text-zinc-400 font-mono text-sm max-w-2xl mx-auto leading-relaxed">
+                                Task Rig doesn't just answer questions — it understands context, takes action, and learns your business. Watch it handle a real customer booking in real-time.
                             </p>
                         </ScrollReveal>
                     </div>
 
-                    {/* Tabbed Feature Explorer */}
+                    {/* Shared visual container */}
                     <ScrollReveal>
-                        <div className="flex flex-col items-center">
-                            {/* Tab Buttons - Centered Row */}
-                            <div className="flex flex-wrap justify-center gap-2 mb-10 overflow-x-auto pb-2 w-full">
-                                {featureTabs.map((tab, i) => (
-                                    <button
-                                        key={i}
-                                        onClick={() => setActiveFeature(i)}
-                                        className={`flex items-center gap-3 px-5 py-4 rounded-lg text-left transition-all duration-300 whitespace-nowrap flex-shrink-0 ${activeFeature === i
-                                            ? 'bg-orange-500/10 border border-orange-500/30 shadow-[0_0_20px_rgba(255,106,21,0.06)]'
-                                            : 'bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04]'
-                                            }`}
-                                    >
-                                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${activeFeature === i ? 'bg-orange-500/20' : 'bg-zinc-800/60'}`}>
-                                            <tab.icon size={18} className={activeFeature === i ? 'text-orange-500' : 'text-zinc-500'} />
-                                        </div>
-                                        <div>
-                                            <div className={`font-heading font-bold text-sm uppercase tracking-wide transition-colors ${activeFeature === i ? 'text-white' : 'text-zinc-400'}`}>{tab.label}</div>
-                                            <div className="text-[11px] font-mono text-zinc-600 hidden md:block mt-0.5">{tab.title}</div>
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
+                        <div className="relative border border-white/[0.07] rounded-2xl bg-gradient-to-br from-white/[0.03] via-zinc-950/80 to-white/[0.02] backdrop-blur-sm overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.4)]">
+                            {/* Inner glow accent along top edge */}
+                            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
 
-                            {/* Active Feature Content - Centered Below */}
-                            <div className="w-full max-w-4xl">
-                                <AnimatePresence mode="wait">
-                                    <motion.div
-                                        key={activeFeature}
-                                        initial={{ opacity: 0, y: 12 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -12 }}
-                                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                                    >
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                                            <div className="text-center md:text-left">
-                                                <h3 className="font-heading font-bold text-2xl md:text-3xl text-white uppercase tracking-tight mb-4">{featureTabs[activeFeature].title}</h3>
-                                                <p className="text-zinc-400 font-mono text-sm leading-relaxed mb-6">{featureTabs[activeFeature].desc}</p>
-                                                <div className="flex items-center justify-center md:justify-start gap-4">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[600px]">
+
+                                {/* ── LEFT PANEL: Features ── */}
+                                <div className="lg:col-span-5 p-6 md:p-8 lg:p-10 flex flex-col">
+                                    {/* Panel label */}
+                                    <div className="flex items-center gap-2 mb-6">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                                        <span className="font-mono text-orange-500 text-[10px] uppercase tracking-[0.2em]">How It Works</span>
+                                    </div>
+
+                                    {/* Vertical Tab Buttons */}
+                                    <div className="flex flex-row lg:flex-col gap-2 mb-6 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
+                                        {featureTabs.map((tab, i) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => setActiveFeature(i)}
+                                                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-300 whitespace-nowrap flex-shrink-0 ${activeFeature === i
+                                                    ? 'bg-orange-500/10 border border-orange-500/30 shadow-[0_0_20px_rgba(255,106,21,0.06)]'
+                                                    : 'bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04]'
+                                                    }`}
+                                            >
+                                                <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${activeFeature === i ? 'bg-orange-500/20' : 'bg-zinc-800/60'}`}>
+                                                    <tab.icon size={16} className={activeFeature === i ? 'text-orange-500' : 'text-zinc-500'} />
+                                                </div>
+                                                <div>
+                                                    <div className={`font-heading font-bold text-sm uppercase tracking-wide transition-colors ${activeFeature === i ? 'text-white' : 'text-zinc-400'}`}>{tab.label}</div>
+                                                    <div className="text-[11px] font-mono text-zinc-600 hidden lg:block mt-0.5">{tab.title}</div>
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    {/* Active Feature Detail */}
+                                    <div className="flex-1 flex flex-col">
+                                        <AnimatePresence mode="wait">
+                                            <motion.div
+                                                key={activeFeature}
+                                                initial={{ opacity: 0, y: 12 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: -12 }}
+                                                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                                className="flex-1 flex flex-col"
+                                            >
+                                                <h3 className="font-heading font-bold text-xl md:text-2xl text-white uppercase tracking-tight mb-3">{featureTabs[activeFeature].title}</h3>
+                                                <p className="text-zinc-400 font-mono text-sm leading-relaxed mb-5">{featureTabs[activeFeature].desc}</p>
+
+                                                {/* Visual preview */}
+                                                <div className="p-1 border border-white/5 rounded-lg bg-zinc-900/50 mb-5">
+                                                    <div className="p-4">
+                                                        {featureTabs[activeFeature].visual}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex items-center gap-4 mt-auto">
                                                     <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
                                                         <Sparkles size={12} className="text-orange-500" />
                                                         <span>AI-Powered</span>
@@ -454,83 +478,82 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                                         <span>Multi-Channel</span>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="p-1 border border-white/5 rounded-lg bg-zinc-900/50">
-                                                <div className="p-5">
-                                                    {featureTabs[activeFeature].visual}
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div>
+                                </div>
+
+                                {/* ── VERTICAL DIVIDER (desktop) ── */}
+                                <div className="hidden lg:flex lg:col-span-2 items-center justify-center relative">
+                                    {/* Gradient line */}
+                                    <div className="w-px h-[80%] bg-gradient-to-b from-transparent via-orange-500/20 to-transparent" />
+                                    {/* Center connector dot */}
+                                    <div className="absolute top-1/2 -translate-y-1/2 w-10 h-10 rounded-full border border-orange-500/20 bg-zinc-950 flex items-center justify-center shadow-[0_0_20px_rgba(255,106,21,0.1)]">
+                                        <ArrowRight size={14} className="text-orange-500" />
+                                    </div>
+                                </div>
+
+                                {/* ── HORIZONTAL DIVIDER (mobile) ── */}
+                                <div className="lg:hidden flex items-center justify-center py-4 px-6">
+                                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
+                                    <div className="mx-4 w-8 h-8 rounded-full border border-orange-500/20 bg-zinc-950 flex items-center justify-center shadow-[0_0_15px_rgba(255,106,21,0.1)]">
+                                        <ChevronDown size={12} className="text-orange-500" />
+                                    </div>
+                                    <div className="h-px flex-1 bg-gradient-to-r from-orange-500/20 via-transparent to-transparent" />
+                                </div>
+
+                                {/* ── RIGHT PANEL: Live Chat Demo ── */}
+                                <div className="lg:col-span-5 p-6 md:p-8 lg:p-10 flex flex-col">
+                                    {/* Panel label */}
+                                    <div className="flex items-center gap-2 mb-6">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                                        <span className="font-mono text-orange-500 text-[10px] uppercase tracking-[0.2em]">See It In Action</span>
+                                    </div>
+
+                                    {/* Chat window */}
+                                    <div className="flex-1 flex flex-col border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.3)]">
+                                        {/* Title bar */}
+                                        <div className="px-5 py-3 border-b border-white/5 flex items-center justify-between bg-zinc-900/40">
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex gap-1.5">
+                                                    <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+                                                    <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+                                                    <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
                                                 </div>
+                                                <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider ml-2">Live Chat — Booking</span>
+                                            </div>
+                                            <div className="flex items-center gap-1.5">
+                                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                                <span className="text-[9px] font-mono text-emerald-500/70 uppercase tracking-wider">Online</span>
                                             </div>
                                         </div>
-                                    </motion.div>
-                                </AnimatePresence>
-                            </div>
-                        </div>
-                    </ScrollReveal>
-                </div>
-            </section>
-
-
-            {/* ════════════════════════════════════════════════════════════════
-                SECTION 3: LIVE DEMO - Animated Chat (Full-Width Star Section)
-            ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-6 relative z-10" ref={chatRef}>
-                {/* Radial gradient background */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_50%,rgba(255,106,21,0.04),transparent)] pointer-events-none" />
-
-                <div className="max-w-5xl mx-auto">
-                    <div className="text-center mb-16">
-                        <ScrollReveal>
-                            <SectionBadge text="See It In Action" />
-                            <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
-                                Real Conversations
-                            </h2>
-                            <p className="mt-5 text-zinc-400 font-mono text-sm max-w-md mx-auto leading-relaxed">
-                                Watch how Task Rig handles a real customer booking — from first message to confirmation.
-                            </p>
-                        </ScrollReveal>
-                    </div>
-
-                    <ScrollReveal>
-                        <div className="max-w-2xl mx-auto">
-                            {/* Chat window chrome */}
-                            <div className="border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.3)]">
-                                {/* Title bar */}
-                                <div className="px-5 py-3 border-b border-white/5 flex items-center justify-between bg-zinc-900/40">
-                                    <div className="flex items-center gap-3">
-                                        <div className="flex gap-1.5">
-                                            <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-                                            <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-                                            <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+                                        {/* Messages */}
+                                        <div className="p-5 space-y-3 flex-1 min-h-[360px]">
+                                            {chatMessages.map((msg, i) => (
+                                                <TypingBubble
+                                                    key={i}
+                                                    text={msg.text}
+                                                    sender={msg.sender}
+                                                    delay={i * 1.8}
+                                                    isInView={chatInView}
+                                                />
+                                            ))}
                                         </div>
-                                        <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider ml-2">Live Chat — Booking Request</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5">
-                                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                        <span className="text-[9px] font-mono text-emerald-500/70 uppercase tracking-wider">Online</span>
-                                    </div>
-                                </div>
-                                {/* Messages */}
-                                <div className="p-6 space-y-4 min-h-[320px]">
-                                    {chatMessages.map((msg, i) => (
-                                        <TypingBubble
-                                            key={i}
-                                            text={msg.text}
-                                            sender={msg.sender}
-                                            delay={i * 1.8}
-                                            isInView={chatInView}
-                                        />
-                                    ))}
-                                </div>
-                                {/* Input bar */}
-                                <div className="px-5 py-3 border-t border-white/5 flex items-center gap-3 bg-zinc-900/20">
-                                    <div className="flex-1 h-9 rounded-md bg-zinc-800/40 border border-white/5 flex items-center px-3">
-                                        <span className="text-zinc-600 font-mono text-xs">Type a message...</span>
-                                    </div>
-                                    <div className="w-9 h-9 rounded-md bg-orange-500/10 flex items-center justify-center">
-                                        <Send size={14} className="text-orange-500" />
+                                        {/* Input bar */}
+                                        <div className="px-5 py-3 border-t border-white/5 flex items-center gap-3 bg-zinc-900/20">
+                                            <div className="flex-1 h-9 rounded-md bg-zinc-800/40 border border-white/5 flex items-center px-3">
+                                                <span className="text-zinc-600 font-mono text-xs">Type a message...</span>
+                                            </div>
+                                            <div className="w-9 h-9 rounded-md bg-orange-500/10 flex items-center justify-center">
+                                                <Send size={14} className="text-orange-500" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Inner glow accent along bottom edge */}
+                            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
                         </div>
                     </ScrollReveal>
                 </div>
