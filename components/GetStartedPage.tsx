@@ -431,7 +431,7 @@ export const GetStartedPage: React.FC = () => {
                         </AnimatePresence>
 
                         {/* Navigation Buttons */}
-                        <div className="flex items-center justify-between mt-auto pt-8 border-t border-zinc-800/50">
+                        <div className="flex items-center justify-between mt-auto pt-8">
                             <button
                                 onClick={goBack}
                                 disabled={step === 1}
