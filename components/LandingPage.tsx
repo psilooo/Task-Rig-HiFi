@@ -38,6 +38,12 @@ const SectionBadge: React.FC<{ text: string }> = ({ text }) => (
     </div>
 );
 
+const SectionDivider: React.FC<{ flip?: boolean }> = ({ flip = false }) => (
+    <div className="relative z-10 h-px w-full">
+        <div className={`absolute inset-x-0 h-px ${flip ? 'bg-gradient-to-r from-transparent via-orange-500/20 to-transparent' : 'bg-gradient-to-r from-transparent via-white/10 to-transparent'}`} />
+    </div>
+);
+
 const GlassCard: React.FC<{ children: React.ReactNode; className?: string; hover?: boolean }> = ({ children, className = '', hover = true }) => (
     <div className={`p-6 md:p-8 border border-white/10 bg-white/[0.03] backdrop-blur-md rounded-lg transition-all duration-300 ${hover ? 'hover:border-orange-500/30 hover:shadow-[0_0_20px_rgba(255,106,21,0.08)] hover:bg-white/[0.05]' : ''} ${className}`}>
         {children}
@@ -428,7 +434,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 1: SOCIAL PROOF MARQUEE
             ════════════════════════════════════════════════════════════════ */}
-            <div className="border-b border-white/5 bg-zinc-900/30 relative z-10 overflow-hidden">
+            <div className="bg-zinc-900/30 relative z-10 overflow-hidden">
                 <div className="py-6">
                     <ScrollReveal>
                         <div className="flex items-center justify-center gap-8 mb-4">
@@ -455,15 +461,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             </div>
 
 
+            {/* Gradient divider: marquee → features */}
+            <SectionDivider />
+
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 2: FEATURES + HOW IT WORKS (Interactive Tabs)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10">
+            <section className="py-20 md:py-28 px-6 relative z-10">
                 {/* Background accent */}
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-16 md:mb-20">
+                    <div className="text-center mb-14 md:mb-16">
                         <ScrollReveal>
                             <SectionBadge text="How It Works" />
                             <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
@@ -540,17 +549,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             </section>
 
 
+            {/* Transition: features → industries */}
+            <div className="relative z-10 py-10 md:py-14">
+                <ScrollReveal>
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-px h-10 bg-gradient-to-b from-transparent to-orange-500/30" />
+                        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.25em]">See how it fits your world</span>
+                        <div className="w-px h-10 bg-gradient-to-b from-orange-500/30 to-transparent" />
+                    </div>
+                </ScrollReveal>
+            </div>
+
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 3: INDUSTRIES + INTEGRATIONS (Interactive Showcase)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10 border-y border-white/5">
+            <section className="py-20 md:py-28 px-6 relative z-10 bg-white/[0.01]">
                 {/* Background accents */}
                 <div className="absolute bottom-0 left-0 w-[600px] h-[400px] bg-orange-500/[0.015] blur-[150px] rounded-full pointer-events-none" />
                 <div className="absolute top-1/3 right-0 w-[400px] h-[400px] bg-orange-500/[0.01] blur-[120px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
                     {/* Section Header */}
-                    <div className="text-center mb-16 md:mb-20">
+                    <div className="text-center mb-14 md:mb-16">
                         <ScrollReveal>
                             <SectionBadge text="Built For You" />
                             <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
@@ -681,15 +701,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             </section>
 
 
+            {/* Transition: industries → chat demo */}
+            <div className="relative z-10 py-10 md:py-14 bg-gradient-to-b from-white/[0.01] to-transparent">
+                <ScrollReveal>
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-px h-10 bg-gradient-to-b from-transparent to-white/10" />
+                        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.25em]">But don't take our word for it</span>
+                        <div className="w-px h-10 bg-gradient-to-b from-white/10 to-transparent" />
+                    </div>
+                </ScrollReveal>
+            </div>
+
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 4: LIVE DEMO - Animated Chat (Full-Width Star Section)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10" ref={chatRef}>
+            <section className="py-20 md:py-28 px-6 relative z-10" ref={chatRef}>
                 {/* Radial gradient background */}
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_50%,rgba(255,106,21,0.04),transparent)] pointer-events-none" />
 
                 <div className="max-w-5xl mx-auto">
-                    <div className="text-center mb-16">
+                    <div className="text-center mb-14">
                         <ScrollReveal>
                             <SectionBadge text="See It In Action" />
                             <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
@@ -748,16 +779,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             </section>
 
 
+            {/* Gradient divider: chat → metrics */}
+            <SectionDivider flip />
+
+
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 5: METRICS + TESTIMONIALS (Merged)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10 border-y border-white/5">
+            <section className="py-20 md:py-28 px-6 relative z-10 bg-white/[0.015]">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-orange-500/[0.02] blur-[120px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
                     {/* Metrics Bar */}
                     <ScrollReveal>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 rounded-xl overflow-hidden mb-20 md:mb-24">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 rounded-xl overflow-hidden mb-16 md:mb-20">
                             {metrics.map((m, i) => (
                                 <div key={i} className="bg-zinc-950 p-8 md:p-10 text-center group hover:bg-white/[0.02] transition-colors">
                                     <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500/15 transition-colors">
@@ -809,10 +844,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             </section>
 
 
+            {/* Transition: testimonials → pricing */}
+            <div className="relative z-10 py-10 md:py-14 bg-gradient-to-b from-white/[0.015] to-transparent">
+                <ScrollReveal>
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="w-px h-10 bg-gradient-to-b from-transparent to-orange-500/20" />
+                        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.25em]">Ready to get started?</span>
+                        <div className="w-px h-10 bg-gradient-to-b from-orange-500/20 to-transparent" />
+                    </div>
+                </ScrollReveal>
+            </div>
+
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 6: PRICING
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10">
+            <section className="py-20 md:py-28 px-6 relative z-10">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-14">
                         <ScrollReveal>
@@ -864,10 +910,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             </section>
 
 
+            {/* Gradient divider: pricing → FAQ */}
+            <SectionDivider flip />
+
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 7: FAQ + FINAL CTA (Merged)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-28 md:py-40 px-6 relative z-10 border-t border-white/5">
+            <section className="py-20 md:py-28 px-6 relative z-10 bg-white/[0.01]">
                 <div className="max-w-3xl mx-auto">
                     {/* FAQ */}
                     <div className="text-center mb-14">
@@ -876,7 +925,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <h2 className="font-heading font-bold text-4xl md:text-5xl text-white uppercase tracking-tight">Common Questions</h2>
                         </ScrollReveal>
                     </div>
-                    <div className="space-y-3 mb-24 md:mb-32">
+                    <div className="space-y-3 mb-20 md:mb-24">
                         {faqItems.map((item, i) => (
                             <ScrollReveal key={i} delay={i * 0.04}>
                                 <div className="border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-lg overflow-hidden">
@@ -941,8 +990,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             </section>
 
 
+            {/* Gradient divider: CTA → footer */}
+            <SectionDivider />
+
             {/* Footer */}
-            <footer className="bg-zinc-950 pt-20 pb-10 px-6 border-t border-zinc-800 relative z-10">
+            <footer className="bg-zinc-950 pt-16 pb-10 px-6 relative z-10">
                 <div className="max-w-7xl mx-auto flex flex-col items-center mb-16">
                     <div className="flex items-center gap-3 mb-6">
                         <TaskRigLogo className="h-6 w-auto text-zinc-700" />
