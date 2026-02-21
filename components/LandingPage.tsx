@@ -503,19 +503,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                                         {featureTabs[activeFeature].visual}
                                                     </div>
                                                 </div>
-
-                                                <div className="flex items-center gap-4 mt-auto">
-                                                    <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
-                                                        <Sparkles size={12} className="text-orange-500" />
-                                                        <span>AI-Powered</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
-                                                        <Layers size={12} className="text-orange-500" />
-                                                        <span>Multi-Channel</span>
-                                                    </div>
-                                                </div>
                                             </motion.div>
                                         </AnimatePresence>
+
+                                        {/* Static badges — same across all tabs, so kept outside AnimatePresence */}
+                                        <div className="flex items-center gap-4 mt-auto">
+                                            <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
+                                                <Sparkles size={12} className="text-orange-500" />
+                                                <span>AI-Powered</span>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
+                                                <Layers size={12} className="text-orange-500" />
+                                                <span>Multi-Channel</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
