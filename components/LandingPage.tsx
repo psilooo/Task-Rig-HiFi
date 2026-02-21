@@ -388,11 +388,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 2: FEATURES + HOW IT WORKS (Interactive Tabs)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 pb-12 md:pb-16 px-6 relative z-10">
+            <section className="py-24 md:py-32 px-6 relative z-10">
                 {/* Background accent */}
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
 
-                <div className="max-w-7xl mr-auto ml-auto md:mr-auto md:ml-[2%] lg:ml-[4%]">
+                <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-14 md:mb-18">
                         <ScrollReveal>
                             <SectionBadge text="How It Works" />
@@ -473,11 +473,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 3: LIVE DEMO - Animated Chat (Full-Width Star Section)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="pt-12 md:pt-16 pb-24 md:pb-32 px-6 relative z-10" ref={chatRef}>
+            <section className="py-24 md:py-32 px-6 relative z-10" ref={chatRef}>
                 {/* Radial gradient background */}
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_50%,rgba(255,106,21,0.04),transparent)] pointer-events-none" />
 
-                <div className="max-w-5xl ml-auto mr-auto md:ml-auto md:mr-[2%] lg:mr-[4%]">
+                <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-16">
                         <ScrollReveal>
                             <SectionBadge text="See It In Action" />
