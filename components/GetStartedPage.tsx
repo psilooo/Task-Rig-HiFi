@@ -92,7 +92,7 @@ export const GetStartedPage: React.FC = () => {
 
     if (submitted) {
         return (
-            <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-hidden selection:bg-orange-500/30 flex flex-col">
+            <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30 flex flex-col">
                 <div className="fixed inset-0 pointer-events-none z-0">
                     <DynamicNoise opacity={0.06} />
                 </div>
@@ -138,7 +138,7 @@ export const GetStartedPage: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-hidden selection:bg-orange-500/30 flex flex-col">
+        <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30 flex flex-col">
             {/* Background */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <DynamicNoise opacity={0.06} />

@@ -318,7 +318,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
     ];
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-hidden selection:bg-orange-500/30">
+        <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
             {/* Fixed Background Grid */}
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
 
@@ -624,7 +624,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 4: TESTIMONIALS — Immersive Stacked Cards
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 overflow-hidden">
+            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 overflow-clip">
                 {/* Ambient background effects */}
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                     <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-orange-500/[0.03] blur-[150px] rounded-full" />
@@ -811,7 +811,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 6: FAQ — Terminal-Style Knowledge Base
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 border-t border-white/5 overflow-hidden">
+            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 border-t border-white/5 overflow-clip">
                 {/* Ambient effects */}
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-500/[0.02] blur-[180px] rounded-full pointer-events-none" />
 
