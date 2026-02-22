@@ -1161,6 +1161,14 @@ export const GetStartedPage: React.FC = () => {
                                     </button>
                                 )}
                             </div>
+
+                            {/* Fine print */}
+                            <p className="text-center font-mono text-[10px] text-zinc-600/50 leading-relaxed mt-4 px-2">
+                                By submitting, you agree to receive SMS updates from TaskRig. Msg &amp; data rates may apply. Reply STOP anytime.{' '}
+                                <Link to="/privacy-policy" className="text-zinc-500/60 hover:text-zinc-400 underline underline-offset-2 transition-colors">
+                                    Privacy Policy
+                                </Link>
+                            </p>
                         </div>
                     </div>
 
