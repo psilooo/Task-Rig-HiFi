@@ -22,7 +22,7 @@ interface LeadData {
     businessRating: number | null;
     businessPlaceId: string;
     // Step 2: Industry & Services
-    industry: string;
+    industries: string[];
     customIndustry: string;
     services: string[];
     // Step 3: Pain Points & Needs
@@ -66,10 +66,10 @@ const TOTAL_STEPS = 5;
 
 const STEP_META = [
     { label: 'Business', tag: '/// Identify', icon: Building2 },
-    { label: 'Industry', tag: '/// Classify', icon: Briefcase },
-    { label: 'Challenges', tag: '/// Diagnose', icon: Zap },
-    { label: 'Scale', tag: '/// Calibrate', icon: BarChart3 },
-    { label: 'Connect', tag: '', icon: Send },
+    { label: 'Industry', tag: '/// Industry', icon: Briefcase },
+    { label: 'Challenges', tag: '/// Challenges', icon: Zap },
+    { label: 'Scale', tag: '/// Scale', icon: BarChart3 },
+    { label: 'Connect', tag: '/// Get in touch', icon: Send },
 ];
 
 const INDUSTRIES = [
@@ -89,6 +89,9 @@ const INDUSTRIES = [
     { id: 'restaurant', label: 'Restaurant', icon: UtensilsCrossed },
     { id: 'salon-spa', label: 'Salon & Spa', icon: Scissors },
     { id: 'logistics', label: 'Logistics', icon: Truck },
+    { id: 'pest-control', label: 'Pest Control', icon: Shield },
+    { id: 'general-contracting', label: 'General Contractor', icon: FileText },
+    { id: 'moving', label: 'Moving & Hauling', icon: Truck },
     { id: 'other', label: 'Other', icon: Cog },
 ];
 
@@ -143,6 +146,9 @@ const INDUSTRY_SERVICES: Record<string, string[]> = {
     'restaurant': ['Dine-In', 'Takeout', 'Catering', 'Delivery', 'Events', 'Reservations'],
     'salon-spa': ['Haircut', 'Color', 'Massage', 'Facial', 'Nails', 'Waxing'],
     'logistics': ['Last Mile', 'Freight', 'Warehousing', 'Fleet Mgmt', 'Route Planning', 'Tracking'],
+    'pest-control': ['Termites', 'Rodents', 'Mosquitoes', 'Bed Bugs', 'Wildlife Removal', 'Quarterly Plans'],
+    'general-contracting': ['New Builds', 'Remodels', 'Additions', 'Permit Management', 'Sub Coordination', 'Inspections'],
+    'moving': ['Local Moves', 'Long Distance', 'Packing', 'Storage', 'Junk Removal', 'Commercial'],
 };
 
 // ─── ANIMATIONS ───────────────────────────────────────────────────
@@ -289,6 +295,9 @@ const InsightCard: React.FC<{ industry: string }> = ({ industry }) => {
         'legal': { stat: '48%', label: 'of legal intake calls go unanswered', tip: 'AI screens and qualifies leads before your team sees them.' },
         'real-estate': { stat: '62%', label: 'of real estate leads expect a response within 5 min', tip: 'Instant AI response captures leads competitors miss.' },
         'auto-repair': { stat: '41%', label: 'of auto repair shops rely solely on phone bookings', tip: 'Multi-channel booking catches every customer.' },
+        'pest-control': { stat: '58%', label: 'of pest control leads call during active infestations', tip: 'Instant AI response books the emergency visit before they call a competitor.' },
+        'general-contracting': { stat: '46%', label: 'of GCs lose bids due to slow follow-up', tip: 'Automated estimates and scheduling keep you first in line.' },
+        'moving': { stat: '64%', label: 'of movers book with the first company that answers', tip: 'AI answers instantly and books the quote — even at midnight.' },
     };
 
     const data = insights[industry] || { stat: '73%', label: 'of service businesses lose leads to slow response', tip: 'TaskRig responds in under 30 seconds, 24/7.' };
@@ -386,7 +395,7 @@ export const GetStartedPage: React.FC = () => {
         businessCategory: '',
         businessRating: null,
         businessPlaceId: '',
-        industry: '',
+        industries: [],
         customIndustry: '',
         services: [],
         painPoints: [],
@@ -585,7 +594,7 @@ export const GetStartedPage: React.FC = () => {
     const canAdvance = (): boolean => {
         switch (step) {
             case 1: return data.businessName.trim() !== '';
-            case 2: return data.industry !== '';
+            case 2: return data.industries.length > 0;
             case 3: return data.painPoints.length > 0;
             case 4: return data.teamSize !== '';
             case 5: return data.contactName.trim() !== '' && data.contactEmail.trim() !== '' && data.contactPhone.trim() !== '';
@@ -664,8 +673,8 @@ export const GetStartedPage: React.FC = () => {
                                 {data.businessName && (
                                     <div className="flex justify-between"><span className="text-zinc-500">Business</span><span className="text-zinc-300">{data.businessName}</span></div>
                                 )}
-                                {data.industry && (
-                                    <div className="flex justify-between"><span className="text-zinc-500">Industry</span><span className="text-zinc-300">{INDUSTRIES.find(i => i.id === data.industry)?.label || data.customIndustry}</span></div>
+                                {data.industries.length > 0 && (
+                                    <div className="flex justify-between"><span className="text-zinc-500">Industry</span><span className="text-zinc-300">{data.industries.map(id => INDUSTRIES.find(i => i.id === id)?.label || data.customIndustry).join(', ')}</span></div>
                                 )}
                                 {data.teamSize && (
                                     <div className="flex justify-between"><span className="text-zinc-500">Team Size</span><span className="text-zinc-300">{data.teamSize}</span></div>
@@ -916,12 +925,19 @@ export const GetStartedPage: React.FC = () => {
                                         <motion.div variants={staggerChildren} initial="hidden" animate="show" className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 mb-6">
                                             {INDUSTRIES.map((ind) => {
                                                 const Icon = ind.icon;
-                                                const isSelected = data.industry === ind.id;
+                                                const isSelected = data.industries.includes(ind.id);
                                                 return (
                                                     <motion.button
                                                         key={ind.id}
                                                         variants={fadeInUp}
-                                                        onClick={() => update({ industry: ind.id, services: [], customIndustry: '' })}
+                                                        onClick={() => {
+                                                            const current = data.industries;
+                                                            if (current.includes(ind.id)) {
+                                                                update({ industries: current.filter(id => id !== ind.id) });
+                                                            } else {
+                                                                update({ industries: [...current, ind.id] });
+                                                            }
+                                                        }}
                                                         className={`relative flex flex-col items-center justify-center gap-2 p-3 rounded-lg border transition-all duration-200 aspect-square ${
                                                             isSelected
                                                                 ? 'border-orange-500/50 bg-orange-500/[0.08] shadow-[0_0_12px_rgba(249,115,22,0.1)]'
@@ -947,39 +963,78 @@ export const GetStartedPage: React.FC = () => {
                                         </motion.div>
 
                                         <AnimatePresence>
-                                            {data.industry === 'other' && (
-                                                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden mb-6">
-                                                    <InputField label="Your Industry" value={data.customIndustry} onChange={(v) => update({ customIndustry: v })} placeholder="e.g., Pool Cleaning, Pest Control..." required />
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-
-                                        <AnimatePresence>
-                                            {data.industry && data.industry !== 'other' && INDUSTRY_SERVICES[data.industry] && (
-                                                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}>
-                                                    <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">
-                                                        Services You Offer <span className="text-zinc-700">(optional)</span>
-                                                    </label>
-                                                    <div className="flex flex-wrap gap-2">
-                                                        {INDUSTRY_SERVICES[data.industry].map((service) => (
-                                                            <button
-                                                                key={service}
-                                                                onClick={() => toggleArrayItem('services', service)}
-                                                                className={`px-3 py-1.5 font-mono text-[11px] border transition-all rounded-md ${
-                                                                    data.services.includes(service)
-                                                                        ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
-                                                                        : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                                }`}
-                                                            >
-                                                                {service}
-                                                            </button>
-                                                        ))}
+                                            {data.industries.includes('other') && (
+                                                <motion.div
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{ height: 'auto', opacity: 1 }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                                                    className="overflow-hidden mb-6"
+                                                >
+                                                    <div className="pt-2">
+                                                        <InputField label="Your Industry" value={data.customIndustry} onChange={(v) => update({ customIndustry: v })} placeholder="e.g., Pool Cleaning, Window Tinting..." required />
                                                     </div>
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>
 
-                                        {data.industry && data.industry !== 'other' && <InsightCard industry={data.industry} />}
+                                        <AnimatePresence>
+                                            {(() => {
+                                                const nonOtherIndustries = data.industries.filter(id => id !== 'other');
+                                                const allServices = [...new Set(nonOtherIndustries.flatMap(id => INDUSTRY_SERVICES[id] || []))];
+                                                if (allServices.length === 0) return null;
+                                                return (
+                                                    <motion.div
+                                                        key="services"
+                                                        initial={{ height: 0, opacity: 0 }}
+                                                        animate={{ height: 'auto', opacity: 1 }}
+                                                        exit={{ height: 0, opacity: 0 }}
+                                                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                                                        className="overflow-hidden"
+                                                    >
+                                                        <div className="pt-2 pb-2">
+                                                            <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">
+                                                                Services You Offer <span className="text-zinc-700">(optional)</span>
+                                                            </label>
+                                                            <div className="flex flex-wrap gap-2">
+                                                                {allServices.map((service) => (
+                                                                    <button
+                                                                        key={service}
+                                                                        onClick={() => toggleArrayItem('services', service)}
+                                                                        className={`px-3 py-1.5 font-mono text-[11px] border transition-all duration-200 rounded-md ${
+                                                                            data.services.includes(service)
+                                                                                ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
+                                                                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                                                        }`}
+                                                                    >
+                                                                        {service}
+                                                                    </button>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </motion.div>
+                                                );
+                                            })()}
+                                        </AnimatePresence>
+
+                                        <AnimatePresence>
+                                            {(() => {
+                                                const firstInsightIndustry = data.industries.find(id => id !== 'other');
+                                                if (!firstInsightIndustry) return null;
+                                                return (
+                                                    <motion.div
+                                                        key="insight-wrap"
+                                                        initial={{ height: 0, opacity: 0 }}
+                                                        animate={{ height: 'auto', opacity: 1 }}
+                                                        exit={{ height: 0, opacity: 0 }}
+                                                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                                        className="overflow-hidden"
+                                                    >
+                                                        <InsightCard key={firstInsightIndustry} industry={firstInsightIndustry} />
+                                                    </motion.div>
+                                                );
+                                            })()}
+                                        </AnimatePresence>
                                     </motion.div>
                                 )}
 
@@ -1000,74 +1055,151 @@ export const GetStartedPage: React.FC = () => {
 
                                 {/* STEP 4: Team & Scale */}
                                 {step === 4 && (
-                                    <motion.div key="step4" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col items-center text-center">
+                                    <motion.div key="step4" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
                                         <StepLabel tag={STEP_META[3].tag} title="How big is your operation?" subtitle="This helps us size your deployment and recommend the right plan." />
 
-                                        <div className="space-y-6 w-full">
-                                            <div>
-                                                <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Team Size <span className="text-orange-500/60">*</span></label>
-                                                <div className="flex flex-wrap justify-center gap-2">
+                                        <motion.div variants={staggerChildren} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            {/* Team Size */}
+                                            <motion.div variants={fadeInUp} className="p-4 border border-zinc-800/60 bg-zinc-900/20 rounded-lg">
+                                                <div className="flex items-center gap-2 mb-4">
+                                                    <div className="w-6 h-6 rounded bg-orange-500/10 flex items-center justify-center">
+                                                        <Users size={12} className="text-orange-500" />
+                                                    </div>
+                                                    <label className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
+                                                        Team Size <span className="text-orange-500/60">*</span>
+                                                    </label>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1.5">
                                                     {TEAM_SIZES.map((size) => (
-                                                        <button key={size} onClick={() => update({ teamSize: size })} className={`px-4 py-2.5 font-mono text-xs uppercase tracking-widest border transition-all rounded-md ${data.teamSize === size ? 'border-orange-500/50 bg-orange-500/10 text-orange-400 shadow-[0_0_10px_rgba(249,115,22,0.1)]' : 'border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300'}`}>
+                                                        <button
+                                                            key={size}
+                                                            onClick={() => update({ teamSize: size })}
+                                                            className={`px-3 py-2 font-mono text-[11px] uppercase tracking-wider border transition-all duration-200 rounded-md ${
+                                                                data.teamSize === size
+                                                                    ? 'border-orange-500/50 bg-orange-500/10 text-orange-400 shadow-[0_0_8px_rgba(249,115,22,0.08)]'
+                                                                    : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                                            }`}
+                                                        >
                                                             {size}
                                                         </button>
                                                     ))}
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Monthly Call / Inquiry Volume</label>
-                                                <div className="flex flex-wrap justify-center gap-2">
+                                            </motion.div>
+
+                                            {/* Call Volume */}
+                                            <motion.div variants={fadeInUp} className="p-4 border border-zinc-800/60 bg-zinc-900/20 rounded-lg">
+                                                <div className="flex items-center gap-2 mb-4">
+                                                    <div className="w-6 h-6 rounded bg-orange-500/10 flex items-center justify-center">
+                                                        <Phone size={12} className="text-orange-500" />
+                                                    </div>
+                                                    <label className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
+                                                        Monthly Calls / Inquiries
+                                                    </label>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1.5">
                                                     {CALL_VOLUMES.map((vol) => (
-                                                        <button key={vol} onClick={() => update({ monthlyCallVolume: vol })} className={`px-3 py-2 font-mono text-[11px] border transition-all rounded-md ${data.monthlyCallVolume === vol ? 'border-orange-500/50 bg-orange-500/10 text-orange-400' : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'}`}>
+                                                        <button
+                                                            key={vol}
+                                                            onClick={() => update({ monthlyCallVolume: vol })}
+                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${
+                                                                data.monthlyCallVolume === vol
+                                                                    ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
+                                                                    : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                                            }`}
+                                                        >
                                                             {vol}
                                                         </button>
                                                     ))}
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Monthly New Leads</label>
-                                                <div className="flex flex-wrap justify-center gap-2">
+                                            </motion.div>
+
+                                            {/* Lead Volume */}
+                                            <motion.div variants={fadeInUp} className="p-4 border border-zinc-800/60 bg-zinc-900/20 rounded-lg">
+                                                <div className="flex items-center gap-2 mb-4">
+                                                    <div className="w-6 h-6 rounded bg-orange-500/10 flex items-center justify-center">
+                                                        <BarChart3 size={12} className="text-orange-500" />
+                                                    </div>
+                                                    <label className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
+                                                        Monthly New Leads
+                                                    </label>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1.5">
                                                     {LEAD_VOLUMES.map((vol) => (
-                                                        <button key={vol} onClick={() => update({ monthlyLeadVolume: vol })} className={`px-3 py-2 font-mono text-[11px] border transition-all rounded-md ${data.monthlyLeadVolume === vol ? 'border-orange-500/50 bg-orange-500/10 text-orange-400' : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'}`}>
+                                                        <button
+                                                            key={vol}
+                                                            onClick={() => update({ monthlyLeadVolume: vol })}
+                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${
+                                                                data.monthlyLeadVolume === vol
+                                                                    ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
+                                                                    : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                                            }`}
+                                                        >
                                                             {vol}
                                                         </button>
                                                     ))}
                                                 </div>
-                                            </div>
-                                            <div>
-                                                <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Operating Hours</label>
-                                                <div className="flex flex-wrap justify-center gap-2">
+                                            </motion.div>
+
+                                            {/* Operating Hours */}
+                                            <motion.div variants={fadeInUp} className="p-4 border border-zinc-800/60 bg-zinc-900/20 rounded-lg">
+                                                <div className="flex items-center gap-2 mb-4">
+                                                    <div className="w-6 h-6 rounded bg-orange-500/10 flex items-center justify-center">
+                                                        <Clock size={12} className="text-orange-500" />
+                                                    </div>
+                                                    <label className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
+                                                        Operating Hours
+                                                    </label>
+                                                </div>
+                                                <div className="flex flex-wrap gap-1.5">
                                                     {HOURS.map((hr) => (
-                                                        <button key={hr} onClick={() => update({ operatingHours: hr })} className={`px-3 py-2 font-mono text-[11px] border transition-all rounded-md ${data.operatingHours === hr ? 'border-orange-500/50 bg-orange-500/10 text-orange-400' : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'}`}>
+                                                        <button
+                                                            key={hr}
+                                                            onClick={() => update({ operatingHours: hr })}
+                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${
+                                                                data.operatingHours === hr
+                                                                    ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
+                                                                    : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                                            }`}
+                                                        >
                                                             {hr}
                                                         </button>
                                                     ))}
                                                 </div>
-                                            </div>
-                                        </div>
-
-                                        {data.teamSize && (
-                                            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mt-6 p-4 border border-zinc-800/60 bg-zinc-900/30 rounded-lg">
-                                                <div className="flex items-center gap-2 mb-2">
-                                                    <Bot size={12} className="text-orange-500" />
-                                                    <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-[0.2em]">Recommended Config</span>
-                                                </div>
-                                                <p className="font-mono text-xs text-zinc-400 leading-relaxed">
-                                                    {data.teamSize === 'Solo' || data.teamSize === '2-5'
-                                                        ? 'For teams your size, most operators start with 1 AI Agent covering calls, SMS, and email. Average setup time: 15 minutes.'
-                                                        : data.teamSize === '6-15'
-                                                        ? 'Teams of 6-15 typically deploy 2-3 AI Agents with CRM sync and calendar integration. We\'ll configure smart routing to your team.'
-                                                        : 'Enterprise-scale deployments get dedicated AI Agents per department with custom training. Your specialist will design the optimal architecture.'}
-                                                </p>
                                             </motion.div>
-                                        )}
+                                        </motion.div>
+
+                                        <AnimatePresence>
+                                            {data.teamSize && (
+                                                <motion.div
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{ height: 'auto', opacity: 1 }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                                                    className="overflow-hidden"
+                                                >
+                                                    <div className="mt-4 p-4 border border-zinc-800/60 bg-zinc-900/30 rounded-lg">
+                                                        <div className="flex items-center gap-2 mb-2">
+                                                            <Bot size={12} className="text-orange-500" />
+                                                            <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-[0.2em]">Recommended Config</span>
+                                                        </div>
+                                                        <p className="font-mono text-xs text-zinc-400 leading-relaxed">
+                                                            {data.teamSize === 'Solo' || data.teamSize === '2-5'
+                                                                ? 'For teams your size, most operators start with 1 AI Agent covering calls, SMS, and email. Average setup time: 15 minutes.'
+                                                                : data.teamSize === '6-15'
+                                                                ? 'Teams of 6-15 typically deploy 2-3 AI Agents with CRM sync and calendar integration. We\'ll configure smart routing to your team.'
+                                                                : 'Enterprise-scale deployments get dedicated AI Agents per department with custom training. Your specialist will design the optimal architecture.'}
+                                                        </p>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </motion.div>
                                 )}
 
                                 {/* STEP 5: Contact Info */}
                                 {step === 5 && (
                                     <motion.div key="step5" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
-                                        <StepLabel tag={STEP_META[4].tag} title="Connect" subtitle="Get in touch" />
+                                        <StepLabel tag={STEP_META[4].tag} title="Connect" subtitle="We'll build your custom TaskRig deployment and reach out within 24 hours." />
 
                                         <div className="space-y-4">
                                             <InputField label="Full Name" value={data.contactName} onChange={(v) => update({ contactName: v })} placeholder="Jane Doe" required icon={User} />
