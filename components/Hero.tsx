@@ -68,7 +68,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
 
             {/* Main Content Container */}
-            <div className="flex-1 flex items-center justify-center relative z-20 w-full max-w-7xl mx-auto px-4 md:px-8 py-12">
+            <div className="flex-1 flex items-start pt-4 md:items-center justify-center relative z-20 w-full max-w-7xl mx-auto px-4 md:px-8 py-12">
 
                 <div className="w-full relative z-20 flex justify-center">
 
@@ -76,7 +76,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                     <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0">
 
                         {/* Mobile gear — above text, in flow */}
-                        <div className="md:hidden flex items-center justify-center mix-blend-screen opacity-80 scale-[0.7] -mb-8">
+                        <div className="md:hidden flex items-center justify-center mix-blend-screen opacity-80 scale-[0.7] -mb-14">
                             <DotMatrixLogo />
                         </div>
 

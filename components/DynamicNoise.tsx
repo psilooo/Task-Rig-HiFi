@@ -11,10 +11,6 @@ export const DynamicNoise: React.FC<DynamicNoiseProps> = ({ opacity = 0.1 }) => 
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        // Skip animation entirely on mobile for scroll performance
-        const isMobile = window.innerWidth < 768;
-        if (isMobile) return;
-
         const ctx = canvas.getContext('2d', { alpha: false });
         if (!ctx) return;
 
