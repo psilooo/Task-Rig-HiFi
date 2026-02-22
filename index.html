@@ -152,6 +152,27 @@
         -webkit-backdrop-filter: none !important;
         backdrop-filter: none !important;
       }
+
+      /* Hide the fixed background grid on mobile — it's barely visible and causes compositing overhead */
+      .grid-bg {
+        display: none !important;
+      }
+
+      /* Promote fixed nav to its own layer for smoother scrolling */
+      nav[class*="fixed"] {
+        will-change: transform;
+      }
+
+      /* Disable mix-blend-mode on mobile — expensive compositing */
+      .mix-blend-screen {
+        mix-blend-mode: normal !important;
+      }
+
+      /* Disable continuous scan-line animations on mobile */
+      [class*="animate-scan"] {
+        animation: none !important;
+      }
+
     }
   </style>
   <script type="importmap">

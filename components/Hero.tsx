@@ -23,7 +23,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 </div>
 
                 {/* Subtle Central Glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[200px] md:w-[600px] md:h-[400px] bg-orange-600/5 blur-[100px] rounded-full"></div>
+                <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-orange-600/5 blur-[100px] rounded-full"></div>
             </div>
 
             {/* Absolute HUD Accents - Full Viewport Extents */}
@@ -76,7 +76,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                     <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0">
 
                         {/* Mobile gear — above text, in flow */}
-                        <div className="md:hidden flex items-center justify-center mix-blend-screen opacity-80 scale-[0.7] -mb-8">
+                        <div className="md:hidden flex items-center justify-center mix-blend-screen opacity-80 scale-[0.55] -mt-16 -mb-20">
                             <DotMatrixLogo />
                         </div>
 

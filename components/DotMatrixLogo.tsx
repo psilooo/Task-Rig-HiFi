@@ -114,6 +114,9 @@ export const DotMatrixLogo: React.FC = () => {
         let angleY = 0;
         let time = 0;
 
+        // On mobile, render a single static frame instead of animating
+        const isMobile = window.innerWidth < 768;
+
         const render = () => {
             ctx.clearRect(0, 0, renderSize, renderSize);
 
@@ -126,10 +129,6 @@ export const DotMatrixLogo: React.FC = () => {
 
             const centerX = renderSize / 2;
             const centerY = renderSize / 2;
-            const fov = 350;
-
-            // Trippy time-based phase for wavy deformations
-            const trippyPhase = time * 0.03;
 
             // Draw points
             for (let i = 0; i < points.length; i++) {
@@ -146,16 +145,12 @@ export const DotMatrixLogo: React.FC = () => {
                 }
 
                 // Orthographic flat projection (No division by Z!)
-                // This creates the "looks 3D but is perfectly flat 2D" optical illusion
                 const isometicScale = 1.3;
                 const xProjected = x1 * isometicScale + centerX;
                 const yProjected = y1 * isometicScale + centerY;
 
-                // Use Z simply for drawing color/opacity, not position
-                // Z goes from roughly -75 to 75. Normalize to 0-1 for depth shading.
+                // Z depth shading
                 const normalizedZ = Math.max(0, Math.min(1, (z1 + 75) / 150));
-
-                // Base opacity is dimmer in the back, brighter in the front
                 const baseAlpha = 0.2 + (normalizedZ * 0.8);
 
                 // Sharp scanline flicker
@@ -177,7 +172,9 @@ export const DotMatrixLogo: React.FC = () => {
                 );
             }
 
-            animationFrameId = requestAnimationFrame(render);
+            if (!isMobile) {
+                animationFrameId = requestAnimationFrame(render);
+            }
         };
 
         render();
