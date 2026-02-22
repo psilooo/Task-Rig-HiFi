@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
     Users,
@@ -497,7 +498,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             </div>
                                         </div>
                                         {/* Messages */}
-                                        <div className="p-5 space-y-3 flex-1 min-h-[360px]">
+                                        <div className="p-5 space-y-3 flex-1 h-[360px] md:h-auto md:min-h-[360px]">
                                             {chatMessages.map((msg, i) => (
                                                 <TypingBubble
                                                     key={i}
@@ -952,23 +953,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             Join 2,400+ operators using Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
                                         </p>
                                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                            <button
-                                                onClick={onLoginClick}
-                                                className="group relative px-8 py-3.5 bg-orange-500 hover:bg-orange-600 text-black font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md shadow-[0_0_25px_rgba(255,106,21,0.25)] hover:shadow-[0_0_40px_rgba(255,106,21,0.35)] flex items-center gap-2 overflow-hidden"
-                                            >
-                                                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
-                                                <span className="relative z-10 flex items-center gap-2">
-                                                    Start Free Trial
-                                                    <ArrowRight size={16} />
-                                                </span>
+                                            <button className="relative w-full sm:w-auto px-8 py-3 bg-zinc-950/40 border border-zinc-700 hover:border-zinc-400 text-zinc-300 hover:text-white font-mono text-[11px] font-bold uppercase tracking-widest transition-all clip-path-slant flex justify-center items-center gap-3 group backdrop-blur-md">
+                                                <div className="absolute inset-0 bg-white/[0.02] group-hover:bg-white/[0.05] transition-colors pointer-events-none block"></div>
+                                                LEARN MORE
+                                                <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-60 group-hover:opacity-100">
+                                                    <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
+                                                </svg>
                                             </button>
-                                            <a
-                                                href="tel:+15551234567"
-                                                className="px-8 py-3.5 border border-zinc-700 hover:border-orange-500/40 text-zinc-300 hover:text-white font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md flex items-center gap-2 group"
+
+                                            <Link
+                                                to="/get-started"
+                                                className="relative w-full sm:w-auto px-12 py-3 bg-[#FF6A15] hover:bg-[#ff853f] text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(255,106,21,0.25)] hover:shadow-[0_0_30px_rgba(255,106,21,0.4)] flex justify-center items-center gap-3 no-underline"
                                             >
-                                                Schedule Demo
-                                                <Phone size={14} className="group-hover:text-orange-500 transition-colors" />
-                                            </a>
+                                                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
+                                                <span className="relative z-10 flex items-center gap-2">
+                                                    GET STARTED
+                                                    <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">
+                                                        <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
+                                                    </svg>
+                                                </span>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
