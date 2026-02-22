@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
     Users,
@@ -22,28 +22,19 @@ interface LandingPageProps {
     onLoginClick: () => void;
 }
 
-// Detect mobile once at module level to avoid per-render checks
-const IS_MOBILE = typeof window !== 'undefined' && window.innerWidth < 768;
-
 // ─── Shared Animation Primitives ───────────────────────────────────
 
-const ScrollReveal: React.FC<{ children: React.ReactNode; delay?: number; className?: string }> = ({ children, delay = 0, className = '' }) => {
-    // On mobile, skip whileInView animations entirely to eliminate scroll jank
-    if (IS_MOBILE) {
-        return <div className={className}>{children}</div>;
-    }
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
+const ScrollReveal: React.FC<{ children: React.ReactNode; delay?: number; className?: string }> = ({ children, delay = 0, className = '' }) => (
+    <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay }}
+        className={className}
+    >
+        {children}
+    </motion.div>
+);
 
 const SectionBadge: React.FC<{ text: string }> = ({ text }) => (
     <div className="inline-flex items-center gap-2 mb-4">
@@ -368,9 +359,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 Unified two-panel layout with shared visual container
             ════════════════════════════════════════════════════════════════ */}
             <section className="pt-4 pb-24 md:pt-6 md:pb-32 px-4 md:px-6 relative z-10" ref={chatRef}>
-                {/* Ambient glow effects — hidden on mobile for scroll performance */}
-                <div className="hidden md:block absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/[0.03] blur-[180px] rounded-full pointer-events-none" />
-                <div className="hidden md:block absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
+                {/* Ambient glow effects */}
+                <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/[0.03] blur-[180px] rounded-full pointer-events-none" />
+                <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
                     {/* Unified header */}
@@ -561,8 +552,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                 { name: 'Zendesk', desc: 'Helpdesk ticketing & CRM sync', tag: 'CRM' },
                                 { name: 'Stripe', desc: 'Payment processing & invoicing', tag: 'PAY' },
                             ].map((partner, i) => (
-                                <div
+                                <motion.div
                                     key={i}
+                                    initial={{ opacity: 0, y: 12 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: '-40px' }}
+                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
                                     className="border-b md:border-b-0 md:border-r border-zinc-800 p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors"
                                 >
                                     <div className="flex items-center justify-between mb-3">
@@ -574,7 +569,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     </div>
                                     <div className="font-mono font-bold text-2xl md:text-3xl text-white tracking-tight mb-1.5">{partner.name}</div>
                                     <div className="font-mono text-[11px] text-zinc-500 leading-relaxed">{partner.desc}</div>
-                                </div>
+                                </motion.div>
                             ))}
 
                             {/* System Stats — 2 columns */}
@@ -582,8 +577,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                 { value: '99.9%', label: 'Platform Uptime', tag: 'SLA' },
                                 { value: '<2s', label: 'Avg Response', tag: 'LAT' },
                             ].map((stat, i) => (
-                                <div
+                                <motion.div
                                     key={`stat-${i}`}
+                                    initial={{ opacity: 0, y: 12 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: '-40px' }}
+                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.24 + i * 0.08 }}
                                     className={`border-b md:border-b-0 border-zinc-800 ${i < 1 ? 'md:border-r' : ''} p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors`}
                                 >
                                     <div className="flex items-center justify-between mb-3">
@@ -593,7 +592,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     <div className="font-mono font-bold text-3xl md:text-4xl text-white tracking-tight">
                                         <AnimatedCounter value={stat.value} duration={2} />
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </ScrollReveal>
@@ -604,12 +603,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.3em] flex-shrink-0 border-r border-zinc-800 pr-4">Clients</span>
                             <div className="flex-1 flex items-center justify-between">
                                 {['APEX PLUMBING', 'IRONCLAD HVAC', 'SUMMIT LEGAL', 'KEYSTONE PROP.', 'TRIDENT AUTO', 'BRIGHTPATH DENTAL', 'FORGE CONST.', 'VERTEX REALTY'].map((name, i) => (
-                                    <span
+                                    <motion.span
                                         key={i}
+                                        initial={{ opacity: 0 }}
+                                        whileInView={{ opacity: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.3, delay: 0.25 + i * 0.04 }}
                                         className="font-mono text-[10px] text-zinc-500 tracking-wider whitespace-nowrap"
                                     >
                                         {name}
-                                    </span>
+                                    </motion.span>
                                 ))}
                             </div>
                         </div>
@@ -622,8 +625,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 SECTION 4: TESTIMONIALS — Immersive Stacked Cards
             ════════════════════════════════════════════════════════════════ */}
             <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 overflow-hidden">
-                {/* Ambient background effects — hidden on mobile for scroll performance */}
-                <div className="hidden md:block absolute top-0 left-0 w-full h-full pointer-events-none">
+                {/* Ambient background effects */}
+                <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                     <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-orange-500/[0.03] blur-[150px] rounded-full" />
                     <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] bg-orange-500/[0.02] blur-[120px] rounded-full" />
                 </div>
@@ -809,8 +812,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 SECTION 6: FAQ — Terminal-Style Knowledge Base
             ════════════════════════════════════════════════════════════════ */}
             <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 border-t border-white/5 overflow-hidden">
-                {/* Ambient effects — hidden on mobile for scroll performance */}
-                <div className="hidden md:block absolute top-0 right-0 w-[600px] h-[600px] bg-orange-500/[0.02] blur-[180px] rounded-full pointer-events-none" />
+                {/* Ambient effects */}
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-500/[0.02] blur-[180px] rounded-full pointer-events-none" />
 
                 {/* Horizontal scan line effect */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
@@ -918,8 +921,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                     {/* ── Final CTA ── */}
                     <div className="relative">
-                        {/* CTA background container — hidden on mobile for scroll performance */}
-                        <div className="hidden md:block absolute inset-0 pointer-events-none">
+                        {/* CTA background container */}
+                        <div className="absolute inset-0 pointer-events-none">
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-orange-500/[0.06] blur-[120px] rounded-full" />
                         </div>
 
