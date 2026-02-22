@@ -6,7 +6,7 @@ import {
     Check, Wrench, Calendar, MessageSquare, CreditCard, BarChart3,
     Bot, Zap, Globe, Shield, Clock, Send, Star, Sparkles,
     FileText, Heart, Truck, Home, Hammer, Briefcase, Stethoscope,
-    Car, UtensilsCrossed, Scissors, PaintBucket, TreePine, Cog
+    Car, UtensilsCrossed, Scissors, PaintBucket, TreePine, Cog, ChevronDown
 } from 'lucide-react';
 import { TaskRigLogo } from './ui/TaskRigLogo';
 import { DynamicNoise } from './DynamicNoise';
@@ -69,7 +69,7 @@ const STEP_META = [
     { label: 'Industry', tag: '/// Classify', icon: Briefcase },
     { label: 'Challenges', tag: '/// Diagnose', icon: Zap },
     { label: 'Scale', tag: '/// Calibrate', icon: BarChart3 },
-    { label: 'Connect', tag: '/// Establish Link', icon: Send },
+    { label: 'Connect', tag: '', icon: Send },
 ];
 
 const INDUSTRIES = [
@@ -190,7 +190,7 @@ const fadeInUp = {
 
 const StepLabel: React.FC<{ tag: string; title: string; subtitle: string }> = ({ tag, title, subtitle }) => (
     <div className="mb-6 md:mb-8">
-        <span className="font-mono text-orange-500 text-[10px] uppercase tracking-[0.2em] mb-2 block">{tag}</span>
+        {tag && <span className="font-mono text-orange-500 text-[10px] uppercase tracking-[0.2em] mb-2 block">{tag}</span>}
         <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl text-white uppercase tracking-tight mb-2 leading-[1.1]">
             {title}
         </h2>
@@ -375,6 +375,7 @@ export const GetStartedPage: React.FC = () => {
     const [selectedPlace, setSelectedPlace] = useState<PlaceDetails | null>(null);
     const [isSearching, setIsSearching] = useState(false);
     const [showPredictions, setShowPredictions] = useState(false);
+    const [showManualEntry, setShowManualEntry] = useState(false);
     const searchRef = useRef<HTMLDivElement>(null);
     const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -877,15 +878,31 @@ export const GetStartedPage: React.FC = () => {
                                         </AnimatePresence>
 
                                         {!selectedPlace && (
-                                            <div className="space-y-4">
-                                                <div className="flex items-center gap-3 my-4">
-                                                    <div className="h-px flex-1 bg-zinc-800" />
-                                                    <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">or enter manually</span>
-                                                    <div className="h-px flex-1 bg-zinc-800" />
-                                                </div>
-                                                <InputField label="Business Name" value={data.businessName} onChange={(v) => update({ businessName: v })} placeholder="Acme HVAC Services" required icon={Building2} />
-                                                <InputField label="Business Address" value={data.businessAddress} onChange={(v) => update({ businessAddress: v })} placeholder="123 Main St, City, State" icon={MapPin} />
-                                                <InputField label="Business Phone" value={data.businessPhone} onChange={(v) => update({ businessPhone: v })} placeholder="+1 (555) 000-0000" type="tel" icon={Phone} />
+                                            <div>
+                                                <button
+                                                    onClick={() => setShowManualEntry(!showManualEntry)}
+                                                    className="flex items-center gap-2 font-mono text-[11px] text-zinc-500 hover:text-zinc-300 uppercase tracking-widest transition-colors mt-2"
+                                                >
+                                                    <ChevronDown size={14} className={`transition-transform duration-200 ${showManualEntry ? 'rotate-180' : ''}`} />
+                                                    Or enter manually
+                                                </button>
+                                                <AnimatePresence>
+                                                    {showManualEntry && (
+                                                        <motion.div
+                                                            initial={{ height: 0, opacity: 0 }}
+                                                            animate={{ height: 'auto', opacity: 1 }}
+                                                            exit={{ height: 0, opacity: 0 }}
+                                                            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                                                            className="overflow-hidden"
+                                                        >
+                                                            <div className="space-y-4 pt-4">
+                                                                <InputField label="Business Name" value={data.businessName} onChange={(v) => update({ businessName: v })} placeholder="Acme HVAC Services" required icon={Building2} />
+                                                                <InputField label="Business Address" value={data.businessAddress} onChange={(v) => update({ businessAddress: v })} placeholder="123 Main St, City, State" icon={MapPin} />
+                                                                <InputField label="Business Phone" value={data.businessPhone} onChange={(v) => update({ businessPhone: v })} placeholder="+1 (555) 000-0000" type="tel" icon={Phone} />
+                                                            </div>
+                                                        </motion.div>
+                                                    )}
+                                                </AnimatePresence>
                                             </div>
                                         )}
                                     </motion.div>
@@ -896,18 +913,37 @@ export const GetStartedPage: React.FC = () => {
                                     <motion.div key="step2" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
                                         <StepLabel tag={STEP_META[1].tag} title="What's your industry?" subtitle="This helps us customize your AI agent's knowledge base and integrations." />
 
-                                        <motion.div variants={staggerChildren} initial="hidden" animate="show" className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6">
-                                            {INDUSTRIES.map((ind) => (
-                                                <motion.div key={ind.id} variants={fadeInUp}>
-                                                    <ChipButton
-                                                        selected={data.industry === ind.id}
+                                        <motion.div variants={staggerChildren} initial="hidden" animate="show" className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 mb-6">
+                                            {INDUSTRIES.map((ind) => {
+                                                const Icon = ind.icon;
+                                                const isSelected = data.industry === ind.id;
+                                                return (
+                                                    <motion.button
+                                                        key={ind.id}
+                                                        variants={fadeInUp}
                                                         onClick={() => update({ industry: ind.id, services: [], customIndustry: '' })}
-                                                        icon={ind.icon}
-                                                        label={ind.label}
-                                                        size="sm"
-                                                    />
-                                                </motion.div>
-                                            ))}
+                                                        className={`relative flex flex-col items-center justify-center gap-2 p-3 rounded-lg border transition-all duration-200 aspect-square ${
+                                                            isSelected
+                                                                ? 'border-orange-500/50 bg-orange-500/[0.08] shadow-[0_0_12px_rgba(249,115,22,0.1)]'
+                                                                : 'border-zinc-800/60 bg-zinc-900/30 hover:border-zinc-700 hover:bg-zinc-800/40'
+                                                        }`}
+                                                    >
+                                                        <Icon size={20} className={`transition-colors ${isSelected ? 'text-orange-500' : 'text-zinc-500'}`} />
+                                                        <span className={`font-mono text-[10px] uppercase tracking-wider text-center leading-tight ${isSelected ? 'text-orange-400' : 'text-zinc-400'}`}>
+                                                            {ind.label}
+                                                        </span>
+                                                        {isSelected && (
+                                                            <motion.div
+                                                                initial={{ scale: 0 }}
+                                                                animate={{ scale: 1 }}
+                                                                className="absolute top-1.5 right-1.5 w-3 h-3 rounded-full bg-orange-500 flex items-center justify-center"
+                                                            >
+                                                                <Check size={8} className="text-black" />
+                                                            </motion.div>
+                                                        )}
+                                                    </motion.button>
+                                                );
+                                            })}
                                         </motion.div>
 
                                         <AnimatePresence>
@@ -952,40 +988,25 @@ export const GetStartedPage: React.FC = () => {
                                     <motion.div key="step3" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
                                         <StepLabel tag={STEP_META[2].tag} title="What are your biggest challenges?" subtitle="Select all that apply — we'll show you exactly how TaskRig solves each one." />
 
-                                        <motion.div variants={staggerChildren} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-8">
+                                        <motion.div variants={staggerChildren} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                             {PAIN_POINTS.map((pain) => (
                                                 <motion.div key={pain.id} variants={fadeInUp}>
                                                     <ChipButton selected={data.painPoints.includes(pain.id)} onClick={() => toggleArrayItem('painPoints', pain.id)} icon={pain.icon} label={pain.label} />
                                                 </motion.div>
                                             ))}
                                         </motion.div>
-
-                                        <div>
-                                            <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">
-                                                What tools do you want? <span className="text-zinc-700">(select all that interest you)</span>
-                                            </label>
-                                            <motion.div variants={staggerChildren} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                                {INTEGRATIONS.map((intg) => (
-                                                    <motion.div key={intg.id} variants={fadeInUp}>
-                                                        <ChipButton selected={data.desiredIntegrations.includes(intg.id)} onClick={() => toggleArrayItem('desiredIntegrations', intg.id)} label={intg.label} desc={intg.desc} />
-                                                    </motion.div>
-                                                ))}
-                                            </motion.div>
-                                        </div>
-
-                                        <ValuePreview leadData={data} />
                                     </motion.div>
                                 )}
 
                                 {/* STEP 4: Team & Scale */}
                                 {step === 4 && (
-                                    <motion.div key="step4" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
+                                    <motion.div key="step4" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col items-center text-center">
                                         <StepLabel tag={STEP_META[3].tag} title="How big is your operation?" subtitle="This helps us size your deployment and recommend the right plan." />
 
-                                        <div className="space-y-6">
+                                        <div className="space-y-6 w-full">
                                             <div>
                                                 <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Team Size <span className="text-orange-500/60">*</span></label>
-                                                <div className="flex flex-wrap gap-2">
+                                                <div className="flex flex-wrap justify-center gap-2">
                                                     {TEAM_SIZES.map((size) => (
                                                         <button key={size} onClick={() => update({ teamSize: size })} className={`px-4 py-2.5 font-mono text-xs uppercase tracking-widest border transition-all rounded-md ${data.teamSize === size ? 'border-orange-500/50 bg-orange-500/10 text-orange-400 shadow-[0_0_10px_rgba(249,115,22,0.1)]' : 'border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300'}`}>
                                                             {size}
@@ -995,7 +1016,7 @@ export const GetStartedPage: React.FC = () => {
                                             </div>
                                             <div>
                                                 <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Monthly Call / Inquiry Volume</label>
-                                                <div className="flex flex-wrap gap-2">
+                                                <div className="flex flex-wrap justify-center gap-2">
                                                     {CALL_VOLUMES.map((vol) => (
                                                         <button key={vol} onClick={() => update({ monthlyCallVolume: vol })} className={`px-3 py-2 font-mono text-[11px] border transition-all rounded-md ${data.monthlyCallVolume === vol ? 'border-orange-500/50 bg-orange-500/10 text-orange-400' : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'}`}>
                                                             {vol}
@@ -1005,7 +1026,7 @@ export const GetStartedPage: React.FC = () => {
                                             </div>
                                             <div>
                                                 <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Monthly New Leads</label>
-                                                <div className="flex flex-wrap gap-2">
+                                                <div className="flex flex-wrap justify-center gap-2">
                                                     {LEAD_VOLUMES.map((vol) => (
                                                         <button key={vol} onClick={() => update({ monthlyLeadVolume: vol })} className={`px-3 py-2 font-mono text-[11px] border transition-all rounded-md ${data.monthlyLeadVolume === vol ? 'border-orange-500/50 bg-orange-500/10 text-orange-400' : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'}`}>
                                                             {vol}
@@ -1015,7 +1036,7 @@ export const GetStartedPage: React.FC = () => {
                                             </div>
                                             <div>
                                                 <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Operating Hours</label>
-                                                <div className="flex flex-wrap gap-2">
+                                                <div className="flex flex-wrap justify-center gap-2">
                                                     {HOURS.map((hr) => (
                                                         <button key={hr} onClick={() => update({ operatingHours: hr })} className={`px-3 py-2 font-mono text-[11px] border transition-all rounded-md ${data.operatingHours === hr ? 'border-orange-500/50 bg-orange-500/10 text-orange-400' : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'}`}>
                                                             {hr}
@@ -1046,7 +1067,7 @@ export const GetStartedPage: React.FC = () => {
                                 {/* STEP 5: Contact Info */}
                                 {step === 5 && (
                                     <motion.div key="step5" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
-                                        <StepLabel tag={STEP_META[4].tag} title="Almost there — let's connect" subtitle="Your deployment specialist will use this info to set up your personalized demo." />
+                                        <StepLabel tag={STEP_META[4].tag} title="Connect" subtitle="Get in touch" />
 
                                         <div className="space-y-4">
                                             <InputField label="Full Name" value={data.contactName} onChange={(v) => update({ contactName: v })} placeholder="Jane Doe" required icon={User} />
@@ -1162,13 +1183,15 @@ export const GetStartedPage: React.FC = () => {
                                 )}
                             </div>
 
-                            {/* Fine print */}
-                            <p className="text-center font-mono text-[10px] text-zinc-600/50 leading-relaxed mt-4 px-2">
-                                By submitting, you agree to receive SMS updates from TaskRig. Msg &amp; data rates may apply. Reply STOP anytime.{' '}
-                                <Link to="/privacy-policy" className="text-zinc-500/60 hover:text-zinc-400 underline underline-offset-2 transition-colors">
-                                    Privacy Policy
-                                </Link>
-                            </p>
+                            {/* Fine print - only on last step */}
+                            {step === TOTAL_STEPS && (
+                                <p className="text-center font-mono text-[10px] text-zinc-600/50 leading-relaxed mt-4 px-2">
+                                    By submitting, you agree to receive SMS updates from TaskRig. Msg &amp; data rates may apply. Reply STOP anytime.{' '}
+                                    <Link to="/privacy-policy" className="text-zinc-500/60 hover:text-zinc-400 underline underline-offset-2 transition-colors">
+                                        Privacy Policy
+                                    </Link>
+                                </p>
+                            )}
                         </div>
                     </div>
 
