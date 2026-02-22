@@ -7,7 +7,13 @@ import {
     Star, ArrowRight,
     Bot, Send, User,
     Sparkles,
-    Link2
+    Link2,
+    MessageSquare,
+    Terminal,
+    Plus,
+    Minus,
+    Quote,
+    TrendingUp
 } from 'lucide-react';
 import { Hero } from './Hero';
 import { TaskRigLogo } from './ui/TaskRigLogo';
@@ -616,45 +622,133 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                SECTION 4: TESTIMONIALS
+                SECTION 4: TESTIMONIALS — Immersive Stacked Cards
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-6 relative z-10 border-y border-white/5">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-orange-500/[0.02] blur-[120px] rounded-full pointer-events-none" />
+            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 overflow-hidden">
+                {/* Ambient background effects */}
+                <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                    <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-orange-500/[0.03] blur-[150px] rounded-full" />
+                    <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] bg-orange-500/[0.02] blur-[120px] rounded-full" />
+                </div>
 
-                <div className="max-w-7xl mx-auto">
-                    {/* Testimonials */}
-                    <div className="text-center mb-12">
+                {/* Decorative vertical lines */}
+                <div className="absolute inset-0 pointer-events-none hidden lg:block">
+                    <div className="absolute top-0 left-[15%] w-px h-full bg-gradient-to-b from-transparent via-zinc-800/50 to-transparent" />
+                    <div className="absolute top-0 right-[15%] w-px h-full bg-gradient-to-b from-transparent via-zinc-800/50 to-transparent" />
+                </div>
+
+                <div className="max-w-7xl mx-auto relative">
+                    {/* Section header with asymmetric layout */}
+                    <div className="mb-16 md:mb-20">
                         <ScrollReveal>
-                            <SectionBadge text="Results" />
-                            <h2 className="font-heading font-bold text-4xl md:text-5xl text-white uppercase tracking-tight">
-                                What Teams Are Saying
-                            </h2>
+                            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                                <div>
+                                    <SectionBadge text="Field Reports" />
+                                    <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight leading-[0.95]">
+                                        Operators<br />
+                                        <span className="text-zinc-500">Report In</span>
+                                    </h2>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                        <span className="font-mono text-[10px] text-emerald-500/80 uppercase tracking-[0.2em]">Verified Reviews</span>
+                                    </div>
+                                    <div className="h-4 w-px bg-zinc-800" />
+                                    <div className="flex gap-0.5">
+                                        {[...Array(5)].map((_, j) => (
+                                            <Star key={j} size={10} className="text-orange-500 fill-orange-500" />
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </ScrollReveal>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {testimonials.map((t, i) => (
-                            <ScrollReveal key={i} delay={i * 0.1}>
-                                <GlassCard className="h-full flex flex-col">
-                                    <div className="flex gap-1 mb-4">
-                                        {[...Array(5)].map((_, j) => (
-                                            <Star key={j} size={12} className="text-orange-500 fill-orange-500" />
-                                        ))}
-                                    </div>
-                                    <p className="text-zinc-300 text-sm font-mono leading-relaxed flex-1 mb-6">"{t.quote}"</p>
-                                    <div className="border-t border-white/5 pt-4 flex items-center justify-between">
-                                        <div>
-                                            <div className="text-white text-sm font-heading font-bold uppercase">{t.name}</div>
-                                            <div className="text-zinc-500 text-[11px] font-mono">{t.title}</div>
+                    {/* Testimonials — staggered asymmetric cards */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6">
+                        {testimonials.map((t, i) => {
+                            const colSpans = ['lg:col-span-5', 'lg:col-span-4', 'lg:col-span-3'];
+                            const topOffsets = ['lg:mt-0', 'lg:mt-12', 'lg:mt-6'];
+                            return (
+                                <ScrollReveal key={i} delay={i * 0.12} className={`${colSpans[i]} ${topOffsets[i]}`}>
+                                    <motion.div
+                                        whileHover={{ y: -4, transition: { duration: 0.3 } }}
+                                        className="group relative h-full"
+                                    >
+                                        {/* Card */}
+                                        <div className="relative p-6 md:p-8 border border-white/[0.08] bg-zinc-900/40 backdrop-blur-xl rounded-xl overflow-hidden h-full flex flex-col transition-all duration-500 hover:border-orange-500/20 hover:shadow-[0_8px_40px_rgba(0,0,0,0.4)]">
+                                            {/* Top accent line */}
+                                            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                            {/* Corner brackets */}
+                                            <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                            <div className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                                            {/* Header row */}
+                                            <div className="flex items-center justify-between mb-6">
+                                                <div className="flex items-center gap-2">
+                                                    <Quote size={14} className="text-orange-500/60" />
+                                                    <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.25em]">Testimony #{String(i + 1).padStart(2, '0')}</span>
+                                                </div>
+                                                <div className="flex gap-0.5">
+                                                    {[...Array(5)].map((_, j) => (
+                                                        <Star key={j} size={8} className="text-orange-500 fill-orange-500" />
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            {/* Quote text */}
+                                            <div className="relative flex-1 mb-6">
+                                                <div className="absolute -top-2 -left-1 text-orange-500/10 font-body text-6xl leading-none select-none">"</div>
+                                                <p className="text-zinc-300 text-sm font-mono leading-[1.8] relative z-10 pl-3 border-l-2 border-orange-500/20">
+                                                    {t.quote}
+                                                </p>
+                                            </div>
+
+                                            {/* Metric highlight */}
+                                            <div className="mb-5 p-3 bg-orange-500/[0.06] border border-orange-500/10 rounded-lg flex items-center gap-3">
+                                                <TrendingUp size={14} className="text-orange-500 flex-shrink-0" />
+                                                <span className="font-heading font-bold text-lg text-orange-400 uppercase tracking-wide">{t.metric}</span>
+                                            </div>
+
+                                            {/* Author */}
+                                            <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                                                <div className="w-10 h-10 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center font-heading font-bold text-sm text-orange-500">
+                                                    {t.name.split(' ').map(n => n[0]).join('')}
+                                                </div>
+                                                <div>
+                                                    <div className="text-white text-sm font-heading font-bold uppercase tracking-wide">{t.name}</div>
+                                                    <div className="text-zinc-500 text-[11px] font-mono">{t.title}</div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="px-2.5 py-1 bg-orange-500/10 border border-orange-500/20 rounded text-[10px] font-mono text-orange-400 uppercase tracking-wider">
-                                            {t.metric}
-                                        </div>
-                                    </div>
-                                </GlassCard>
-                            </ScrollReveal>
-                        ))}
+                                    </motion.div>
+                                </ScrollReveal>
+                            );
+                        })}
                     </div>
+
+                    {/* Bottom stat bar */}
+                    <ScrollReveal delay={0.3}>
+                        <div className="mt-12 md:mt-16 border border-white/[0.07] bg-white/[0.02] backdrop-blur-md rounded-xl overflow-hidden">
+                            <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/[0.06]">
+                                {[
+                                    { value: '2,400+', label: 'Active Operators' },
+                                    { value: '4.9/5', label: 'Average Rating' },
+                                    { value: '98%', label: 'Retention Rate' },
+                                    { value: '<30s', label: 'Avg. Response' },
+                                ].map((stat, i) => (
+                                    <div key={i} className="p-4 md:p-6 text-center group hover:bg-white/[0.02] transition-colors">
+                                        <div className="font-heading font-bold text-2xl md:text-3xl text-white tracking-tight mb-1">
+                                            <AnimatedCounter value={stat.value} duration={2} />
+                                        </div>
+                                        <div className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]">{stat.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </ScrollReveal>
                 </div>
             </section>
 
@@ -715,75 +809,172 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                SECTION 6: FAQ + FINAL CTA (Merged)
+                SECTION 6: FAQ — Terminal-Style Knowledge Base
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-6 relative z-10 border-t border-white/5">
-                <div className="max-w-3xl mx-auto">
-                    {/* FAQ */}
-                    <div className="text-center mb-12">
-                        <ScrollReveal>
-                            <SectionBadge text="FAQ" />
-                            <h2 className="font-heading font-bold text-4xl md:text-5xl text-white uppercase tracking-tight">Common Questions</h2>
-                        </ScrollReveal>
+            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 border-t border-white/5 overflow-hidden">
+                {/* Ambient effects */}
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-500/[0.02] blur-[180px] rounded-full pointer-events-none" />
+
+                {/* Horizontal scan line effect */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
+                    <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/40 to-transparent animate-scan-vertical" />
+                </div>
+
+                <div className="max-w-6xl mx-auto">
+                    {/* Header — split layout */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 md:mb-16">
+                        <div className="lg:col-span-5">
+                            <ScrollReveal>
+                                <SectionBadge text="Knowledge Base" />
+                                <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-[3.5rem] text-white uppercase tracking-tight leading-[0.95] mb-4">
+                                    Intel<br />
+                                    <span className="text-zinc-500">Briefing</span>
+                                </h2>
+                                <p className="text-zinc-500 font-mono text-xs leading-relaxed max-w-sm">
+                                    Everything you need to know before deploying Task Rig. Select a query to access detailed intelligence.
+                                </p>
+                            </ScrollReveal>
+                        </div>
+                        <div className="lg:col-span-7 hidden lg:flex items-end justify-end">
+                            <ScrollReveal delay={0.15}>
+                                <div className="flex items-center gap-6 text-zinc-600 font-mono text-[10px] uppercase tracking-[0.2em]">
+                                    <span className="flex items-center gap-2">
+                                        <Terminal size={10} className="text-orange-500/60" />
+                                        {faqItems.length} Entries Loaded
+                                    </span>
+                                    <span className="flex items-center gap-2">
+                                        <MessageSquare size={10} className="text-orange-500/60" />
+                                        Quick Access
+                                    </span>
+                                </div>
+                            </ScrollReveal>
+                        </div>
                     </div>
-                    <div className="space-y-3 mb-20 md:mb-28">
+
+                    {/* FAQ grid — two-column on desktop */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 mb-20 md:mb-28">
                         {faqItems.map((item, i) => (
-                            <ScrollReveal key={i} delay={i * 0.04}>
-                                <div className="border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-lg overflow-hidden">
+                            <ScrollReveal key={i} delay={i * 0.05}>
+                                <div className={`group relative border rounded-lg overflow-hidden transition-all duration-500 ${
+                                    openFaq === i
+                                        ? 'border-orange-500/30 bg-orange-500/[0.04] shadow-[0_0_30px_rgba(255,106,21,0.06)]'
+                                        : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.03]'
+                                }`}>
                                     <button
                                         onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                                        className="w-full flex items-center justify-between p-5 text-left group"
+                                        className="w-full flex items-start gap-4 p-5 md:p-6 text-left"
                                     >
-                                        <span className="font-mono text-sm text-white pr-4">{item.q}</span>
-                                        <ChevronDown
-                                            size={16}
-                                            className={`text-zinc-500 flex-shrink-0 transition-transform duration-200 ${openFaq === i ? 'rotate-180 text-orange-500' : ''}`}
-                                        />
-                                    </button>
-                                    <motion.div
-                                        initial={false}
-                                        animate={{
-                                            height: openFaq === i ? 'auto' : 0,
-                                            opacity: openFaq === i ? 1 : 0,
-                                        }}
-                                        transition={{ duration: 0.25, ease: 'easeInOut' }}
-                                        className="overflow-hidden"
-                                    >
-                                        <div className="px-5 pb-5 text-zinc-400 text-sm font-mono leading-relaxed border-t border-white/5 pt-4">
-                                            {item.a}
+                                        {/* Index number */}
+                                        <div className={`flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 ${
+                                            openFaq === i
+                                                ? 'bg-orange-500 text-black shadow-[0_0_15px_rgba(255,106,21,0.3)]'
+                                                : 'bg-zinc-800/80 text-zinc-500 group-hover:bg-zinc-800 group-hover:text-zinc-400'
+                                        }`}>
+                                            {String(i + 1).padStart(2, '0')}
                                         </div>
-                                    </motion.div>
+
+                                        {/* Question text */}
+                                        <div className="flex-1 min-w-0">
+                                            <span className={`font-mono text-sm leading-snug block transition-colors duration-300 ${
+                                                openFaq === i ? 'text-orange-400' : 'text-zinc-200'
+                                            }`}>
+                                                {item.q}
+                                            </span>
+                                        </div>
+
+                                        {/* Toggle icon */}
+                                        <div className={`flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center transition-all duration-300 mt-0.5 ${
+                                            openFaq === i
+                                                ? 'bg-orange-500/20 text-orange-500'
+                                                : 'bg-zinc-800/50 text-zinc-600 group-hover:text-zinc-400'
+                                        }`}>
+                                            {openFaq === i ? <Minus size={12} /> : <Plus size={12} />}
+                                        </div>
+                                    </button>
+
+                                    {/* Answer panel */}
+                                    <AnimatePresence>
+                                        {openFaq === i && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.75rem]">
+                                                    <div className="relative">
+                                                        {/* Decorative left line */}
+                                                        <div className="absolute -left-4 top-0 bottom-0 w-px bg-gradient-to-b from-orange-500/40 via-orange-500/20 to-transparent" />
+                                                        <p className="text-zinc-400 text-sm font-mono leading-[1.8]">
+                                                            {item.a}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
                             </ScrollReveal>
                         ))}
                     </div>
 
-                    {/* Final CTA */}
-                    <div className="text-center relative">
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-orange-500/5 blur-[100px] rounded-full pointer-events-none" />
+                    {/* ── Final CTA ── */}
+                    <div className="relative">
+                        {/* CTA background container */}
+                        <div className="absolute inset-0 pointer-events-none">
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-orange-500/[0.06] blur-[120px] rounded-full" />
+                        </div>
 
                         <ScrollReveal>
-                            <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight mb-4">
-                                Ready to Transform<br />Your Customer Service?
-                            </h2>
-                            <p className="text-zinc-400 font-mono text-sm max-w-lg mx-auto mb-10">
-                                Businesses use Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
-                            </p>
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                <button
-                                    onClick={onLoginClick}
-                                    className="px-8 py-3.5 bg-orange-500 hover:bg-orange-600 text-black font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md shadow-[0_0_20px_rgba(255,106,21,0.2)] hover:shadow-[0_0_30px_rgba(255,106,21,0.3)] flex items-center gap-2"
-                                >
-                                    Start Free Trial
-                                    <ArrowRight size={16} />
-                                </button>
-                                <a
-                                    href="tel:+15551234567"
-                                    className="px-8 py-3.5 border border-zinc-700 hover:border-zinc-500 text-zinc-300 hover:text-white font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md flex items-center gap-2"
-                                >
-                                    Schedule Demo
-                                    <Phone size={14} />
-                                </a>
+                            <div className="relative border border-white/[0.08] bg-zinc-900/30 backdrop-blur-xl rounded-2xl overflow-hidden">
+                                {/* Top glow line */}
+                                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
+
+                                {/* Corner accents */}
+                                <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-orange-500/40" />
+                                <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-orange-500/40" />
+                                <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-orange-500/40" />
+                                <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-orange-500/40" />
+
+                                <div className="px-6 py-16 md:px-12 md:py-20 text-center relative">
+                                    <div className="max-w-2xl mx-auto">
+                                        <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 bg-orange-500/10 border border-orange-500/20 rounded-full">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                                            <span className="font-mono text-[10px] text-orange-400 uppercase tracking-[0.2em]">Awaiting Your Command</span>
+                                        </div>
+
+                                        <h2 className="font-heading font-bold text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight mb-5 leading-[0.95]">
+                                            Ready to Deploy<br />
+                                            <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent">Intelligent Operations?</span>
+                                        </h2>
+                                        <p className="text-zinc-400 font-mono text-sm max-w-lg mx-auto mb-10 leading-relaxed">
+                                            Join 2,400+ operators using Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
+                                        </p>
+                                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                            <button
+                                                onClick={onLoginClick}
+                                                className="group relative px-8 py-3.5 bg-orange-500 hover:bg-orange-600 text-black font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md shadow-[0_0_25px_rgba(255,106,21,0.25)] hover:shadow-[0_0_40px_rgba(255,106,21,0.35)] flex items-center gap-2 overflow-hidden"
+                                            >
+                                                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
+                                                <span className="relative z-10 flex items-center gap-2">
+                                                    Start Free Trial
+                                                    <ArrowRight size={16} />
+                                                </span>
+                                            </button>
+                                            <a
+                                                href="tel:+15551234567"
+                                                className="px-8 py-3.5 border border-zinc-700 hover:border-orange-500/40 text-zinc-300 hover:text-white font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md flex items-center gap-2 group"
+                                            >
+                                                Schedule Demo
+                                                <Phone size={14} className="group-hover:text-orange-500 transition-colors" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Bottom glow line */}
+                                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
                             </div>
                         </ScrollReveal>
                     </div>

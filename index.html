@@ -145,6 +145,14 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
+
+    /* Mobile scroll performance: disable expensive GPU effects */
+    @media (max-width: 767px) {
+      * {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+      }
+    }
   </style>
   <script type="importmap">
 {

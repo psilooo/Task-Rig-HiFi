@@ -145,6 +145,14 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
+
+    /* Mobile scroll performance: disable expensive GPU effects */
+    @media (max-width: 767px) {
+      * {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+      }
+    }
   </style>
 
   <link rel="stylesheet" href="/index.css">
@@ -162,7 +170,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-sunvNk2t.js"></script>
+  <script type="module" crossorigin src="/assets/index-_sb-_EO4.js"></script>
 </head>
 
 <body>

@@ -17,8 +17,8 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 {/* Noise Background */}
                 <DynamicNoise opacity={0.10} />
 
-                {/* Central Canvas Logo */}
-                <div className="absolute inset-0 flex items-center justify-center scale-[0.7] md:scale-[1.2] origin-center mix-blend-screen opacity-80 -mt-12 mr-0 md:-mt-8 md:mr-6">
+                {/* Central Canvas Logo — desktop only (absolute behind text) */}
+                <div className="hidden md:flex absolute inset-0 items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 -mt-8 mr-6">
                     <DotMatrixLogo />
                 </div>
 
@@ -74,6 +74,11 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                     {/* CENTER COLUMN: Main Action Area */}
                     <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0">
+
+                        {/* Mobile gear — above text, in flow */}
+                        <div className="md:hidden flex items-center justify-center mix-blend-screen opacity-80 scale-[0.7] -mb-8">
+                            <DotMatrixLogo />
+                        </div>
 
                         {/* Main Title - Adjusted Spacing and Typography to match Figma */}
                         <Reveal delay={0.1}>
