@@ -332,7 +332,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     </button>
                     <div className="flex items-center gap-2 md:gap-3">
                         <a
-                            href="tel:+15551234567"
+                            href="tel:+18442222486"
                             className="group flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 bg-orange-500 hover:bg-orange-600 text-white font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
                         >
                             <Phone size={12} className="md:hidden transition-colors" />
@@ -856,39 +856,35 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 mb-20 md:mb-28">
                         {faqItems.map((item, i) => (
                             <ScrollReveal key={i} delay={i * 0.05}>
-                                <div className={`group relative border rounded-lg overflow-hidden transition-all duration-500 ${
-                                    openFaq === i
+                                <div className={`group relative border rounded-lg overflow-hidden transition-all duration-500 ${openFaq === i
                                         ? 'border-orange-500/30 bg-orange-500/[0.04] shadow-[0_0_30px_rgba(255,106,21,0.06)]'
                                         : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.03]'
-                                }`}>
+                                    }`}>
                                     <button
                                         onClick={() => setOpenFaq(openFaq === i ? null : i)}
                                         className="w-full flex items-start gap-4 p-5 md:p-6 text-left"
                                     >
                                         {/* Index number */}
-                                        <div className={`flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 ${
-                                            openFaq === i
+                                        <div className={`flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 ${openFaq === i
                                                 ? 'bg-orange-500 text-black shadow-[0_0_15px_rgba(255,106,21,0.3)]'
                                                 : 'bg-zinc-800/80 text-zinc-500 group-hover:bg-zinc-800 group-hover:text-zinc-400'
-                                        }`}>
+                                            }`}>
                                             {String(i + 1).padStart(2, '0')}
                                         </div>
 
                                         {/* Question text */}
                                         <div className="flex-1 min-w-0">
-                                            <span className={`font-mono text-sm leading-snug block transition-colors duration-300 ${
-                                                openFaq === i ? 'text-orange-400' : 'text-zinc-200'
-                                            }`}>
+                                            <span className={`font-mono text-sm leading-snug block transition-colors duration-300 ${openFaq === i ? 'text-orange-400' : 'text-zinc-200'
+                                                }`}>
                                                 {item.q}
                                             </span>
                                         </div>
 
                                         {/* Toggle icon */}
-                                        <div className={`flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center transition-all duration-300 mt-0.5 ${
-                                            openFaq === i
+                                        <div className={`flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center transition-all duration-300 mt-0.5 ${openFaq === i
                                                 ? 'bg-orange-500/20 text-orange-500'
                                                 : 'bg-zinc-800/50 text-zinc-600 group-hover:text-zinc-400'
-                                        }`}>
+                                            }`}>
                                             {openFaq === i ? <Minus size={12} /> : <Plus size={12} />}
                                         </div>
                                     </button>

@@ -118,7 +118,7 @@ export const PrivacyPage: React.FC = () => {
                         <div className="bg-zinc-950 p-6 rounded-sm border border-zinc-800 mt-4 mb-8">
                             <p className="m-0 mb-1"><strong className="text-orange-500">TaskRig</strong></p>
                             <p className="m-0 mb-1">Email: [your@email.com]</p>
-                            <p className="m-0 mb-1">Phone: [Your Contact Number]</p>
+                            <p className="m-0 mb-1">Phone: +1 844-222-2630</p>
                             <p className="m-0">Website: [www.taskrig.com]</p>
                         </div>
 

@@ -216,18 +216,15 @@ const ChipButton: React.FC<{
 }> = ({ selected, onClick, icon: Icon, label, desc, size = 'md' }) => (
     <button
         onClick={onClick}
-        className={`group text-left transition-all duration-200 rounded-md border flex items-center gap-3 w-full ${
-            size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'
-        } ${
-            selected
+        className={`group text-left transition-all duration-200 rounded-md border flex items-center gap-3 w-full ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'
+            } ${selected
                 ? 'border-orange-500/50 bg-orange-500/[0.08] shadow-[0_0_12px_rgba(249,115,22,0.1)]'
                 : 'border-zinc-800 bg-zinc-950/40 hover:border-zinc-700 hover:bg-zinc-900/40'
-        }`}
+            }`}
     >
         {Icon && (
-            <div className={`w-8 h-8 rounded flex items-center justify-center shrink-0 transition-colors ${
-                selected ? 'bg-orange-500/15' : 'bg-zinc-800/80 group-hover:bg-zinc-800'
-            }`}>
+            <div className={`w-8 h-8 rounded flex items-center justify-center shrink-0 transition-colors ${selected ? 'bg-orange-500/15' : 'bg-zinc-800/80 group-hover:bg-zinc-800'
+                }`}>
                 <Icon size={14} className={selected ? 'text-orange-500' : 'text-zinc-500 group-hover:text-zinc-400'} />
             </div>
         )}
@@ -655,7 +652,7 @@ export const GetStartedPage: React.FC = () => {
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
                             <a
-                                href="tel:+15551234567"
+                                href="tel:+18442222486"
                                 className="group relative w-full sm:w-auto px-8 py-3.5 bg-orange-500 hover:bg-orange-600 text-black font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md shadow-[0_0_25px_rgba(249,115,22,0.25)] hover:shadow-[0_0_40px_rgba(249,115,22,0.35)] flex items-center justify-center gap-2 no-underline overflow-hidden"
                             >
                                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
@@ -745,29 +742,26 @@ export const GetStartedPage: React.FC = () => {
                                 return (
                                     <React.Fragment key={i}>
                                         <div className="flex items-center gap-1.5 md:gap-2">
-                                            <div className={`w-6 h-6 md:w-7 md:h-7 rounded-md flex items-center justify-center transition-all duration-300 ${
-                                                isActive
+                                            <div className={`w-6 h-6 md:w-7 md:h-7 rounded-md flex items-center justify-center transition-all duration-300 ${isActive
                                                     ? 'bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.3)]'
                                                     : isComplete
-                                                    ? 'bg-orange-500/20 border border-orange-500/30'
-                                                    : 'bg-zinc-900 border border-zinc-800'
-                                            }`}>
+                                                        ? 'bg-orange-500/20 border border-orange-500/30'
+                                                        : 'bg-zinc-900 border border-zinc-800'
+                                                }`}>
                                                 {isComplete ? (
                                                     <Check size={12} className="text-orange-500" />
                                                 ) : (
                                                     <StepIcon size={12} className={isActive ? 'text-black' : 'text-zinc-600'} />
                                                 )}
                                             </div>
-                                            <span className={`hidden md:block font-mono text-[10px] uppercase tracking-wider transition-colors ${
-                                                isActive ? 'text-orange-400' : isComplete ? 'text-zinc-500' : 'text-zinc-700'
-                                            }`}>
+                                            <span className={`hidden md:block font-mono text-[10px] uppercase tracking-wider transition-colors ${isActive ? 'text-orange-400' : isComplete ? 'text-zinc-500' : 'text-zinc-700'
+                                                }`}>
                                                 {s.label}
                                             </span>
                                         </div>
                                         {i < STEP_META.length - 1 && (
-                                            <div className={`w-4 md:w-8 lg:w-12 h-px mx-1 md:mx-2 transition-colors ${
-                                                stepNum < step ? 'bg-orange-500/40' : 'bg-zinc-800'
-                                            }`} />
+                                            <div className={`w-4 md:w-8 lg:w-12 h-px mx-1 md:mx-2 transition-colors ${stepNum < step ? 'bg-orange-500/40' : 'bg-zinc-800'
+                                                }`} />
                                         )}
                                     </React.Fragment>
                                 );
@@ -944,11 +938,10 @@ export const GetStartedPage: React.FC = () => {
                                                                 update({ industries: [...current, ind.id] });
                                                             }
                                                         }}
-                                                        className={`relative flex flex-col items-center justify-center gap-2 p-3 rounded-lg border transition-all duration-200 aspect-square ${
-                                                            isSelected
+                                                        className={`relative flex flex-col items-center justify-center gap-2 p-3 rounded-lg border transition-all duration-200 aspect-square ${isSelected
                                                                 ? 'border-orange-500/50 bg-orange-500/[0.08] shadow-[0_0_12px_rgba(249,115,22,0.1)]'
                                                                 : 'border-zinc-800/60 bg-zinc-900/30 hover:border-zinc-700 hover:bg-zinc-800/40'
-                                                        }`}
+                                                            }`}
                                                     >
                                                         <Icon size={20} className={`transition-colors ${isSelected ? 'text-orange-500' : 'text-zinc-500'}`} />
                                                         <span className={`font-mono text-[10px] uppercase tracking-wider text-center leading-tight ${isSelected ? 'text-orange-400' : 'text-zinc-400'}`}>
@@ -1012,11 +1005,10 @@ export const GetStartedPage: React.FC = () => {
                                                                     <button
                                                                         key={service}
                                                                         onClick={() => toggleArrayItem('services', service)}
-                                                                        className={`px-3 py-1.5 font-mono text-[11px] border transition-all duration-200 rounded-md ${
-                                                                            data.services.includes(service)
+                                                                        className={`px-3 py-1.5 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.services.includes(service)
                                                                                 ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
                                                                                 : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                                        }`}
+                                                                            }`}
                                                                     >
                                                                         {service}
                                                                     </button>
@@ -1085,11 +1077,10 @@ export const GetStartedPage: React.FC = () => {
                                                         <button
                                                             key={size}
                                                             onClick={() => update({ teamSize: size })}
-                                                            className={`px-3 py-2 font-mono text-[11px] uppercase tracking-wider border transition-all duration-200 rounded-md ${
-                                                                data.teamSize === size
+                                                            className={`px-3 py-2 font-mono text-[11px] uppercase tracking-wider border transition-all duration-200 rounded-md ${data.teamSize === size
                                                                     ? 'border-orange-500/50 bg-orange-500/10 text-orange-400 shadow-[0_0_8px_rgba(249,115,22,0.08)]'
                                                                     : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                            }`}
+                                                                }`}
                                                         >
                                                             {size}
                                                         </button>
@@ -1112,11 +1103,10 @@ export const GetStartedPage: React.FC = () => {
                                                         <button
                                                             key={vol}
                                                             onClick={() => update({ monthlyCallVolume: vol })}
-                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${
-                                                                data.monthlyCallVolume === vol
+                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.monthlyCallVolume === vol
                                                                     ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
                                                                     : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                            }`}
+                                                                }`}
                                                         >
                                                             {vol}
                                                         </button>
@@ -1139,11 +1129,10 @@ export const GetStartedPage: React.FC = () => {
                                                         <button
                                                             key={vol}
                                                             onClick={() => update({ monthlyLeadVolume: vol })}
-                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${
-                                                                data.monthlyLeadVolume === vol
+                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.monthlyLeadVolume === vol
                                                                     ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
                                                                     : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                            }`}
+                                                                }`}
                                                         >
                                                             {vol}
                                                         </button>
@@ -1166,11 +1155,10 @@ export const GetStartedPage: React.FC = () => {
                                                         <button
                                                             key={hr}
                                                             onClick={() => update({ operatingHours: hr })}
-                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${
-                                                                data.operatingHours === hr
+                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.operatingHours === hr
                                                                     ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
                                                                     : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                            }`}
+                                                                }`}
                                                         >
                                                             {hr}
                                                         </button>
@@ -1197,8 +1185,8 @@ export const GetStartedPage: React.FC = () => {
                                                             {data.teamSize === 'Solo' || data.teamSize === '2-5'
                                                                 ? 'For teams your size, most operators start with 1 AI Agent covering calls, SMS, and email. Average setup time: 15 minutes.'
                                                                 : data.teamSize === '6-15'
-                                                                ? 'Teams of 6-15 typically deploy 2-3 AI Agents with CRM sync and calendar integration. We\'ll configure smart routing to your team.'
-                                                                : 'Enterprise-scale deployments get dedicated AI Agents per department with custom training. Your specialist will design the optimal architecture.'}
+                                                                    ? 'Teams of 6-15 typically deploy 2-3 AI Agents with CRM sync and calendar integration. We\'ll configure smart routing to your team.'
+                                                                    : 'Enterprise-scale deployments get dedicated AI Agents per department with custom training. Your specialist will design the optimal architecture.'}
                                                         </p>
                                                     </div>
                                                 </motion.div>
@@ -1287,9 +1275,8 @@ export const GetStartedPage: React.FC = () => {
                                 <button
                                     onClick={goBack}
                                     disabled={step === 1}
-                                    className={`flex items-center gap-2 px-3 md:px-4 py-2 font-mono text-xs uppercase tracking-widest transition-all rounded-md ${
-                                        step === 1 ? 'text-zinc-700 cursor-not-allowed' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/40'
-                                    }`}
+                                    className={`flex items-center gap-2 px-3 md:px-4 py-2 font-mono text-xs uppercase tracking-widest transition-all rounded-md ${step === 1 ? 'text-zinc-700 cursor-not-allowed' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/40'
+                                        }`}
                                 >
                                     <ArrowLeft size={14} />
                                     <span className="hidden sm:inline">Back</span>
@@ -1299,11 +1286,10 @@ export const GetStartedPage: React.FC = () => {
                                     <button
                                         onClick={goNext}
                                         disabled={!canAdvance()}
-                                        className={`group relative flex items-center gap-2 px-6 md:px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${
-                                            canAdvance()
+                                        className={`group relative flex items-center gap-2 px-6 md:px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
                                                 ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
                                                 : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-                                        }`}
+                                            }`}
                                     >
                                         {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
                                         <span className="relative z-10">Continue</span>
@@ -1313,11 +1299,10 @@ export const GetStartedPage: React.FC = () => {
                                     <button
                                         onClick={handleSubmit}
                                         disabled={!canAdvance()}
-                                        className={`group relative flex items-center gap-2 px-6 md:px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${
-                                            canAdvance()
+                                        className={`group relative flex items-center gap-2 px-6 md:px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
                                                 ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
                                                 : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-                                        }`}
+                                            }`}
                                     >
                                         {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
                                         <Send size={14} className="relative z-10" />
@@ -1341,11 +1326,10 @@ export const GetStartedPage: React.FC = () => {
                     {/* Step dots */}
                     <div className="flex items-center justify-center gap-2 mt-6">
                         {[1, 2, 3, 4, 5].map((s) => (
-                            <div key={s} className={`rounded-full transition-all duration-300 ${
-                                s === step ? 'w-6 h-1.5 bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)]'
+                            <div key={s} className={`rounded-full transition-all duration-300 ${s === step ? 'w-6 h-1.5 bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)]'
                                     : s < step ? 'w-3 h-1.5 bg-orange-500/40'
-                                    : 'w-3 h-1.5 bg-zinc-800'
-                            }`} />
+                                        : 'w-3 h-1.5 bg-zinc-800'
+                                }`} />
                         ))}
                     </div>
                 </div>

@@ -70,7 +70,7 @@ If you have questions, concerns, or requests related to this Privacy Policy or h
 
 TaskRig
 Email: [your@email.com]
-Phone: [Your Contact Number]
+Phone: +1 844-222-2630
 Website: [www.taskrig.com]
 
 10. Updates to This Policy
