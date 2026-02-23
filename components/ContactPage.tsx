@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { ArrowLeft, Send, CheckCircle2, AlertCircle, Loader2, Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { TaskRigLogo } from './ui/TaskRigLogo';
 import { Footer } from './Footer';
 
 export const ContactPage: React.FC = () => {
-    const [formData, setFormData] = useState({ name: '', email: '', company: '', message: '' });
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        company: '',
+        message: '',
+        consentMarketing: false,
+        consentTransactional: false
+    });
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -13,7 +21,7 @@ export const ContactPage: React.FC = () => {
     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked : e.target.value }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -50,14 +58,14 @@ export const ContactPage: React.FC = () => {
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-20">
                 <div className="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                        <TaskRigLogo className="h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
-                        <div className="font-heading font-bold text-2xl tracking-tight text-white">TASK RIG</div>
-                    </div>
-                    <a href="/" className="group flex items-center gap-2 px-4 py-2 text-zinc-400 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors">
+                    <Link to="/" className="flex items-center gap-3 group no-underline">
+                        <TaskRigLogo className="h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)] group-hover:scale-105 transition-transform" />
+                        <div className="font-heading font-bold text-2xl tracking-tight text-white group-hover:text-orange-500 transition-colors">TASK RIG</div>
+                    </Link>
+                    <Link to="/" className="group flex items-center gap-2 px-4 py-2 text-zinc-400 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors no-underline">
                         <ArrowLeft size={14} className="text-zinc-500 group-hover:text-orange-500 transition-colors" />
                         Back to Home
-                    </a>
+                    </Link>
                 </div>
             </nav>
 
@@ -154,6 +162,40 @@ export const ContactPage: React.FC = () => {
                                     className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700 resize-none"
                                     placeholder="How can we help you..."
                                 ></textarea>
+                            </div>
+
+                            <div className="space-y-4 pt-4">
+                                <label className="flex items-start gap-3 cursor-pointer group">
+                                    <div className="mt-0.5 relative flex items-center justify-center w-4 h-4 rounded border border-zinc-700 bg-zinc-900 group-hover:border-orange-500/50 transition-colors">
+                                        <input
+                                            type="checkbox"
+                                            name="consentMarketing"
+                                            checked={formData.consentMarketing}
+                                            onChange={handleChange}
+                                            className="absolute opacity-0 w-full h-full cursor-pointer"
+                                        />
+                                        {formData.consentMarketing && <Check size={12} className="text-orange-500" />}
+                                    </div>
+                                    <span className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest leading-relaxed flex-1">
+                                        I consent to receive marketing text messages from TaskRig at the phone number provided. Frequency may vary. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.
+                                    </span>
+                                </label>
+
+                                <label className="flex items-start gap-3 cursor-pointer group">
+                                    <div className="mt-0.5 relative flex items-center justify-center w-4 h-4 rounded border border-zinc-700 bg-zinc-900 group-hover:border-orange-500/50 transition-colors">
+                                        <input
+                                            type="checkbox"
+                                            name="consentTransactional"
+                                            checked={formData.consentTransactional}
+                                            onChange={handleChange}
+                                            className="absolute opacity-0 w-full h-full cursor-pointer"
+                                        />
+                                        {formData.consentTransactional && <Check size={12} className="text-orange-500" />}
+                                    </div>
+                                    <span className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest leading-relaxed flex-1">
+                                        I consent to receive non-marketing text messages from TaskRig about my order updates, appointment reminders, etc. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.
+                                    </span>
+                                </label>
                             </div>
 
                             <div className="pt-4 border-t border-zinc-800">

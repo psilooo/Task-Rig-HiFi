@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { name, email, company, message } = req.body;
+        const { name, email, company, message, consentMarketing, consentTransactional } = req.body;
 
         if (!name || !email || !message) {
             return res.status(400).json({ error: 'Name, email, and message are required fields.' });
@@ -40,6 +40,10 @@ export default async function handler(req, res) {
             <p><strong>Company:</strong> ${company || 'N/A'}</p>
             <p><strong>Message:</strong></p>
             <p style="white-space: pre-wrap;">${message}</p>
+            <br/>
+            <h3>SMS Consent Details</h3>
+            <p><strong>Marketing Texts:</strong> ${consentMarketing ? 'Provided' : 'Opted Out'}</p>
+            <p><strong>Transactional / Reminder Texts:</strong> ${consentTransactional ? 'Provided' : 'Opted Out'}</p>
         </div>
       `,
         });

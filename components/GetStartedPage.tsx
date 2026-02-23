@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { TaskRigLogo } from './ui/TaskRigLogo';
 import { DynamicNoise } from './DynamicNoise';
+import { Footer } from './Footer';
 
 // ─── TYPES ────────────────────────────────────────────────────────
 
@@ -41,6 +42,8 @@ interface LeadData {
     contactRole: string;
     preferredContactMethod: string;
     notes: string;
+    consentMarketing: boolean;
+    consentTransactional: boolean;
 }
 
 interface PlacePrediction {
@@ -743,10 +746,10 @@ export const GetStartedPage: React.FC = () => {
                                     <React.Fragment key={i}>
                                         <div className="flex items-center gap-1.5 md:gap-2">
                                             <div className={`w-6 h-6 md:w-7 md:h-7 rounded-md flex items-center justify-center transition-all duration-300 ${isActive
-                                                    ? 'bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.3)]'
-                                                    : isComplete
-                                                        ? 'bg-orange-500/20 border border-orange-500/30'
-                                                        : 'bg-zinc-900 border border-zinc-800'
+                                                ? 'bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.3)]'
+                                                : isComplete
+                                                    ? 'bg-orange-500/20 border border-orange-500/30'
+                                                    : 'bg-zinc-900 border border-zinc-800'
                                                 }`}>
                                                 {isComplete ? (
                                                     <Check size={12} className="text-orange-500" />
@@ -939,8 +942,8 @@ export const GetStartedPage: React.FC = () => {
                                                             }
                                                         }}
                                                         className={`relative flex flex-col items-center justify-center gap-2 p-3 rounded-lg border transition-all duration-200 aspect-square ${isSelected
-                                                                ? 'border-orange-500/50 bg-orange-500/[0.08] shadow-[0_0_12px_rgba(249,115,22,0.1)]'
-                                                                : 'border-zinc-800/60 bg-zinc-900/30 hover:border-zinc-700 hover:bg-zinc-800/40'
+                                                            ? 'border-orange-500/50 bg-orange-500/[0.08] shadow-[0_0_12px_rgba(249,115,22,0.1)]'
+                                                            : 'border-zinc-800/60 bg-zinc-900/30 hover:border-zinc-700 hover:bg-zinc-800/40'
                                                             }`}
                                                     >
                                                         <Icon size={20} className={`transition-colors ${isSelected ? 'text-orange-500' : 'text-zinc-500'}`} />
@@ -1006,8 +1009,8 @@ export const GetStartedPage: React.FC = () => {
                                                                         key={service}
                                                                         onClick={() => toggleArrayItem('services', service)}
                                                                         className={`px-3 py-1.5 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.services.includes(service)
-                                                                                ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
-                                                                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                                                            ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
+                                                                            : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
                                                                             }`}
                                                                     >
                                                                         {service}
@@ -1078,8 +1081,8 @@ export const GetStartedPage: React.FC = () => {
                                                             key={size}
                                                             onClick={() => update({ teamSize: size })}
                                                             className={`px-3 py-2 font-mono text-[11px] uppercase tracking-wider border transition-all duration-200 rounded-md ${data.teamSize === size
-                                                                    ? 'border-orange-500/50 bg-orange-500/10 text-orange-400 shadow-[0_0_8px_rgba(249,115,22,0.08)]'
-                                                                    : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                                                ? 'border-orange-500/50 bg-orange-500/10 text-orange-400 shadow-[0_0_8px_rgba(249,115,22,0.08)]'
+                                                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
                                                                 }`}
                                                         >
                                                             {size}
@@ -1104,8 +1107,8 @@ export const GetStartedPage: React.FC = () => {
                                                             key={vol}
                                                             onClick={() => update({ monthlyCallVolume: vol })}
                                                             className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.monthlyCallVolume === vol
-                                                                    ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
-                                                                    : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                                                ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
+                                                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
                                                                 }`}
                                                         >
                                                             {vol}
@@ -1130,8 +1133,8 @@ export const GetStartedPage: React.FC = () => {
                                                             key={vol}
                                                             onClick={() => update({ monthlyLeadVolume: vol })}
                                                             className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.monthlyLeadVolume === vol
-                                                                    ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
-                                                                    : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                                                ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
+                                                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
                                                                 }`}
                                                         >
                                                             {vol}
@@ -1156,8 +1159,8 @@ export const GetStartedPage: React.FC = () => {
                                                             key={hr}
                                                             onClick={() => update({ operatingHours: hr })}
                                                             className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.operatingHours === hr
-                                                                    ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
-                                                                    : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                                                ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
+                                                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
                                                                 }`}
                                                         >
                                                             {hr}
@@ -1270,87 +1273,109 @@ export const GetStartedPage: React.FC = () => {
                                 )}
                             </AnimatePresence>
 
-                            {/* Navigation Buttons */}
-                            <div className="flex items-center justify-between mt-auto pt-6 md:pt-8 border-t border-zinc-800/30">
+                        </div>
+
+                        {/* SMS Consent Checkboxes */}
+                        {step === TOTAL_STEPS && (
+                            <div className="space-y-4 pt-6 border-t border-zinc-800/30">
+                                <label className="flex items-start gap-3 cursor-pointer group">
+                                    <div className="mt-0.5 relative flex items-center justify-center w-4 h-4 rounded border border-zinc-700 bg-zinc-900 group-hover:border-orange-500/50 transition-colors">
+                                        <input
+                                            type="checkbox"
+                                            checked={data.consentMarketing}
+                                            onChange={(e) => update({ consentMarketing: e.target.checked })}
+                                            className="absolute opacity-0 w-full h-full cursor-pointer"
+                                        />
+                                        {data.consentMarketing && <Check size={12} className="text-orange-500" />}
+                                    </div>
+                                    <span className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest leading-relaxed flex-1 text-left">
+                                        I consent to receive marketing text messages from TaskRig at the phone number provided. Frequency may vary. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.
+                                    </span>
+                                </label>
+
+                                <label className="flex items-start gap-3 cursor-pointer group">
+                                    <div className="mt-0.5 relative flex items-center justify-center w-4 h-4 rounded border border-zinc-700 bg-zinc-900 group-hover:border-orange-500/50 transition-colors">
+                                        <input
+                                            type="checkbox"
+                                            checked={data.consentTransactional}
+                                            onChange={(e) => update({ consentTransactional: e.target.checked })}
+                                            className="absolute opacity-0 w-full h-full cursor-pointer"
+                                        />
+                                        {data.consentTransactional && <Check size={12} className="text-orange-500" />}
+                                    </div>
+                                    <span className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest leading-relaxed flex-1 text-left">
+                                        I consent to receive non-marketing text messages from TaskRig about my order updates, appointment reminders, etc. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.
+                                    </span>
+                                </label>
+                            </div>
+                        )}
+
+                        {/* Navigation Buttons */}
+                        <div className="flex items-center justify-between mt-auto pt-6 border-t border-zinc-800/30">
+                            <button
+                                onClick={goBack}
+                                disabled={step === 1}
+                                className={`flex items-center gap-2 px-3 md:px-4 py-2 font-mono text-xs uppercase tracking-widest transition-all rounded-md ${step === 1 ? 'text-zinc-700 cursor-not-allowed' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/40'
+                                    }`}
+                            >
+                                <ArrowLeft size={14} />
+                                <span className="hidden sm:inline">Back</span>
+                            </button>
+
+                            {step < TOTAL_STEPS ? (
                                 <button
-                                    onClick={goBack}
-                                    disabled={step === 1}
-                                    className={`flex items-center gap-2 px-3 md:px-4 py-2 font-mono text-xs uppercase tracking-widest transition-all rounded-md ${step === 1 ? 'text-zinc-700 cursor-not-allowed' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/40'
+                                    onClick={goNext}
+                                    disabled={!canAdvance()}
+                                    className={`group relative flex items-center gap-2 px-6 md:px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
+                                        ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
+                                        : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
                                         }`}
                                 >
-                                    <ArrowLeft size={14} />
-                                    <span className="hidden sm:inline">Back</span>
+                                    {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
+                                    <span className="relative z-10">Continue</span>
+                                    <ArrowRight size={14} className="relative z-10" />
                                 </button>
-
-                                {step < TOTAL_STEPS ? (
-                                    <button
-                                        onClick={goNext}
-                                        disabled={!canAdvance()}
-                                        className={`group relative flex items-center gap-2 px-6 md:px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
-                                                ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
-                                                : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-                                            }`}
-                                    >
-                                        {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
-                                        <span className="relative z-10">Continue</span>
-                                        <ArrowRight size={14} className="relative z-10" />
-                                    </button>
-                                ) : (
-                                    <button
-                                        onClick={handleSubmit}
-                                        disabled={!canAdvance()}
-                                        className={`group relative flex items-center gap-2 px-6 md:px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
-                                                ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
-                                                : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-                                            }`}
-                                    >
-                                        {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
-                                        <Send size={14} className="relative z-10" />
-                                        <span className="relative z-10">Get My Custom Plan</span>
-                                    </button>
-                                )}
-                            </div>
-
-                            {/* Fine print - only on last step */}
-                            {step === TOTAL_STEPS && (
-                                <p className="text-center font-mono text-[10px] text-zinc-600/50 leading-relaxed mt-4 px-2">
-                                    By submitting, you agree to receive SMS updates from TaskRig. Msg &amp; data rates may apply. Reply STOP anytime.{' '}
-                                    <Link to="/privacy-policy" className="text-zinc-500/60 hover:text-zinc-400 underline underline-offset-2 transition-colors">
-                                        Privacy Policy
-                                    </Link>
-                                </p>
+                            ) : (
+                                <button
+                                    onClick={handleSubmit}
+                                    disabled={!canAdvance()}
+                                    className={`group relative flex items-center gap-2 px-6 md:px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
+                                        ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
+                                        : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
+                                        }`}
+                                >
+                                    {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
+                                    <Send size={14} className="relative z-10" />
+                                    <span className="relative z-10">Get My Custom Plan</span>
+                                </button>
                             )}
                         </div>
-                    </div>
 
-                    {/* Step dots */}
-                    <div className="flex items-center justify-center gap-2 mt-6">
-                        {[1, 2, 3, 4, 5].map((s) => (
-                            <div key={s} className={`rounded-full transition-all duration-300 ${s === step ? 'w-6 h-1.5 bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)]'
-                                    : s < step ? 'w-3 h-1.5 bg-orange-500/40'
-                                        : 'w-3 h-1.5 bg-zinc-800'
-                                }`} />
-                        ))}
+                        {/* Fine print - only on last step */}
+                        {step === TOTAL_STEPS && (
+                            <p className="text-center font-mono text-[10px] text-zinc-600/50 leading-relaxed mt-4 px-2">
+                                By submitting, you agree to receive SMS updates from TaskRig. Msg &amp; data rates may apply. Reply STOP anytime.{' '}
+                                <Link to="/privacy-policy" className="text-zinc-500/60 hover:text-zinc-400 underline underline-offset-2 transition-colors">
+                                    Privacy Policy
+                                </Link>
+                            </p>
+                        )}
                     </div>
+                </div>
+
+                {/* Step dots */}
+                <div className="flex items-center justify-center gap-2 mt-6">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                        <div key={s} className={`rounded-full transition-all duration-300 ${s === step ? 'w-6 h-1.5 bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)]'
+                            : s < step ? 'w-3 h-1.5 bg-orange-500/40'
+                                : 'w-3 h-1.5 bg-zinc-800'
+                            }`} />
+                    ))}
                 </div>
             </div>
 
             {/* Footer */}
-            <footer className="bg-zinc-950 py-4 md:py-6 px-4 md:px-6 border-t border-zinc-800 relative z-10 mt-auto">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
-                    <div className="flex items-center gap-2">
-                        <TaskRigLogo className="w-4 h-auto text-zinc-800" />
-                        <span className="font-heading font-bold text-sm tracking-tight text-zinc-700">TASK RIG</span>
-                    </div>
-                    <div className="text-zinc-600 font-mono text-[10px] uppercase tracking-widest text-center flex-1">
-                        &copy; 2026 Task Rig Systems Inc. All Rights Reserved.
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-emerald-900"></div>
-                        <span className="text-zinc-700 font-mono text-[10px] uppercase tracking-widest">Systems Normal</span>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 };
