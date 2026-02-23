@@ -965,13 +965,14 @@ export const GetStartedPage: React.FC = () => {
                                         <AnimatePresence>
                                             {data.industries.includes('other') && (
                                                 <motion.div
+                                                    key="other-industry"
                                                     initial={{ height: 0, opacity: 0 }}
                                                     animate={{ height: 'auto', opacity: 1 }}
                                                     exit={{ height: 0, opacity: 0 }}
                                                     transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                                                    className="overflow-hidden mb-6"
+                                                    className="overflow-hidden"
                                                 >
-                                                    <div className="pt-2">
+                                                    <div className="pt-2 pb-6">
                                                         <InputField label="Your Industry" value={data.customIndustry} onChange={(v) => update({ customIndustry: v })} placeholder="e.g., Pool Cleaning, Window Tinting..." required />
                                                     </div>
                                                 </motion.div>
