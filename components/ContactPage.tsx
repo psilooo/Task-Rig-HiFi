@@ -1,11 +1,46 @@
-import React, { useEffect } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ArrowLeft, Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { TaskRigLogo } from './ui/TaskRigLogo';
 
 export const ContactPage: React.FC = () => {
+    const [formData, setFormData] = useState({ name: '', email: '', company: '', message: '' });
+    const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('submitting');
+        setErrorMessage('');
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to send message.');
+            }
+
+            setStatus('success');
+            setFormData({ name: '', email: '', company: '', message: '' });
+        } catch (error: any) {
+            console.error('Submission error:', error);
+            setStatus('error');
+            setErrorMessage(error.message || 'An unexpected error occurred. Please try again.');
+        }
+    };
 
     return (
         <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
@@ -28,35 +63,127 @@ export const ContactPage: React.FC = () => {
             {/* Content */}
             <main className="relative z-10 pt-32 pb-24 px-6 flex flex-col justify-center min-h-[calc(100vh-160px)]">
                 <div className="max-w-3xl mx-auto bg-zinc-900/40 border border-zinc-800/50 p-8 md:p-12 rounded-sm shadow-xl backdrop-blur-sm w-full">
-                    <div className="mb-12 border-b border-zinc-800 pb-8">
-                        <h1 className="font-heading font-bold text-4xl mb-2 text-white uppercase tracking-tight">Contact Us</h1>
-                        <p className="text-zinc-500 font-mono text-sm">We're here to help.</p>
-                    </div>
-
-                    <div className="prose prose-invert prose-zinc max-w-none text-zinc-300 font-mono text-sm leading-relaxed
-                prose-headings:font-heading prose-headings:font-bold prose-headings:text-white prose-headings:uppercase prose-headings:tracking-wide
-                prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:text-orange-500
-                prose-a:text-orange-500 prose-a:no-underline hover:prose-a:text-orange-400
-                prose-ul:list-disc prose-ul:pl-6 prose-li:my-2 prose-li:text-zinc-400
-                prose-strong:text-zinc-100">
-
-                        <p>
-                            Have questions about our AI orchestration platform or need help planning your deployment? Our team is ready to assist you.
-                        </p>
-
-                        <div className="bg-zinc-950 p-6 rounded-sm border border-zinc-800 mt-8 mb-8">
-                            <p className="m-0 mb-1"><strong className="text-orange-500">TaskRig Support</strong></p>
-                            <p className="m-0 mb-1">Email: <a href="mailto:info@taskrig.ca">info@taskrig.ca</a></p>
-                            <p className="m-0 mb-1">Phone: <a href="tel:+18442222630">+1 844-222-2630</a></p>
-                            <p className="m-0">Website: <a href="/">taskrig.ca</a></p>
+                    <div className="mb-12 border-b border-zinc-800 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                        <div>
+                            <h1 className="font-heading font-bold text-4xl mb-2 text-white uppercase tracking-tight">Contact Us</h1>
+                            <p className="text-zinc-500 font-mono text-sm">We're here to help.</p>
                         </div>
-
+                        <div className="text-right">
+                            <p className="text-zinc-400 font-mono text-sm">Email: <a href="mailto:info@taskrig.ca" className="text-orange-500 hover:underline">info@taskrig.ca</a></p>
+                            <p className="text-zinc-400 font-mono text-sm mt-1">Phone: <a href="tel:+18442222630" className="text-orange-500 hover:underline">+1 844-222-2630</a></p>
+                        </div>
                     </div>
+
+                    {status === 'success' ? (
+                        <div className="bg-emerald-500/10 border border-emerald-500/20 p-8 rounded-sm text-center">
+                            <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <CheckCircle2 className="w-8 h-8 text-emerald-500" />
+                            </div>
+                            <h2 className="text-xl font-heading font-bold text-white mb-2 uppercase tracking-wide">Message Sent Successfully</h2>
+                            <p className="text-zinc-400 font-mono text-sm max-w-md mx-auto mb-8">
+                                Thank you for contacting TaskRig. Our team has received your message and will respond shortly.
+                            </p>
+                            <button
+                                onClick={() => setStatus('idle')}
+                                className="px-6 py-2 bg-zinc-800 hover:bg-zinc-700 text-white font-mono text-xs uppercase tracking-widest transition-colors rounded-sm border border-zinc-700"
+                            >
+                                Send Another Message
+                            </button>
+                        </div>
+                    ) : (
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            {status === 'error' && (
+                                <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-sm flex gap-3 text-red-400 font-mono text-sm">
+                                    <AlertCircle className="w-5 h-5 shrink-0" />
+                                    <p>{errorMessage}</p>
+                                </div>
+                            )}
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label htmlFor="name" className="block text-zinc-400 font-mono text-xs uppercase tracking-widest mb-2">Name <span className="text-orange-500">*</span></label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        required
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700"
+                                        placeholder="Jane Doe"
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="email" className="block text-zinc-400 font-mono text-xs uppercase tracking-widest mb-2">Email Address <span className="text-orange-500">*</span></label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700"
+                                        placeholder="jane@acmehvac.com"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label htmlFor="company" className="block text-zinc-400 font-mono text-xs uppercase tracking-widest mb-2">Company Name</label>
+                                <input
+                                    type="text"
+                                    id="company"
+                                    name="company"
+                                    value={formData.company}
+                                    onChange={handleChange}
+                                    className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700"
+                                    placeholder="Acme HVAC"
+                                />
+                            </div>
+
+                            <div>
+                                <label htmlFor="message" className="block text-zinc-400 font-mono text-xs uppercase tracking-widest mb-2">Message <span className="text-orange-500">*</span></label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    required
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    rows={5}
+                                    className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700 resize-none"
+                                    placeholder="How can we help you..."
+                                ></textarea>
+                            </div>
+
+                            <div className="pt-4 border-t border-zinc-800">
+                                <button
+                                    type="submit"
+                                    disabled={status === 'submitting'}
+                                    className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-orange-500 hover:bg-orange-400 text-white font-mono text-xs uppercase tracking-widest transition-all rounded-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
+                                >
+                                    {status === 'submitting' ? (
+                                        <>
+                                            <Loader2 size={16} className="animate-spin" />
+                                            Sending...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Send size={16} />
+                                            Send Message
+                                        </>
+                                    )}
+                                </button>
+                                <p className="text-center text-zinc-600 font-mono text-[10px] uppercase tracking-widest mt-4">
+                                    Protected by standard form security protocols.
+                                </p>
+                            </div>
+                        </form>
+                    )}
                 </div>
             </main>
 
             {/* Footer */}
-            <footer className="bg-zinc-950 pt-10 pb-10 px-6 border-t border-zinc-800 relative z-10">
+            <footer className="bg-zinc-950 pt-10 pb-10 px-6 border-t border-zinc-800 relative z-10 transition-colors">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-2">
                         <TaskRigLogo className="w-5 h-auto text-zinc-800" />
