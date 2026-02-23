@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { TaskRigLogo } from './ui/TaskRigLogo';
+import { Footer } from './Footer';
 
 export const TermsPage: React.FC = () => {
     useEffect(() => {
@@ -171,21 +172,7 @@ export const TermsPage: React.FC = () => {
             </main>
 
             {/* Footer */}
-            <footer className="bg-zinc-950 pt-10 pb-10 px-6 border-t border-zinc-800 relative z-10">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div className="flex items-center gap-2">
-                        <TaskRigLogo className="w-5 h-auto text-zinc-800" />
-                        <span className="font-heading font-bold text-lg tracking-tight text-zinc-700">TASK RIG</span>
-                    </div>
-                    <div className="text-zinc-600 font-mono text-[10px] uppercase tracking-widest text-center flex-1">
-                        © 2026 Task Rig Systems Inc. All Rights Reserved.
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-emerald-900"></div>
-                        <span className="text-zinc-700 font-mono text-[10px] uppercase tracking-widest">Systems Normal</span>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 };
