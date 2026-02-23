@@ -968,7 +968,9 @@ export const GetStartedPage: React.FC = () => {
                                             })}
                                         </motion.div>
 
-                                        <AnimatePresence>
+                                        <AnimatePresence
+                                            onExitComplete={() => { document.documentElement.style.overflowAnchor = ''; }}
+                                        >
                                             {data.industries.includes('other') && (
                                                 <motion.div
                                                     key="other-industry"
@@ -977,6 +979,8 @@ export const GetStartedPage: React.FC = () => {
                                                     exit={{ height: 0, opacity: 0 }}
                                                     transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                                                     className="overflow-hidden"
+                                                    onAnimationStart={() => { document.documentElement.style.overflowAnchor = 'none'; }}
+                                                    onAnimationComplete={() => { document.documentElement.style.overflowAnchor = ''; }}
                                                 >
                                                     <div className="pt-2 pb-6">
                                                         <InputField label="Your Industry" value={data.customIndustry} onChange={(v) => update({ customIndustry: v })} placeholder="e.g., Pool Cleaning, Window Tinting..." required />
