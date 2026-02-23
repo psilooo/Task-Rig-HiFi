@@ -559,11 +559,17 @@ export const GetStartedPage: React.FC = () => {
 
     // ─── NAVIGATION ───────────────────────────────────────────────
 
+    const scrollToTop = useCallback(() => {
+        requestAnimationFrame(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }, []);
+
     const goNext = () => {
         if (step < TOTAL_STEPS) {
             setDirection(1);
             setStep(step + 1);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            scrollToTop();
         }
     };
 
@@ -571,7 +577,7 @@ export const GetStartedPage: React.FC = () => {
         if (step > 1) {
             setDirection(-1);
             setStep(step - 1);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            scrollToTop();
         }
     };
 
@@ -588,7 +594,7 @@ export const GetStartedPage: React.FC = () => {
         // Ready to POST to API endpoint
         console.log('[TaskRig Lead Capture]', JSON.stringify(payload, null, 2));
         setSubmitted(true);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollToTop();
     };
 
     const canAdvance = (): boolean => {
