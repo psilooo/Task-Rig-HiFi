@@ -10,6 +10,7 @@ import { LoginPage } from './components/LoginPage';
 import { LandingPage } from './components/LandingPage';
 import { PrivacyPage } from './components/PrivacyPage';
 import { ContactPage } from './components/ContactPage';
+import { TermsPage } from './components/TermsPage';
 import { GetStartedPage } from './components/GetStartedPage';
 import { Tab, TimeRange } from './types';
 import { Reveal } from './components/ui/Reveal';
@@ -102,6 +103,7 @@ const App: React.FC = () => {
       {initialLoading && <LoadingScreen onComplete={() => setInitialLoading(false)} />}
       <Routes>
         <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/get-started" element={<GetStartedPage />} />
         <Route path="*" element={renderLandingView()} />
