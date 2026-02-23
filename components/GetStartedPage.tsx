@@ -1210,7 +1210,7 @@ export const GetStartedPage: React.FC = () => {
                                 {/* STEP 5: Contact Info */}
                                 {step === 5 && (
                                     <motion.div key="step5" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
-                                        <StepLabel tag={STEP_META[4].tag} title="Connect" subtitle="We'll build your custom TaskRig deployment and reach out within 24 hours." />
+                                        <StepLabel tag={STEP_META[4].tag} title="Connect With Us" subtitle="We'll build your custom TaskRig deployment and reach out within 24 hours." />
 
                                         <div className="space-y-4">
                                             <InputField label="Full Name" value={data.contactName} onChange={(v) => update({ contactName: v })} placeholder="Jane Doe" required icon={User} />
