@@ -857,8 +857,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         {faqItems.map((item, i) => (
                             <ScrollReveal key={i} delay={i * 0.05}>
                                 <div className={`group relative border rounded-lg overflow-hidden transition-all duration-500 ${openFaq === i
-                                        ? 'border-orange-500/30 bg-orange-500/[0.04] shadow-[0_0_30px_rgba(255,106,21,0.06)]'
-                                        : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.03]'
+                                    ? 'border-orange-500/30 bg-orange-500/[0.04] shadow-[0_0_30px_rgba(255,106,21,0.06)]'
+                                    : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.03]'
                                     }`}>
                                     <button
                                         onClick={() => setOpenFaq(openFaq === i ? null : i)}
@@ -866,8 +866,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     >
                                         {/* Index number */}
                                         <div className={`flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 ${openFaq === i
-                                                ? 'bg-orange-500 text-black shadow-[0_0_15px_rgba(255,106,21,0.3)]'
-                                                : 'bg-zinc-800/80 text-zinc-500 group-hover:bg-zinc-800 group-hover:text-zinc-400'
+                                            ? 'bg-orange-500 text-black shadow-[0_0_15px_rgba(255,106,21,0.3)]'
+                                            : 'bg-zinc-800/80 text-zinc-500 group-hover:bg-zinc-800 group-hover:text-zinc-400'
                                             }`}>
                                             {String(i + 1).padStart(2, '0')}
                                         </div>
@@ -882,8 +882,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                                         {/* Toggle icon */}
                                         <div className={`flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center transition-all duration-300 mt-0.5 ${openFaq === i
-                                                ? 'bg-orange-500/20 text-orange-500'
-                                                : 'bg-zinc-800/50 text-zinc-600 group-hover:text-zinc-400'
+                                            ? 'bg-orange-500/20 text-orange-500'
+                                            : 'bg-zinc-800/50 text-zinc-600 group-hover:text-zinc-400'
                                             }`}>
                                             {openFaq === i ? <Minus size={12} /> : <Plus size={12} />}
                                         </div>
@@ -994,6 +994,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     </p>
                     <div className="flex gap-6">
                         <a href="/privacy" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors border-b border-transparent hover:border-orange-500/30 pb-1">Privacy Protocol</a>
+                        <a href="/contact" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors border-b border-transparent hover:border-orange-500/30 pb-1">Contact Us</a>
                     </div>
                 </div>
 
