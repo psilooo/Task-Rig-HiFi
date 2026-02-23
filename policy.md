@@ -69,7 +69,7 @@ We take reasonable technical and organizational measures to protect your persona
 If you have questions, concerns, or requests related to this Privacy Policy or how we handle your personal information, please contact us:
 
 TaskRig
-Email: [your@email.com]
+Email: info@taskrig.ca
 Phone: +1 844-222-2630
 Website: [www.taskrig.com]
 

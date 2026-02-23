@@ -117,7 +117,7 @@ export const PrivacyPage: React.FC = () => {
                         <p>If you have questions, concerns, or requests related to this Privacy Policy or how we handle your personal information, please contact us:</p>
                         <div className="bg-zinc-950 p-6 rounded-sm border border-zinc-800 mt-4 mb-8">
                             <p className="m-0 mb-1"><strong className="text-orange-500">TaskRig</strong></p>
-                            <p className="m-0 mb-1">Email: [your@email.com]</p>
+                            <p className="m-0 mb-1">Email: info@taskrig.ca</p>
                             <p className="m-0 mb-1">Phone: +1 844-222-2630</p>
                             <p className="m-0">Website: [www.taskrig.com]</p>
                         </div>
