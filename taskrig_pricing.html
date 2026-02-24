@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskRig — Pricing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0d0d0d;
+    --bg2:       #141414;
+    --bg3:       #1a1a1a;
+    --border:    #2a2a2a;
+    --border-hi: #3a3a3a;
+    --orange:    #f5620f;
+    --orange-lo: rgba(245,98,15,0.12);
+    --orange-md: rgba(245,98,15,0.25);
+    --white:     #ffffff;
+    --gray:      #888888;
+    --gray2:     #555555;
+    --text:      #e8e8e8;
+    --mono:      'Space Mono', monospace;
+    --sans:      'Barlow', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px;
+    overflow-x: hidden;
+  }
+
+  /* subtle grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1160px;
+  }
+
+  /* ── Header ── */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--orange);
+  }
+
+  h1 {
+    font-family: var(--sans);
+    font-weight: 900;
+    font-size: clamp(36px, 6vw, 72px);
+    line-height: 1;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .sub {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gray);
+    text-align: center;
+    letter-spacing: 0.04em;
+    margin-bottom: 64px;
+  }
+
+  /* ── Toggle ── */
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 52px;
+  }
+  .toggle-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gray);
+    letter-spacing: 0.08em;
+  }
+  .toggle-label.active { color: var(--white); }
+  .toggle {
+    width: 44px;
+    height: 24px;
+    background: var(--bg3);
+    border: 1px solid var(--border-hi);
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .toggle.on { background: var(--orange); border-color: var(--orange); }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--white);
+    transition: transform 0.2s;
+  }
+  .toggle.on::after { transform: translateX(20px); }
+  .save-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--orange);
+    background: var(--orange-lo);
+    border: 1px solid var(--orange);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 32px;
+    position: relative;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .card:hover {
+    border-color: var(--border-hi);
+    transform: translateY(-4px);
+  }
+  .card.featured {
+    border-color: var(--orange);
+    background: linear-gradient(160deg, #1c1208 0%, var(--bg2) 60%);
+    transform: translateY(-8px);
+  }
+  .card.featured:hover { transform: translateY(-12px); }
+
+  /* orange glow on featured */
+  .card.featured::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--orange) 0%, transparent 60%);
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  /* ── Popular badge ── */
+  .popular-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange);
+    color: var(--white);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* ── Tier label ── */
+  .tier-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .tier-tag.green  { color: #4ade80; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); }
+  .tier-tag.blue   { color: #60a5fa; background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.3); }
+  .tier-tag.silver { color: #d1d5db; background: rgba(209,213,219,0.08); border: 1px solid rgba(209,213,219,0.25); }
+
+  .card-title {
+    font-family: var(--sans);
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .card-tagline {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 0.04em;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  /* ── Price ── */
+  .price-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .price-dollar {
+    font-family: var(--sans);
+    font-weight: 900;
+    font-size: 52px;
+    line-height: 1;
+    color: var(--white);
+    letter-spacing: -0.03em;
+  }
+  .price-mo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gray);
+    padding-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+  .price-currency {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gray);
+    padding-bottom: 8px;
+  }
+  .price-annual {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--orange);
+    margin-bottom: 28px;
+    min-height: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+
+  /* ── Features ── */
+  .features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    margin-bottom: 32px;
+  }
+  .features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: #c8c8c8;
+    line-height: 1.45;
+  }
+  .features li .check {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+  }
+  .features li .check-green { color: #4ade80; }
+  .features li .check-blue  { color: #60a5fa; }
+  .features li .check-white { color: var(--white); }
+
+  .feat-bold {
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  /* ── Section header inside features ── */
+  .feat-section {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gray2);
+    padding-top: 4px;
+  }
+
+  /* ── CTA Button ── */
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-hi);
+    color: var(--text);
+  }
+  .btn-outline:hover {
+    border-color: var(--white);
+    color: var(--white);
+    background: rgba(255,255,255,0.04);
+  }
+  .btn-orange {
+    background: var(--orange);
+    color: var(--white);
+    box-shadow: 0 4px 24px rgba(245,98,15,0.35);
+  }
+  .btn-orange:hover {
+    background: #ff6e1a;
+    box-shadow: 0 4px 32px rgba(245,98,15,0.55);
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border-hi);
+    color: var(--gray);
+  }
+  .btn-ghost:hover {
+    border-color: var(--gray);
+    color: var(--text);
+  }
+
+  /* ── Setup fee note ── */
+  .setup-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray2);
+    text-align: center;
+    margin-top: 10px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Bottom strip ── */
+  .bottom-strip {
+    margin-top: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .strip-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 0.06em;
+  }
+  .strip-item svg { color: var(--orange); }
+
+  /* ── Overage note ── */
+  .overage {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--gray2);
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .card.featured { transform: none; }
+    .card.featured:hover { transform: translateY(-4px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="eyebrow">Pricing</div>
+  <h1>Simple, Transparent Pricing</h1>
+  <p class="sub">Fully built for you. Live in 48 hours. Cancel anytime. No hidden fees.</p>
+
+  <!-- Annual toggle -->
+  <div class="toggle-wrap">
+    <span class="toggle-label active" id="lbl-monthly">Monthly</span>
+    <div class="toggle" id="toggle" onclick="toggleBilling()"></div>
+    <span class="toggle-label" id="lbl-annual">Annual</span>
+    <span class="save-badge">Save 2 Months</span>
+  </div>
+
+  <!-- Cards -->
+  <div class="grid">
+
+    <!-- ══ STARTER ══ -->
+    <div class="card">
+      <div class="tier-tag green">Starter</div>
+      <div class="card-title">Starter</div>
+      <div class="card-tagline">For solo operators &amp; small home service businesses.</div>
+
+      <div class="price-row">
+        <span class="price-currency">$</span>
+        <span class="price-dollar" id="price-starter">297</span>
+        <span class="price-mo">CAD /mo</span>
+      </div>
+      <div class="price-annual" id="annual-starter"></div>
+
+      <ul class="features">
+        <li>
+          <svg class="check check-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">24/7 AI Voice Receptionist</span> — answers every call, captures leads</span>
+        </li>
+        <li>
+          <svg class="check check-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Website Chat Widget</span> — engages visitors 24/7</span>
+        </li>
+        <li>
+          <svg class="check check-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Google Review Automation</span> — every review replied to automatically</span>
+        </li>
+        <li>
+          <svg class="check check-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Up to <span class="feat-bold">150 voice minutes</span> / month</span>
+        </li>
+        <li>
+          <svg class="check check-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Client dashboard — call logs &amp; basic analytics</span>
+        </li>
+        <li>
+          <svg class="check check-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>1 dedicated phone number</span>
+        </li>
+        <li>
+          <svg class="check check-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>CASL compliant setup</span>
+        </li>
+        <li>
+          <svg class="check check-green" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Email support</span>
+        </li>
+      </ul>
+      <div class="overage">Overage: $0.35/additional minute</div>
+
+      <div class="divider"></div>
+      <button class="btn btn-outline">Book a Free Demo</button>
+      <div class="setup-note">+ $197 one-time setup fee</div>
+    </div>
+
+    <!-- ══ PREMIUM ══ -->
+    <div class="card featured">
+      <div class="popular-badge">Most Popular</div>
+      <div class="tier-tag blue">Premium</div>
+      <div class="card-title">Premium</div>
+      <div class="card-tagline">Your front office, fully automated. Calls, bookings &amp; follow-ups handled.</div>
+
+      <div class="price-row">
+        <span class="price-currency">$</span>
+        <span class="price-dollar" id="price-premium">597</span>
+        <span class="price-mo">CAD /mo</span>
+      </div>
+      <div class="price-annual" id="annual-premium"></div>
+
+      <ul class="features">
+        <li>
+          <svg class="check check-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#60a5fa" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Everything in Starter</span>, plus:</span>
+        </li>
+        <li>
+          <svg class="check check-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#60a5fa" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Up to <span class="feat-bold">400 voice minutes</span> / month</span>
+        </li>
+        <li>
+          <svg class="check check-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#60a5fa" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Automated booking workflow</span> — AI sends SMS booking link mid-call</span>
+        </li>
+        <li>
+          <svg class="check check-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#60a5fa" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">CRM integration</span> — GoHighLevel, calendar sync, contact records</span>
+        </li>
+        <li>
+          <svg class="check check-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#60a5fa" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Follow-up sequences</span> — missed call text-back, appointment reminders</span>
+        </li>
+        <li>
+          <svg class="check check-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#60a5fa" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Custom AI persona</span> — branded voice &amp; script tailored to your business</span>
+        </li>
+        <li>
+          <svg class="check check-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#60a5fa" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Advanced dashboard — bookings, lead conversion, call outcomes</span>
+        </li>
+        <li>
+          <svg class="check check-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#60a5fa" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Priority email + chat support</span>
+        </li>
+        <li>
+          <svg class="check check-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#60a5fa" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Onboarding call included</span>
+        </li>
+      </ul>
+      <div class="overage">Overage: $0.30/additional minute</div>
+
+      <div class="divider"></div>
+      <button class="btn btn-orange">Get Your AI Built</button>
+      <div class="setup-note">+ $397 one-time setup fee</div>
+    </div>
+
+    <!-- ══ ENTERPRISE ══ -->
+    <div class="card">
+      <div class="tier-tag silver">Enterprise</div>
+      <div class="card-title">Enterprise</div>
+      <div class="card-tagline">Multi-location operations &amp; high-volume businesses.</div>
+
+      <div class="price-row">
+        <span class="price-currency">$</span>
+        <span class="price-dollar" id="price-enterprise">1,197</span>
+        <span class="price-mo">CAD /mo</span>
+      </div>
+      <div class="price-annual" id="annual-enterprise"></div>
+
+      <ul class="features">
+        <li>
+          <svg class="check check-white" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#ffffff" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Everything in Premium</span>, plus:</span>
+        </li>
+        <li>
+          <svg class="check check-white" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#ffffff" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Unlimited minutes</span> — up to 1,200/mo, custom above that</span>
+        </li>
+        <li>
+          <svg class="check check-white" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#ffffff" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Multi-location support</span> — separate AI agents per location</span>
+        </li>
+        <li>
+          <svg class="check check-white" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#ffffff" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Bilingual support</span> — English + French (EN/FR)</span>
+        </li>
+        <li>
+          <svg class="check check-white" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#ffffff" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Custom integrations</span> — existing CRM, dispatch &amp; scheduling tools</span>
+        </li>
+        <li>
+          <svg class="check check-white" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#ffffff" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><span class="feat-bold">Dedicated account manager</span></span>
+        </li>
+        <li>
+          <svg class="check check-white" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#ffffff" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Monthly performance review calls</span>
+        </li>
+        <li>
+          <svg class="check check-white" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#ffffff" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Uptime SLA guarantee</span>
+        </li>
+        <li>
+          <svg class="check check-white" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#ffffff" stroke-opacity="0.3"/><path d="M5 8l2 2 4-4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Priority phone support</span>
+        </li>
+      </ul>
+
+      <div class="divider"></div>
+      <button class="btn btn-ghost">Book a Strategy Call</button>
+      <div class="setup-note">+ $797 one-time setup fee (scoped per client)</div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- Bottom strip -->
+  <div class="bottom-strip">
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5H13l-3.5 2.5 1.5 4L7 9 3 11l1.5-4L1 4.5h4.5L7 1z" stroke="#f5620f" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      No long-term contracts
+    </div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5H13l-3.5 2.5 1.5 4L7 9 3 11l1.5-4L1 4.5h4.5L7 1z" stroke="#f5620f" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      CASL &amp; PIPEDA compliant
+    </div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5H13l-3.5 2.5 1.5 4L7 9 3 11l1.5-4L1 4.5h4.5L7 1z" stroke="#f5620f" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      Live in 48 hours
+    </div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5H13l-3.5 2.5 1.5 4L7 9 3 11l1.5-4L1 4.5h4.5L7 1z" stroke="#f5620f" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      Canadian-built &amp; managed
+    </div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5H13l-3.5 2.5 1.5 4L7 9 3 11l1.5-4L1 4.5h4.5L7 1z" stroke="#f5620f" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      Cancel anytime
+    </div>
+  </div>
+
+</div><!-- /wrapper -->
+
+<script>
+  let annual = false;
+
+  const prices = {
+    starter:    { monthly: '297',   annual: '248' },
+    premium:    { monthly: '597',   annual: '497' },
+    enterprise: { monthly: '1,197', annual: '997' },
+  };
+
+  function toggleBilling() {
+    annual = !annual;
+    const t = document.getElementById('toggle');
+    t.classList.toggle('on', annual);
+    document.getElementById('lbl-monthly').classList.toggle('active', !annual);
+    document.getElementById('lbl-annual').classList.toggle('active', annual);
+
+    const mode = annual ? 'annual' : 'monthly';
+
+    ['starter','premium','enterprise'].forEach(tier => {
+      document.getElementById('price-' + tier).textContent = prices[tier][mode];
+      const ann = document.getElementById('annual-' + tier);
+      ann.textContent = annual ? 'Billed annually — saves 2 months' : '';
+    });
+  }
+</script>
+
+</body>
+</html>

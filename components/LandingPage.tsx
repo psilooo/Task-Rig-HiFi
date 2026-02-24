@@ -283,30 +283,70 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
         },
     ];
 
+    const [isAnnual, setIsAnnual] = useState(false);
+
     const pricingTiers = [
         {
             name: 'Starter',
-            price: 49,
-            desc: 'Perfect for solo operators and small teams.',
-            features: ['1 AI Agent', '500 conversations/mo', 'Email + Chat', 'Basic analytics', 'Email support'],
-            cta: 'Start Free Trial',
+            tagline: 'For solo operators & small home service businesses.',
+            prices: { monthly: 297, annual: 248 },
+            features: [
+                { text: '24/7 AI Voice Receptionist', emph: ' — answers every call, captures leads' },
+                { text: 'Website Chat Widget', emph: ' — engages visitors 24/7' },
+                { text: 'Google Review Automation', emph: ' — every review replied to automatically' },
+                { text: 'Up to ', emph: '150 voice minutes', suffix: ' / month' },
+                { text: 'Client dashboard — call logs & basic analytics' },
+                { text: '1 dedicated phone number' },
+                { text: 'CASL compliant setup' },
+                { text: 'Email support' },
+            ],
+            overage: 'Overage: $0.35/additional minute',
+            ctaText: 'Book a Free Demo',
+            setupFee: '+ $197 one-time setup fee',
             highlighted: false,
+            colorScheme: 'green',
         },
         {
-            name: 'Business Pro',
-            price: 99,
-            desc: 'Everything growing businesses need.',
-            features: ['3 AI Agents', 'Unlimited conversations', 'All channels', 'Advanced analytics', 'Calendar integration', 'CRM sync', 'Priority support'],
-            cta: 'Start Free Trial',
+            name: 'Premium',
+            tagline: 'Your front office, fully automated. Calls, bookings & follow-ups handled.',
+            prices: { monthly: 597, annual: 497 },
+            features: [
+                { text: 'Everything in Starter', emph: ', plus:' },
+                { text: 'Up to ', emph: '400 voice minutes', suffix: ' / month' },
+                { text: 'Automated booking workflow', emph: ' — AI sends SMS booking link mid-call' },
+                { text: 'CRM integration', emph: ' — GoHighLevel, calendar sync, contact records' },
+                { text: 'Follow-up sequences', emph: ' — missed call text-back, appointment reminders' },
+                { text: 'Custom AI persona', emph: ' — branded voice & script tailored to your business' },
+                { text: 'Advanced dashboard — bookings, lead conversion, call outcomes' },
+                { text: 'Priority email + chat support' },
+                { text: 'Onboarding call included' },
+            ],
+            overage: 'Overage: $0.30/additional minute',
+            ctaText: 'Get Your AI Built',
+            setupFee: '+ $397 one-time setup fee',
             highlighted: true,
+            colorScheme: 'blue',
         },
         {
             name: 'Enterprise',
-            price: 299,
-            desc: 'Maximum power and customization.',
-            features: ['Unlimited AI Agents', 'Unlimited conversations', 'All channels + API', 'Custom AI training', 'Dedicated manager', 'White-label option', 'SLA guarantee'],
-            cta: 'Contact Sales',
+            tagline: 'Multi-location operations & high-volume businesses.',
+            prices: { monthly: '1,197', annual: 997 },
+            features: [
+                { text: 'Everything in Premium', emph: ', plus:' },
+                { text: 'Unlimited minutes', emph: ' — up to 1,200/mo, custom above that' },
+                { text: 'Multi-location support', emph: ' — separate AI agents per location' },
+                { text: 'Bilingual support', emph: ' — English + French (EN/FR)' },
+                { text: 'Custom integrations', emph: ' — existing CRM, dispatch & scheduling tools' },
+                { text: 'Dedicated account manager' },
+                { text: 'Monthly performance review calls' },
+                { text: 'Uptime SLA guarantee' },
+                { text: 'Priority phone support' },
+            ],
+            overage: '',
+            ctaText: 'Book a Strategy Call',
+            setupFee: '+ $797 one-time setup fee (scoped per client)',
             highlighted: false,
+            colorScheme: 'silver',
         },
     ];
 
@@ -373,7 +413,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
                                 Smarter Than a Chatbot.
                             </h2>
-                            <p className="mt-5 text-zinc-400 font-mono text-sm max-w-2xl mx-auto leading-relaxed">
+                            <p className="mt-5 text-zinc-400 font-mono text-base max-w-2xl mx-auto leading-relaxed">
                                 Task Rig doesn't just answer questions — it understands context, takes action, and learns your business. Watch it handle a real customer booking in real-time.
                             </p>
                         </ScrollReveal>
@@ -429,7 +469,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                                 className="flex-1 flex flex-col"
                                             >
                                                 <h3 className="font-heading font-bold text-xl md:text-2xl text-white uppercase tracking-tight mb-3">{featureTabs[activeFeature].title}</h3>
-                                                <p className="text-zinc-400 font-mono text-sm leading-relaxed mb-5">{featureTabs[activeFeature].desc}</p>
+                                                <p className="text-zinc-400 font-mono text-base leading-relaxed mb-5">{featureTabs[activeFeature].desc}</p>
 
                                                 {/* Visual preview */}
                                                 <div className="p-1 border border-white/5 rounded-lg bg-zinc-900/50 mb-5">
@@ -703,7 +743,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             {/* Quote text */}
                                             <div className="relative flex-1 mb-6">
                                                 <div className="absolute -top-2 -left-1 text-orange-500/10 font-body text-6xl leading-none select-none">"</div>
-                                                <p className="text-zinc-300 text-sm font-mono leading-[1.8] relative z-10 pl-3 border-l-2 border-orange-500/20">
+                                                <p className="text-zinc-300 text-base font-mono leading-[1.8] relative z-10 pl-3 border-l-2 border-orange-500/20">
                                                     {t.quote}
                                                 </p>
                                             </div>
@@ -756,57 +796,164 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                SECTION 5: PRICING
+                SECTION 5: PRICING (Integrated from taskrig_pricing.html)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-6 relative z-10">
-                <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-12">
-                        <ScrollReveal>
-                            <SectionBadge text="Pricing" />
-                            <h2 className="font-heading font-bold text-4xl md:text-5xl text-white uppercase tracking-tight mb-4">Simple, Transparent Pricing</h2>
-                            <p className="text-zinc-400 font-mono text-sm max-w-xl mx-auto">Start free. Upgrade when you're ready. No hidden fees.</p>
-                        </ScrollReveal>
-                    </div>
+            <section className="py-16 md:py-24 px-6 relative z-10 w-full max-w-[1160px] mx-auto flex flex-col items-center">
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-                        {pricingTiers.map((tier, i) => (
+                {/* Header */}
+                <ScrollReveal className="w-full">
+                    <div className="flex items-center justify-center gap-2 font-mono text-[11px] tracking-[0.18em] text-[#f5620f] uppercase mb-5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#f5620f]" />
+                        Pricing
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#f5620f]" />
+                    </div>
+                    <h2 className="font-heading font-bold text-[clamp(2.25rem,6vw,4.5rem)] leading-none text-center tracking-[-0.02em] text-white uppercase mb-4">
+                        Simple, Transparent Pricing
+                    </h2>
+                    <p className="font-mono text-[13px] text-[#888888] text-center tracking-[0.04em] mb-16">
+                        Fully built for you. Live in 48 hours. Cancel anytime. No hidden fees.
+                    </p>
+                </ScrollReveal>
+
+                {/* Annual toggle */}
+                <ScrollReveal delay={0.1} className="w-full">
+                    <div className="flex items-center justify-center gap-[12px] mb-[52px]">
+                        <span className={`font-mono text-[12px] tracking-[0.08em] transition-colors leading-none pt-0.5 ${!isAnnual ? 'text-white' : 'text-[#888888]'}`}>Monthly</span>
+
+                        <button
+                            onClick={() => setIsAnnual(!isAnnual)}
+                            type="button"
+                            className={`w-[44px] h-[24px] rounded-[12px] border relative transition-colors duration-200 outline-none focus:outline-none ${isAnnual ? 'bg-[#f5620f] border-[#f5620f]' : 'bg-[#1a1a1a] border-[#3a3a3a]'}`}
+                            style={{ WebkitTapHighlightColor: 'transparent' }}
+                        >
+                            <div className={`absolute top-[3px] left-[3px] w-[16px] h-[16px] rounded-full bg-white transition-transform duration-200 ${isAnnual ? 'translate-x-[20px]' : 'translate-x-0'}`} />
+                        </button>
+
+                        <div className="flex items-center gap-3">
+                            <span className={`font-mono text-[12px] tracking-[0.08em] transition-colors leading-none pt-0.5 ${isAnnual ? 'text-white' : 'text-[#888888]'}`}>Annual</span>
+                            <span className="font-mono text-[10px] font-bold text-[#f5620f] bg-[rgba(245,98,15,0.12)] border border-[#f5620f] px-2 py-0.5 rounded leading-none pt-[3px] tracking-[0.06em]">
+                                Save 2 Months
+                            </span>
+                        </div>
+                    </div>
+                </ScrollReveal>
+
+                {/* Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-[20px] items-start w-full">
+                    {pricingTiers.map((tier, i) => {
+                        const isFeatured = tier.highlighted;
+
+                        // Dynamic Color mapping
+                        const getTagColors = (scheme?: string) => {
+                            switch (scheme) {
+                                case 'green': return 'text-[#4ade80] bg-[#4ade80]/10 border-[#4ade80]/30';
+                                case 'blue': return 'text-[#60a5fa] bg-[#60a5fa]/10 border-[#60a5fa]/30';
+                                case 'silver': return 'text-[#d1d5db] bg-[#d1d5db]/[0.08] border-[#d1d5db]/25';
+                                default: return 'text-zinc-300 bg-zinc-800/50 border-zinc-700/50';
+                            }
+                        };
+
+                        const getCheckColor = (scheme?: string) => {
+                            switch (scheme) {
+                                case 'green': return '#4ade80';
+                                case 'blue': return '#60a5fa';
+                                case 'silver': return '#ffffff';
+                                default: return '#c8c8c8';
+                            }
+                        };
+
+                        return (
                             <ScrollReveal key={i} delay={i * 0.1}>
-                                <div className={`relative p-6 md:p-8 rounded-lg flex flex-col h-full border transition-all ${tier.highlighted
-                                    ? 'border-orange-500/40 bg-white/[0.04] backdrop-blur-md shadow-[0_0_40px_rgba(255,106,21,0.1)]'
-                                    : 'border-white/10 bg-white/[0.02] backdrop-blur-md'
-                                    }`}>
-                                    {tier.highlighted && (
-                                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500 text-black text-[10px] font-mono font-bold uppercase tracking-widest px-3 py-1 rounded-full">
-                                            Most Popular
-                                        </div>
+                                <div className={`relative p-[36px] md:p-[32px] lg:p-[36px] border rounded-[12px] flex flex-col h-full bg-[#141414] transition-all duration-300 ${isFeatured ? 'border-[#f5620f] transform -translate-y-[8px] hover:-translate-y-[12px] bg-[linear-gradient(160deg,#1c1208_0%,#141414_60%)]' : 'border-[#2a2a2a] hover:border-[#3a3a3a] hover:-translate-y-[4px]'}`}>
+                                    {isFeatured && (
+                                        <>
+                                            <div className="absolute top-[-14px] left-1/2 -translate-x-1/2 bg-[#f5620f] text-white font-mono text-[10px] font-bold tracking-[0.14em] uppercase px-4 py-[3px] pt-[4px] rounded-[12px] whitespace-nowrap z-10 leading-none">
+                                                Most Popular
+                                            </div>
+                                            {/* Orange glow under-layer matching css pseudo-element */}
+                                            <div className="absolute inset-[-1px] rounded-[12px] bg-[linear-gradient(135deg,#f5620f_0%,transparent_60%)] opacity-15 pointer-events-none" />
+                                        </>
                                     )}
-                                    <div className="mb-6">
-                                        <h3 className="font-heading font-bold text-2xl text-white uppercase tracking-wide">{tier.name}</h3>
-                                        <p className="text-zinc-500 text-xs font-mono mt-1">{tier.desc}</p>
+
+                                    <div className="relative z-10 flex flex-col h-full">
+                                        <div className="self-start">
+                                            <div className={`inline-block font-mono text-[10px] tracking-[0.14em] uppercase px-2.5 py-0.5 rounded border font-bold mb-3 ${getTagColors(tier.colorScheme)}`}>
+                                                {tier.name}
+                                            </div>
+                                        </div>
+
+                                        <h3 className="font-heading font-black text-[22px] tracking-[-0.01em] text-white uppercase mb-1.5">{tier.name}</h3>
+                                        <p className="font-mono text-[11px] text-[#888888] tracking-[0.04em] mb-7 leading-relaxed flex-shrink-0 min-h-[40px]">{tier.tagline}</p>
+
+                                        <div className="flex items-end gap-1 mb-1.5">
+                                            <span className="font-mono text-[13px] text-[#888888] pb-2">$</span>
+                                            <span className="font-heading font-black text-[52px] leading-none text-white tracking-[-0.03em]">
+                                                {isAnnual ? tier.prices.annual : tier.prices.monthly}
+                                            </span>
+                                            <span className="font-mono text-[13px] text-[#888888] pb-2 tracking-[0.04em]">CAD /mo</span>
+                                        </div>
+                                        <div className="font-mono text-[11px] text-[#f5620f] mb-[32px] min-h-[16px] tracking-[0.04em]">
+                                            {isAnnual ? 'Billed annually — saves 2 months' : ''}
+                                        </div>
+
+                                        <ul className="flex flex-col gap-[12px] mb-[32px] flex-1 list-none p-0">
+                                            {tier.features.map((feat, j) => (
+                                                <li key={j} className="flex items-start gap-[10px] text-[14px] text-[#c8c8c8] leading-[1.45]">
+                                                    <svg className="flex-shrink-0 mt-[3px] w-4 h-4" viewBox="0 0 16 16" fill="none">
+                                                        <circle cx="8" cy="8" r="7.5" stroke={getCheckColor(tier.colorScheme)} strokeOpacity="0.3" />
+                                                        <path d="M5 8l2 2 4-4" stroke={getCheckColor(tier.colorScheme)} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                    </svg>
+                                                    <span>
+                                                        {feat.text && feat.emph ? (
+                                                            <>
+                                                                {feat.text.startsWith('Everything') ? <span className="font-bold text-white">{feat.text}</span> : <span>{feat.text}</span>}
+                                                                {feat.emph && !feat.text.startsWith('Everything') ? <span className="font-bold text-white">{feat.emph}</span> : <span>{feat.emph}</span>}
+                                                                {feat.suffix && <span>{feat.suffix}</span>}
+                                                            </>
+                                                        ) : (
+                                                            feat.text
+                                                        )}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                        </ul>
+
+                                        <div className="font-mono text-[10px] text-[#555555] tracking-[0.04em] mt-1 mb-[24px]">
+                                            {tier.overage}
+                                        </div>
+
+                                        <div className="h-px bg-[#2a2a2a] w-full mb-[24px]"></div>
+
+                                        <button className={`block w-full py-[14px] rounded-[8px] font-mono text-[12px] font-bold tracking-[0.12em] uppercase text-center transition-all cursor-pointer ${isFeatured
+                                            ? 'bg-[#f5620f] text-white shadow-[0_4px_24px_rgba(245,98,15,0.25)] hover:bg-[#ff6e1a] hover:shadow-[0_4px_32px_rgba(245,98,15,0.55)] hover:-translate-y-px border-none'
+                                            : tier.name === 'Enterprise'
+                                                ? 'bg-transparent border border-[#3a3a3a] text-[#888888] hover:border-[#888888] hover:text-[#e8e8e8]'
+                                                : 'bg-transparent border border-[#3a3a3a] text-[#e8e8e8] hover:border-white hover:text-white hover:bg-white/[0.04]'
+                                            }`}>
+                                            {tier.ctaText}
+                                        </button>
+
+                                        <div className="font-mono text-[10px] text-[#555555] text-center mt-2.5 tracking-[0.06em]">
+                                            {tier.setupFee}
+                                        </div>
                                     </div>
-                                    <div className="mb-6 flex items-baseline gap-1">
-                                        <span className="font-heading font-bold text-4xl text-white">${tier.price}</span>
-                                        <span className="text-zinc-500 font-mono text-sm">/mo</span>
-                                    </div>
-                                    <ul className="space-y-3 mb-8 flex-1">
-                                        {tier.features.map((feat, j) => (
-                                            <li key={j} className="flex items-center gap-2.5 text-sm font-mono text-zinc-400">
-                                                <Check size={14} className={tier.highlighted ? 'text-orange-500' : 'text-zinc-600'} />
-                                                {feat}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <button className={`w-full py-3 font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md ${tier.highlighted
-                                        ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(255,106,21,0.2)]'
-                                        : 'border border-zinc-700 hover:border-orange-500/50 text-zinc-300 hover:text-white'
-                                        }`}>
-                                        {tier.cta}
-                                    </button>
                                 </div>
                             </ScrollReveal>
+                        );
+                    })}
+                </div>
+
+                {/* Bottom strip */}
+                <ScrollReveal delay={0.2} className="w-full">
+                    <div className="mt-12 flex items-center justify-center gap-x-8 gap-y-4 flex-wrap">
+                        {['No long-term contracts', 'CASL & PIPEDA compliant', 'Live in 48 hours', 'Canadian-built & managed', 'Cancel anytime'].map((item, idx) => (
+                            <div key={idx} className="flex items-center gap-2 font-mono text-[11px] tracking-[0.06em] text-[#888888]">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5H13l-3.5 2.5 1.5 4L7 9 3 11l1.5-4L1 4.5h4.5L7 1z" stroke="#f5620f" strokeWidth="1.2" strokeLinejoin="round" /></svg>
+                                {item}
+                            </div>
                         ))}
                     </div>
-                </div>
+                </ScrollReveal>
             </section>
 
 

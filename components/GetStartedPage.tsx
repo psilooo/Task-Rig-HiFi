@@ -203,7 +203,7 @@ const StepLabel: React.FC<{ tag: string; title: string; subtitle: string }> = ({
         <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl text-white uppercase tracking-tight mb-2 leading-[1.1]">
             {title}
         </h2>
-        <p className="font-mono text-xs sm:text-sm text-zinc-500 leading-relaxed max-w-lg">
+        <p className="font-mono text-sm sm:text-base text-zinc-500 leading-relaxed max-w-lg">
             {subtitle}
         </p>
     </div>
@@ -232,10 +232,10 @@ const ChipButton: React.FC<{
             </div>
         )}
         <div className="flex-1 min-w-0">
-            <div className={`font-mono text-xs uppercase tracking-wider ${selected ? 'text-orange-400' : 'text-zinc-300'}`}>
+            <div className={`font-mono text-sm uppercase tracking-wider ${selected ? 'text-orange-400' : 'text-zinc-300'}`}>
                 {label}
             </div>
-            {desc && <div className="font-mono text-[10px] text-zinc-600 mt-0.5">{desc}</div>}
+            {desc && <div className="font-mono text-xs text-zinc-600 mt-0.5">{desc}</div>}
         </div>
         <div className="shrink-0 w-4 h-4 flex items-center justify-center">
             {selected && (
@@ -261,7 +261,7 @@ const InputField: React.FC<{
     icon?: React.ElementType;
 }> = ({ label, value, onChange, placeholder, type = 'text', required, icon: Icon }) => (
     <div>
-        <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-2">
+        <label className="block font-mono text-xs text-zinc-500 uppercase tracking-[0.15em] mb-2">
             {label} {required && <span className="text-orange-500/60">*</span>}
         </label>
         <div className="relative">
@@ -275,7 +275,7 @@ const InputField: React.FC<{
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className={`w-full bg-zinc-950/60 border border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.08)] py-3 font-mono text-sm text-white placeholder:text-zinc-700 outline-none transition-all rounded-md ${Icon ? 'pl-10 pr-4' : 'px-4'}`}
+                className={`w-full bg-zinc-950/60 border border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.08)] py-3 font-mono text-base text-white placeholder:text-zinc-700 outline-none transition-all rounded-md ${Icon ? 'pl-10 pr-4' : 'px-4'}`}
             />
         </div>
     </div>
@@ -672,10 +672,10 @@ export const GetStartedPage: React.FC = () => {
 
                         <div className="text-left border border-zinc-800/60 bg-zinc-900/30 rounded-lg overflow-hidden">
                             <div className="px-5 py-3 border-b border-zinc-800/40 flex items-center gap-2">
-                                <FileText size={12} className="text-orange-500" />
-                                <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">Your Deployment Summary</span>
+                                <FileText size={16} className="text-orange-500" />
+                                <span className="font-mono text-xs text-zinc-400 uppercase tracking-[0.15em]">Your Deployment Summary</span>
                             </div>
-                            <div className="p-5 space-y-3 font-mono text-xs">
+                            <div className="p-5 space-y-3 font-mono text-sm">
                                 {data.businessName && (
                                     <div className="flex justify-between"><span className="text-zinc-500">Business</span><span className="text-zinc-300">{data.businessName}</span></div>
                                 )}

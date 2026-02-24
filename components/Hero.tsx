@@ -92,28 +92,20 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                         {/* Subtitle */}
                         <Reveal delay={0.2}>
-                            <div className="max-w-[480px] mx-auto mt-6 mb-8 md:mt-10 md:mb-12">
-                                <p className="font-mono text-[13px] text-zinc-400 leading-[1.8] tracking-widest">
+                            <div className="max-w-[540px] mx-auto mt-6 mb-8 md:mt-10 md:mb-12">
+                                <p className="font-mono text-base text-zinc-400 leading-[1.6] tracking-wide">
                                     Eliminate inefficiencies. Deploy autonomous agents to handle dispatch, logistics, and client negotiations.
                                 </p>
                             </div>
                         </Reveal>
 
-                        {/* Actions - Reordered and restyled */}
+                        {/* Actions & Trust Signal */}
                         <Reveal delay={0.3}>
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
-
-                                <button className="relative w-full sm:w-auto px-8 py-3 bg-zinc-950/40 border border-zinc-700 hover:border-zinc-400 text-zinc-300 hover:text-white font-mono text-[11px] font-bold uppercase tracking-widest transition-all clip-path-slant flex justify-center items-center gap-3 group backdrop-blur-md">
-                                    <div className="absolute inset-0 bg-white/[0.02] group-hover:bg-white/[0.05] transition-colors pointer-events-none block"></div>
-                                    LEARN MORE
-                                    <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-60 group-hover:opacity-100">
-                                        <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
-                                    </svg>
-                                </button>
+                            <div className="flex flex-col items-center justify-center gap-6 w-full">
 
                                 <Link
                                     to="/get-started"
-                                    className="relative w-full sm:w-auto px-12 py-3 bg-[#FF6A15] hover:bg-[#ff853f] text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(255,106,21,0.25)] hover:shadow-[0_0_30px_rgba(255,106,21,0.4)] flex justify-center items-center gap-3 no-underline"
+                                    className="relative w-full sm:w-auto px-14 py-4 bg-[#FF6A15] hover:bg-[#ff853f] text-black font-mono font-bold text-sm uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(255,106,21,0.25)] hover:shadow-[0_0_30px_rgba(255,106,21,0.4)] flex justify-center items-center gap-3 no-underline"
                                 >
                                     <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
                                     <span className="relative z-10 flex items-center gap-2">
@@ -124,6 +116,17 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                                     </span>
                                 </Link>
 
+                                {/* Trust Signal (Above the fold formula) */}
+                                <div className="flex flex-col sm:flex-row items-center gap-3 mt-4 opacity-80">
+                                    <div className="flex gap-1">
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                            <svg key={star} width="16" height="16" viewBox="0 0 24 24" fill="#FF6A15" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                                            </svg>
+                                        ))}
+                                    </div>
+                                    <span className="font-mono text-sm text-zinc-400">Trusted by 500+ businesses</span>
+                                </div>
                             </div>
                         </Reveal>
                     </div>
