@@ -718,20 +718,22 @@ export const GetStartedPage: React.FC = () => {
 
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-14 md:h-20">
-                <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex justify-between items-center">
+                <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex items-center">
                     <Link to="/" className="flex items-center gap-2 md:gap-3 no-underline">
                         <TaskRigLogo className="h-5 md:h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
                         <div className="font-heading font-bold text-base md:text-2xl tracking-tight text-white whitespace-nowrap">TASK RIG</div>
-                    </Link>
-                    <Link to="/" className="group flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-2 text-zinc-400 hover:text-white font-mono text-[10px] md:text-xs uppercase tracking-widest transition-colors no-underline">
-                        <ArrowLeft size={12} className="text-zinc-500 group-hover:text-orange-500 transition-colors" />
-                        <span className="hidden sm:inline">Back</span>
                     </Link>
                 </div>
             </nav>
 
             {/* Main Content */}
-            <div className="flex-1 relative z-10 pt-20 md:pt-28 pb-8 md:pb-16 px-4 md:px-6">
+            <div className="flex-1 relative z-10 pt-18 md:pt-24 pb-8 md:pb-16 px-4 md:px-6">
+                <div className="w-full max-w-3xl mx-auto mb-2 md:mb-4">
+                    <Link to="/" className="group inline-flex items-center gap-1.5 md:gap-2 py-2 text-zinc-400 hover:text-white font-mono text-[10px] md:text-xs uppercase tracking-widest transition-colors no-underline">
+                        <ArrowLeft size={12} className="text-zinc-500 group-hover:text-orange-500 transition-colors md:[&]:w-[14px] md:[&]:h-[14px]" />
+                        <span className="hidden sm:inline">Back to Home</span>
+                    </Link>
+                </div>
                 <div className="w-full max-w-3xl mx-auto">
 
                     {/* Progress Bar */}
