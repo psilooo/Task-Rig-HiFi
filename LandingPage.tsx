@@ -307,7 +307,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         <h4 className="text-white font-heading font-bold uppercase tracking-wider mb-6">Legal</h4>
                         <ul className="space-y-3">
                             <li>
-                                <a href="/privacy" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors">Privacy Protocol</a>
+                                <a href="/privacy" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors">Privacy Policy</a>
                             </li>
                             {['Terms of Service', 'SLA', 'Data Usage'].map(item => (
                                 <li key={item}><a href="#" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors">{item}</a></li>

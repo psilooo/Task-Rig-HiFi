@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
                     Advanced AI orchestration for the modern service economy. Built for speed, security, and scale.
                 </p>
                 <div className="flex gap-6">
-                    <a href="/privacy" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors border-b border-transparent hover:border-orange-500/30 pb-1">Privacy Protocol</a>
+                    <a href="/privacy" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors border-b border-transparent hover:border-orange-500/30 pb-1">Privacy Policy</a>
                     <a href="/terms" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors border-b border-transparent hover:border-orange-500/30 pb-1">Terms & Conditions</a>
                     <a href="/contact" className="text-zinc-500 hover:text-orange-500 font-mono text-xs uppercase tracking-wider transition-colors border-b border-transparent hover:border-orange-500/30 pb-1">Contact Us</a>
                 </div>
