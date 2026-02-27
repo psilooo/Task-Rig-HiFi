@@ -1116,8 +1116,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <ScrollReveal>
                                 <SectionBadge text="Knowledge Base" />
                                 <h2 className="font-heading font-bold text-xl md:text-2xl lg:text-3xl text-white uppercase tracking-tight leading-[0.95] mb-4">
-                                    Common<br />
-                                    <span className="text-zinc-500">Questions</span>
+                                    Common <span className="text-zinc-500">Questions</span>
                                 </h2>
                                 <p className="text-zinc-500 font-mono text-xs leading-relaxed max-w-sm">
                                     Everything you need to know before deploying Task Rig. Select a query to access detailed intelligence.
@@ -1131,9 +1130,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-10">
                         {faqItems.map((item, i) => (
                             <ScrollReveal key={i} delay={i * 0.05}>
-                                <motion.div
-                                    layout
-                                    transition={{ layout: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
+                                <div
                                     className={`group relative border rounded-lg overflow-hidden transition-[border-color,background-color,box-shadow] duration-500 ${openFaq === i
                                     ? 'border-orange-500/30 bg-orange-500/[0.04] shadow-[0_0_30px_rgba(255,106,21,0.06)]'
                                     : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.03]'
@@ -1189,34 +1186,46 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
-                                </motion.div>
+                                </div>
                             </ScrollReveal>
                         ))}
                     </div>
 
                     {/* ── Final CTA ── */}
                     <ScrollReveal>
-                        <div className="relative text-center py-10 md:py-12 mt-4">
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[150px] bg-orange-500/[0.05] blur-[80px] rounded-full pointer-events-none" />
+                        <div className="relative text-center py-12 md:py-16 mt-6 border-t border-white/5">
+                            {/* Ambient glow */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-orange-500/[0.06] blur-[100px] rounded-full pointer-events-none" />
 
-                            <h3 className="font-heading font-bold text-lg md:text-xl text-white uppercase tracking-tight mb-3 relative">
-                                Ready to Get Started?
-                            </h3>
-                            <p className="text-zinc-400 font-mono text-sm max-w-md mx-auto mb-6 leading-relaxed relative">
+                            <SectionBadge text="Get Started" />
+                            <h2 className="font-heading font-bold text-xl md:text-2xl lg:text-3xl text-white uppercase tracking-tight mb-3 relative leading-[0.95]">
+                                Stop Losing Customers<br />
+                                <span className="text-zinc-500">to Missed Calls</span>
+                            </h2>
+                            <p className="text-zinc-400 font-mono text-sm max-w-lg mx-auto mb-8 leading-relaxed relative">
                                 Join 2,400+ home service businesses using Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
                             </p>
-                            <Link
-                                to="/get-started"
-                                className="relative inline-flex items-center gap-2 px-12 py-3.5 bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-xs uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
-                            >
-                                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
-                                <span className="relative z-10 flex items-center gap-2">
-                                    GET STARTED
-                                    <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">
-                                        <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
-                                    </svg>
-                                </span>
-                            </Link>
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative">
+                                <Link
+                                    to="/get-started"
+                                    className="relative w-full sm:w-auto px-14 py-4 bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-sm uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_25px_rgba(249,115,22,0.25)] hover:shadow-[0_0_35px_rgba(249,115,22,0.45)] no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 flex justify-center items-center gap-3"
+                                >
+                                    <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        GET STARTED
+                                        <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">
+                                            <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
+                                        </svg>
+                                    </span>
+                                </Link>
+                                <a
+                                    href="tel:+18442222486"
+                                    className="text-zinc-400 hover:text-orange-500 font-mono text-xs uppercase tracking-widest transition-colors flex items-center gap-2 py-2 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
+                                >
+                                    <Phone size={14} />
+                                    Or Call Our Demo Line
+                                </a>
+                            </div>
                         </div>
                     </ScrollReveal>
                 </div>
