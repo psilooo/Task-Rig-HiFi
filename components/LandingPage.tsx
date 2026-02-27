@@ -994,8 +994,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             <div className="absolute top-[-14px] left-1/2 -translate-x-1/2 bg-orange-500 text-white font-mono text-[10px] font-bold tracking-[0.14em] uppercase px-4 py-[3px] pt-[4px] rounded-[12px] whitespace-nowrap z-10 leading-none">
                                                 Most Popular
                                             </div>
-                                            {/* Subtle top glow line */}
-                                            <div className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+                                            {/* Animated orbiting glow border */}
+                                            <div className="glow-border absolute inset-[-1px] rounded-[12px] p-[1px] pointer-events-none" />
                                             {/* Slow pulsing ambient glow */}
                                             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[120px] bg-orange-500/[0.04] blur-[60px] rounded-full pointer-events-none animate-pulse" />
                                         </>
@@ -1003,12 +1003,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                                     <div className="relative z-10 flex flex-col h-full">
                                         <div className="self-start">
-                                            <div className={`inline-block font-mono text-[10px] tracking-[0.14em] uppercase px-2.5 py-0.5 rounded border font-bold mb-3 ${getTagColors(tier.colorScheme)}`}>
+                                            <div className={`inline-block font-mono text-sm tracking-[0.14em] uppercase px-3 py-1 rounded border font-bold mb-3 ${getTagColors(tier.colorScheme)}`}>
                                                 {tier.name}
                                             </div>
                                         </div>
-
-                                        <h3 className="font-heading font-black text-[22px] tracking-[-0.01em] text-white uppercase mb-1.5">{tier.name}</h3>
                                         <p className="font-mono text-[11px] text-zinc-500 tracking-[0.04em] mb-5 leading-relaxed flex-shrink-0 min-h-[40px]">{tier.tagline}</p>
 
                                         <div className="flex items-end gap-1 mb-1.5">
