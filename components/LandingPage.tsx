@@ -52,12 +52,13 @@ const AnimatedCounter: React.FC<{ value: string; duration?: number }> = ({ value
     const isInView = useInView(ref, { once: true, margin: '-80px' });
     const [display, setDisplay] = useState('0');
 
-    // Parse numeric part and suffix
-    const numMatch = value.match(/^([<>]?)(\d+\.?\d*)(.*)/);
+    // Parse numeric part and suffix (handles $, <, > prefixes and commas)
+    const numMatch = value.match(/^([<>$]?)([\d,]+\.?\d*)(.*)/);
     const prefix = numMatch?.[1] || '';
-    const target = numMatch ? parseFloat(numMatch[2]) : 0;
+    const target = numMatch ? parseFloat(numMatch[2].replace(/,/g, '')) : 0;
     const suffix = numMatch?.[3] || '';
     const isDecimal = value.includes('.');
+    const hasComma = numMatch?.[2]?.includes(',') || false;
 
     useEffect(() => {
         if (!isInView) return;
@@ -67,7 +68,8 @@ const AnimatedCounter: React.FC<{ value: string; duration?: number }> = ({ value
             const progress = Math.min(elapsed / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
             const current = target * eased;
-            setDisplay(isDecimal ? current.toFixed(1) : Math.round(current).toString());
+            const raw = isDecimal ? current.toFixed(1) : Math.round(current).toString();
+            setDisplay(hasComma ? Number(raw).toLocaleString() : raw);
             if (progress < 1) requestAnimationFrame(step);
         };
         requestAnimationFrame(step);
@@ -528,7 +530,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             <AnimatedCounter value="21x" duration={2.5} />
                                         </div>
                                         <p className="font-mono text-base md:text-lg text-zinc-400 leading-relaxed max-w-sm">
-                                            more likely to convert when contacted within 5 minutes. Most businesses take over 24 hours to respond.
+                                            Leads are 21x more likely to convert when contacted within 5 minutes. Most businesses take over 24 hours to respond.
                                         </p>
                                     </motion.div>
                                 </div>
@@ -543,14 +545,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         },
                                         {
                                             stat: '$15,340',
-                                            label: 'Lost Per Customer',
-                                            desc: 'average lifetime value of a single home service customer. Every missed lead is years of repeat business gone.',
+                                            label: 'At Stake Per Customer',
+                                            desc: 'is the average lifetime value of one home service customer. A single missed lead costs you years of repeat business.',
                                         },
                                         {
                                             stat: '16',
                                             suffix: ' hrs/wk',
                                             label: 'Wasted on Admin',
-                                            desc: 'the average small business owner spends on scheduling, follow-ups, and data entry instead of growing their business.',
+                                            desc: 'is what the average small business owner spends on scheduling, follow-ups, and data entry instead of growing their business.',
                                         },
                                     ].map((item, i) => (
                                         <motion.div
