@@ -1384,60 +1384,61 @@ export const GetStartedPage: React.FC = () => {
                             </div>
                         )}
 
-                        {/* Navigation Buttons */}
-                        <div className="flex items-center justify-between mt-auto pt-6 border-t border-zinc-800/30">
+                        </div>
+                    </div>
+
+                    {/* Navigation Buttons — outside the card */}
+                    <div className="flex items-center justify-between mt-6 md:mt-8 px-1">
+                        <button
+                            onClick={goBack}
+                            disabled={step === 1}
+                            className={`flex items-center gap-2 px-4 md:px-5 py-2.5 font-mono text-xs uppercase tracking-widest transition-all rounded-md ${step === 1 ? 'text-zinc-700 cursor-not-allowed' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/40'
+                                }`}
+                        >
+                            <ArrowLeft size={14} />
+                            <span className="hidden sm:inline">Back</span>
+                        </button>
+
+                        {step < TOTAL_STEPS ? (
                             <button
-                                onClick={goBack}
-                                disabled={step === 1}
-                                className={`flex items-center gap-2 px-3 md:px-4 py-2 font-mono text-xs uppercase tracking-widest transition-all rounded-md ${step === 1 ? 'text-zinc-700 cursor-not-allowed' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/40'
+                                onClick={goNext}
+                                disabled={!canAdvance()}
+                                className={`group relative flex items-center gap-2 px-8 md:px-10 py-3.5 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
+                                    ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
+                                    : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
                                     }`}
                             >
-                                <ArrowLeft size={14} />
-                                <span className="hidden sm:inline">Back</span>
+                                {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
+                                <span className="relative z-10">Continue</span>
+                                <ArrowRight size={14} className="relative z-10" />
                             </button>
-
-                            {step < TOTAL_STEPS ? (
-                                <button
-                                    onClick={goNext}
-                                    disabled={!canAdvance()}
-                                    className={`group relative flex items-center gap-2 px-6 md:px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
-                                        ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
-                                        : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-                                        }`}
-                                >
-                                    {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
-                                    <span className="relative z-10">Continue</span>
-                                    <ArrowRight size={14} className="relative z-10" />
-                                </button>
-                            ) : (
-                                <button
-                                    onClick={handleSubmit}
-                                    disabled={!canAdvance()}
-                                    className={`group relative flex items-center gap-2 px-6 md:px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
-                                        ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
-                                        : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-                                        }`}
-                                >
-                                    {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
-                                    <Send size={14} className="relative z-10" />
-                                    <span className="relative z-10">Get My Custom Plan</span>
-                                </button>
-                            )}
-                        </div>
-
-                        {/* Fine print - only on last step */}
-                        {step === TOTAL_STEPS && (
-                            <p className="text-center font-mono text-[10px] text-zinc-600/50 leading-relaxed mt-4 px-2">
-                                By submitting, you agree to receive SMS updates from TaskRig. Msg &amp; data rates may apply. Reply STOP anytime.{' '}
-                                <Link to="/privacy-policy" className="text-zinc-500/60 hover:text-zinc-400 underline underline-offset-2 transition-colors">
-                                    Privacy Policy
-                                </Link>
-                            </p>
+                        ) : (
+                            <button
+                                onClick={handleSubmit}
+                                disabled={!canAdvance()}
+                                className={`group relative flex items-center gap-2 px-8 md:px-10 py-3.5 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
+                                    ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
+                                    : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
+                                    }`}
+                            >
+                                {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
+                                <Send size={14} className="relative z-10" />
+                                <span className="relative z-10">Get My Custom Plan</span>
+                            </button>
                         )}
                     </div>
-                </div>
 
-                {/* Step dots */}
+                    {/* Fine print - only on last step */}
+                    {step === TOTAL_STEPS && (
+                        <p className="text-center font-mono text-[10px] text-zinc-600/50 leading-relaxed mt-4 px-2">
+                            By submitting, you agree to receive SMS updates from TaskRig. Msg &amp; data rates may apply. Reply STOP anytime.{' '}
+                            <Link to="/privacy-policy" className="text-zinc-500/60 hover:text-zinc-400 underline underline-offset-2 transition-colors">
+                                Privacy Policy
+                            </Link>
+                        </p>
+                    )}
+
+                    {/* Step dots */}
                 <div className="flex items-center justify-center gap-2 mt-6">
                     {[1, 2, 3, 4, 5].map((s) => (
                         <div key={s} className={`rounded-full transition-all duration-300 ${s === step ? 'w-6 h-1.5 bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)]'
