@@ -941,11 +941,15 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 {/* Annual toggle */}
                 <ScrollReveal delay={0.1} className="w-full">
                     <div className="flex flex-col items-center mb-6">
-                        <div className="inline-flex items-center border border-zinc-700 rounded-md overflow-hidden">
+                        <div className="relative inline-flex items-center p-[3px] rounded-lg border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl shadow-[0_0_20px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.04)]">
+                            {/* Sliding active indicator */}
+                            <div
+                                className={`absolute top-[3px] bottom-[3px] w-[calc(50%-3px)] rounded-md bg-orange-500/[0.12] border border-orange-500/30 shadow-[0_0_12px_rgba(249,115,22,0.15)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isAnnual ? 'left-[calc(50%+1.5px)]' : 'left-[3px]'}`}
+                            />
                             <button
                                 onClick={() => setIsAnnual(false)}
                                 type="button"
-                                className={`px-5 py-2 font-mono text-[11px] uppercase tracking-[0.12em] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 ${!isAnnual ? 'bg-orange-500 text-black font-bold' : 'bg-zinc-900 text-zinc-500 hover:text-zinc-300'}`}
+                                className={`relative z-10 px-6 py-2 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors duration-300 rounded-md focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 ${!isAnnual ? 'text-orange-400 font-bold' : 'text-zinc-500 hover:text-zinc-300'}`}
                                 style={{ WebkitTapHighlightColor: 'transparent' }}
                             >
                                 Monthly
@@ -953,13 +957,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <button
                                 onClick={() => setIsAnnual(true)}
                                 type="button"
-                                className={`px-5 py-2 font-mono text-[11px] uppercase tracking-[0.12em] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 ${isAnnual ? 'bg-orange-500 text-black font-bold' : 'bg-zinc-900 text-zinc-500 hover:text-zinc-300'}`}
+                                className={`relative z-10 px-6 py-2 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors duration-300 rounded-md focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 ${isAnnual ? 'text-orange-400 font-bold' : 'text-zinc-500 hover:text-zinc-300'}`}
                                 style={{ WebkitTapHighlightColor: 'transparent' }}
                             >
                                 Annual
                             </button>
                         </div>
-                        <span className="font-mono text-[10px] font-bold text-orange-500 tracking-[0.08em] mt-2">
+                        <span className={`font-mono text-[10px] font-bold text-orange-500 tracking-[0.08em] mt-2.5 transition-opacity duration-300 ${isAnnual ? 'opacity-100' : 'opacity-0'}`}>
                             Save 20%
                         </span>
                     </div>
