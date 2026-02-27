@@ -4,14 +4,13 @@ import { TaskRigLogo } from './ui/TaskRigLogo';
 export const Footer: React.FC = () => {
     return (
         <footer className="bg-zinc-950 pt-10 pb-8 px-6 border-t border-zinc-800 relative z-10 transition-colors">
-            <div className="max-w-7xl mx-auto flex items-start gap-3 mb-8">
-                <TaskRigLogo className="h-6 w-auto text-zinc-700 shrink-0 mt-0.5" />
-                <div>
-                    <div className="font-heading font-bold text-2xl tracking-tight text-zinc-600 leading-none mb-2">TASK RIG</div>
-                    <p className="text-zinc-500 font-mono text-sm max-w-sm leading-relaxed">
-                        Advanced AI orchestration for the modern service economy. Built for speed, security, and scale.
-                    </p>
-                </div>
+            <div className="max-w-7xl mx-auto flex items-center gap-2 mb-6">
+                <TaskRigLogo className="h-4 w-auto text-zinc-700 shrink-0" />
+                <div className="font-heading font-bold text-sm tracking-tight text-zinc-600 leading-none">TASK RIG</div>
+                <span className="text-zinc-600 font-mono text-[10px]">—</span>
+                <p className="text-zinc-600 font-mono text-[10px] leading-none">
+                    Advanced AI orchestration for the modern service economy.
+                </p>
             </div>
 
             <div className="max-w-7xl mx-auto border-t border-zinc-900 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
