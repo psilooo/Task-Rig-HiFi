@@ -921,6 +921,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 </div>
             </section>
 
+            {/* ── Visual connector: Testimonials → Pricing ── */}
+            <div className="relative z-10 flex flex-col items-center -my-2 md:-my-4">
+                <div className="relative w-px h-12 md:h-20 bg-gradient-to-b from-orange-500/30 via-orange-500/10 to-transparent overflow-hidden">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-orange-500/60 shadow-[0_0_12px_rgba(255,106,21,0.4)] animate-[connector-dot_2s_ease-in-out_infinite]" />
+                </div>
+            </div>
 
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 5: PRICING (Integrated from taskrig_pricing.html)
