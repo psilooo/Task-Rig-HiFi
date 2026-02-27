@@ -993,8 +993,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             <div className="absolute top-[-14px] left-1/2 -translate-x-1/2 bg-orange-500 text-white font-mono text-[10px] font-bold tracking-[0.14em] uppercase px-4 py-[3px] pt-[4px] rounded-[12px] whitespace-nowrap z-10 leading-none">
                                                 Most Popular
                                             </div>
-                                            {/* Animated orbiting glow border */}
-                                            <div className="glow-border absolute -inset-[3px] rounded-[14px] pointer-events-none blur-[4px] opacity-70" />
+                                            {/* Animated orbiting glow border — sharp ring */}
+                                            <div className="glow-border absolute -inset-[2px] rounded-[14px] pointer-events-none" />
+                                            {/* Blurred halo behind the ring */}
+                                            <div className="glow-border absolute -inset-[2px] rounded-[14px] pointer-events-none blur-[8px] opacity-40" />
                                             {/* Slow pulsing ambient glow */}
                                             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[120px] bg-orange-500/[0.04] blur-[60px] rounded-full pointer-events-none animate-pulse" />
                                         </>

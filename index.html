@@ -161,7 +161,17 @@
     .glow-border {
       --border-angle: 0deg;
       animation: border-rotate 4s linear infinite;
-      background: conic-gradient(from var(--border-angle), transparent 50%, rgba(249,115,22,0.5) 75%, rgba(255,106,21,0.8) 88%, rgba(249,115,22,0.5) 100%);
+      background:
+        conic-gradient(from var(--border-angle), transparent 50%, rgba(249,115,22,0.5) 75%, rgba(255,106,21,0.8) 88%, rgba(249,115,22,0.5) 100%) border-box;
+      border: 3px solid transparent;
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      mask-composite: exclude;
     }
 
     @keyframes connector-dot {
