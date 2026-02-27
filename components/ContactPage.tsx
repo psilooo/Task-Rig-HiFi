@@ -52,7 +52,7 @@ export const ContactPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
+        <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
 
             {/* Navigation */}
@@ -120,7 +120,7 @@ export const ContactPage: React.FC = () => {
                                         required
                                         value={formData.name}
                                         onChange={handleChange}
-                                        className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700"
+                                        className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-base focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700"
                                         placeholder="Jane Doe"
                                     />
                                 </div>
@@ -133,7 +133,7 @@ export const ContactPage: React.FC = () => {
                                         required
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700"
+                                        className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-base focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700"
                                         placeholder="jane@acmehvac.com"
                                     />
                                 </div>
@@ -147,7 +147,7 @@ export const ContactPage: React.FC = () => {
                                     name="company"
                                     value={formData.company}
                                     onChange={handleChange}
-                                    className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700"
+                                    className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-base focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700"
                                     placeholder="Acme HVAC"
                                 />
                             </div>
@@ -161,7 +161,7 @@ export const ContactPage: React.FC = () => {
                                     value={formData.message}
                                     onChange={handleChange}
                                     rows={5}
-                                    className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700 resize-none"
+                                    className="w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-base focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700 resize-none"
                                     placeholder="How can we help you..."
                                 ></textarea>
                             </div>

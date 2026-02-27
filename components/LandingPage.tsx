@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView, AnimatePresence, MotionConfig } from 'framer-motion';
 import {
     Users,
     Clock, GitBranch, CalendarCheck, Layers, Globe,
@@ -408,21 +408,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
     ];
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
+        <MotionConfig reducedMotion="user">
+        <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
             {/* Fixed Background Grid */}
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
 
             {/* Navigation - Fixed Top */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-14 md:h-20">
                 <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex justify-between items-center">
-                    <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2 md:gap-3 cursor-pointer">
+                    <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2 md:gap-3 cursor-pointer focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950">
                         <TaskRigLogo className="h-5 md:h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
                         <div className="font-heading font-bold text-base md:text-2xl tracking-tight text-white whitespace-nowrap">TASK RIG</div>
                     </button>
                     <div className="flex items-center gap-2 md:gap-3">
                         <a
                             href="tel:+18442222486"
-                            className="group flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 bg-orange-500 hover:bg-orange-600 text-white font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
+                            className="group flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2.5 md:py-2 bg-orange-500 hover:bg-orange-600 text-white font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all rounded-sm focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
                         >
                             <Phone size={12} className="md:hidden transition-colors" />
                             <Phone size={14} className="hidden md:block transition-colors" />
@@ -430,7 +431,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         </a>
                         <button
                             onClick={onLoginClick}
-                            className="group flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 border border-zinc-800 hover:border-orange-500/50 bg-zinc-900 text-zinc-300 hover:text-white font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all rounded-sm"
+                            className="group flex items-center gap-1.5 md:gap-2 px-3 md:px-5 py-2.5 md:py-2 border border-zinc-800 hover:border-orange-500/50 bg-zinc-900 text-zinc-300 hover:text-white font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all rounded-sm focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
                         >
                             Login
                             <ArrowRight size={12} className="md:hidden text-zinc-500 group-hover:text-orange-500 transition-colors" />
@@ -646,7 +647,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             <button
                                                 key={i}
                                                 onClick={() => handleFeatureClick(i)}
-                                                className={`relative flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-all duration-300 whitespace-nowrap flex-shrink-0 overflow-hidden ${activeFeature === i
+                                                className={`relative flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-all duration-300 whitespace-nowrap flex-shrink-0 overflow-hidden focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 ${activeFeature === i
                                                     ? 'border border-orange-500/30 shadow-[0_0_20px_rgba(255,106,21,0.06)]'
                                                     : 'bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04]'
                                                     }`}
@@ -922,7 +923,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 {/* Header */}
                 <ScrollReveal className="w-full">
                     <SectionBadge text="Pricing" />
-                    <h2 className="font-heading font-bold text-[clamp(1.875rem,5vw,3rem)] leading-none text-center tracking-[-0.02em] text-white uppercase mb-4">
+                    <h2 className="font-heading font-bold text-[clamp(1.875rem,1rem+3vw,3rem)] leading-none text-center tracking-[-0.02em] text-white uppercase mb-4">
                         Simple, Transparent Pricing
                     </h2>
                     <p className="font-mono text-[13px] text-zinc-500 text-center tracking-[0.04em] mb-10">
@@ -938,7 +939,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         <button
                             onClick={() => setIsAnnual(!isAnnual)}
                             type="button"
-                            className={`w-[44px] h-[24px] rounded-[12px] border relative transition-colors duration-200 outline-none focus:outline-none ${isAnnual ? 'bg-orange-500 border-orange-500' : 'bg-zinc-900 border-zinc-700'}`}
+                            className={`w-[44px] h-[24px] rounded-[12px] border relative transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 ${isAnnual ? 'bg-orange-500 border-orange-500' : 'bg-zinc-900 border-zinc-700'}`}
                             style={{ WebkitTapHighlightColor: 'transparent' }}
                         >
                             <div className={`absolute top-[3px] left-[3px] w-[16px] h-[16px] rounded-full bg-white transition-transform duration-200 ${isAnnual ? 'translate-x-[20px]' : 'translate-x-0'}`} />
@@ -1039,7 +1040,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                                         <div className="h-px bg-zinc-800 w-full mb-[24px]"></div>
 
-                                        <Link to="/get-started" className="no-underline block w-full">
+                                        <Link to="/get-started" className="no-underline block w-full focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 rounded-[8px]">
                                             <div className={`block w-full py-[14px] rounded-[8px] font-mono text-[12px] font-bold tracking-[0.12em] uppercase text-center transition-all cursor-pointer ${isFeatured
                                                 ? 'bg-orange-500 text-white shadow-[0_4px_24px_rgba(245,98,15,0.25)] hover:bg-orange-600 hover:shadow-[0_4px_32px_rgba(245,98,15,0.55)] hover:-translate-y-px border-none'
                                                 : tier.name === 'Enterprise'
@@ -1130,7 +1131,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     }`}>
                                     <button
                                         onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                                        className="w-full flex items-start gap-4 p-5 md:p-6 text-left"
+                                        className="w-full flex items-start gap-4 p-5 md:p-6 text-left focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
                                     >
                                         {/* Index number */}
                                         <div className={`flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 ${openFaq === i
@@ -1219,7 +1220,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                             <Link
                                                 to="/get-started"
-                                                className="relative w-full sm:w-auto px-12 py-3 bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(249,115,22,0.25)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] flex justify-center items-center gap-3 no-underline"
+                                                className="relative w-full sm:w-auto px-12 py-3 bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(249,115,22,0.25)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] flex justify-center items-center gap-3 no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
                                             >
                                                 <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
                                                 <span className="relative z-10 flex items-center gap-2">
@@ -1245,5 +1246,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* Footer */}
             <Footer />
         </div>
+        </MotionConfig>
     );
 };

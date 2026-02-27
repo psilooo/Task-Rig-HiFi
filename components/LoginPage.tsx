@@ -21,7 +21,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-zinc-950">
+    <div className="min-h-[100svh] flex items-center justify-center relative overflow-hidden bg-zinc-950">
       {/* Background Grid */}
       <div className="absolute inset-0 grid-bg opacity-[0.05] pointer-events-none"></div>
 
@@ -84,7 +84,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
                   <input
                     type="text"
                     placeholder="USR_001"
-                    className="w-full bg-zinc-950 border border-zinc-800 text-zinc-100 pl-14 pr-4 py-3 font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-0 transition-all placeholder:text-zinc-800"
+                    className="w-full bg-zinc-950 border border-zinc-800 text-zinc-100 pl-14 pr-4 py-3 font-mono text-base focus:outline-none focus:border-orange-500/50 focus-visible:ring-1 focus-visible:ring-orange-500/50 transition-all placeholder:text-zinc-800"
                   />
                   {/* Corner tick */}
                   <div className="absolute top-0 right-0 w-1.5 h-1.5 border-t border-r border-zinc-600 group-focus-within:border-orange-500 transition-colors"></div>
@@ -103,7 +103,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
                   <input
                     type="password"
                     placeholder="••••••••"
-                    className="w-full bg-zinc-950 border border-zinc-800 text-zinc-100 pl-14 pr-4 py-3 font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-0 transition-all placeholder:text-zinc-800"
+                    className="w-full bg-zinc-950 border border-zinc-800 text-zinc-100 pl-14 pr-4 py-3 font-mono text-base focus:outline-none focus:border-orange-500/50 focus-visible:ring-1 focus-visible:ring-orange-500/50 transition-all placeholder:text-zinc-800"
                   />
                   {/* Corner tick */}
                   <div className="absolute top-0 right-0 w-1.5 h-1.5 border-t border-r border-zinc-600 group-focus-within:border-orange-500 transition-colors"></div>

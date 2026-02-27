@@ -10,7 +10,7 @@ export const TermsPage: React.FC = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
+        <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
 
             {/* Navigation */}

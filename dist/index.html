@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>Task Rig // AI Command Center</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -146,11 +146,52 @@
       100% { transform: translateX(-50%); }
     }
 
+    @keyframes connector-dot {
+      0% { top: -4px; opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { top: calc(100% - 4px); opacity: 0; }
+    }
+
     /* Mobile scroll performance: disable expensive GPU effects */
     @media (max-width: 767px) {
       * {
         -webkit-backdrop-filter: none !important;
         backdrop-filter: none !important;
+      }
+    }
+
+    /* Safe-area insets for notched devices */
+    nav.fixed {
+      padding-top: env(safe-area-inset-top);
+    }
+
+    footer {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* Reduced motion: disable all CSS animations */
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-content {
+        animation: none !important;
+      }
+
+      .animate-pulse {
+        animation: none !important;
+      }
+
+      .animate-spin {
+        animation: none !important;
+      }
+
+      [class*="animate-scan"] {
+        animation: none !important;
+      }
+
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
@@ -171,7 +212,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-lWpq8VLP.js"></script>
+  <script type="module" crossorigin src="/assets/index-dgmp-Csx.js"></script>
 </head>
 
 <body>

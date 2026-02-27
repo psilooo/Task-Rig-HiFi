@@ -665,7 +665,7 @@ export const GetStartedPage: React.FC = () => {
 
     if (submitted) {
         return (
-            <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30 flex flex-col">
+            <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30 flex flex-col">
                 <div className="fixed inset-0 pointer-events-none z-0">
                     <DynamicNoise opacity={0.06} />
                 </div>
@@ -765,7 +765,7 @@ export const GetStartedPage: React.FC = () => {
     // ─── WIZARD ───────────────────────────────────────────────────
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30 flex flex-col">
+        <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30 flex flex-col">
             <div className="fixed inset-0 pointer-events-none z-0">
                 <DynamicNoise opacity={0.06} />
             </div>
@@ -894,7 +894,7 @@ export const GetStartedPage: React.FC = () => {
                                                     }}
                                                     onFocus={() => !selectedPlace && setShowPredictions(true)}
                                                     placeholder="Search for your business..."
-                                                    className="w-full bg-zinc-950/60 border border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.08)] pl-10 pr-4 py-3 font-mono text-sm text-white placeholder:text-zinc-700 outline-none transition-all rounded-md"
+                                                    className="w-full bg-zinc-950/60 border border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.08)] pl-10 pr-4 py-3 font-mono text-base text-white placeholder:text-zinc-700 outline-none transition-all rounded-md"
                                                 />
                                             </div>
 
@@ -1318,7 +1318,7 @@ export const GetStartedPage: React.FC = () => {
                                                     onChange={(e) => update({ notes: e.target.value })}
                                                     placeholder="e.g., We're switching from another provider, need help migrating..."
                                                     rows={3}
-                                                    className="w-full bg-zinc-950/60 border border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.08)] px-4 py-3 font-mono text-sm text-white placeholder:text-zinc-700 outline-none transition-all rounded-md resize-none"
+                                                    className="w-full bg-zinc-950/60 border border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.08)] px-4 py-3 font-mono text-base text-white placeholder:text-zinc-700 outline-none transition-all rounded-md resize-none"
                                                 />
                                             </div>
                                         </div>
