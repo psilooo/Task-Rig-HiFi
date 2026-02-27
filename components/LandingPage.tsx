@@ -776,34 +776,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             </section>
 
 
-            {/* ════════════════════════════════════════════════════════════════
-                MID-PAGE CTA — Capture prospects convinced by the demo
-            ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 border-y border-white/5">
-                <div className="max-w-7xl mx-auto text-center">
-                    <ScrollReveal>
-                        <h2 className="font-heading font-bold text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight mb-6">
-                            Ready to Stop Missing Calls?
-                        </h2>
-                        <p className="text-zinc-400 font-mono text-base max-w-xl mx-auto mb-10 leading-relaxed">
-                            See how Task Rig answers, books, and follows up — so you never lose another lead.
-                        </p>
-                        <Link
-                            to="/get-started"
-                            className="relative inline-flex px-14 py-4 bg-[#FF6A15] hover:bg-[#ff853f] text-black font-mono font-bold text-sm uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(255,106,21,0.25)] hover:shadow-[0_0_30px_rgba(255,106,21,0.4)] justify-center items-center gap-3 no-underline"
-                        >
-                            <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
-                            <span className="relative z-10 flex items-center gap-2">
-                                GET STARTED
-                                <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">
-                                    <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
-                                </svg>
-                            </span>
-                        </Link>
-                    </ScrollReveal>
-                </div>
-            </section>
-
 
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 4: TESTIMONIALS — Immersive Stacked Cards
