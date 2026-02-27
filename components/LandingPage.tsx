@@ -1000,14 +1000,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                         return (
                             <ScrollReveal key={i} delay={i * 0.1}>
-                                <div className={`relative p-[28px] md:p-[26px] lg:p-[30px] border rounded-[12px] flex flex-col h-full bg-zinc-950 transition-all duration-300 ${isFeatured ? 'border-orange-500 hover:-translate-y-[4px] bg-[linear-gradient(160deg,rgb(28,18,8)_0%,rgb(9,9,11)_60%)]' : 'border-zinc-800 hover:border-zinc-700 hover:-translate-y-[4px]'}`}>
+                                <div className={`relative p-[28px] md:p-[26px] lg:p-[30px] border rounded-[12px] flex flex-col h-full bg-zinc-950 transition-all duration-300 ${isFeatured ? 'border-orange-500/60 hover:-translate-y-[4px]' : 'border-zinc-800 hover:border-zinc-700 hover:-translate-y-[4px]'}`}>
                                     {isFeatured && (
                                         <>
                                             <div className="absolute top-[-14px] left-1/2 -translate-x-1/2 bg-orange-500 text-white font-mono text-[10px] font-bold tracking-[0.14em] uppercase px-4 py-[3px] pt-[4px] rounded-[12px] whitespace-nowrap z-10 leading-none">
                                                 Most Popular
                                             </div>
-                                            {/* Orange glow under-layer */}
-                                            <div className="absolute inset-[-1px] rounded-[12px] bg-[linear-gradient(135deg,rgb(245,98,15)_0%,transparent_60%)] opacity-15 pointer-events-none" />
+                                            {/* Subtle top glow line */}
+                                            <div className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+                                            {/* Slow pulsing ambient glow */}
+                                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[120px] bg-orange-500/[0.04] blur-[60px] rounded-full pointer-events-none animate-pulse" />
                                         </>
                                     )}
 
