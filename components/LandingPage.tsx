@@ -1193,59 +1193,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     </div>
 
                     {/* ── Final CTA ── */}
-                    <div className="relative">
-                        {/* CTA background container */}
-                        <div className="absolute inset-0 pointer-events-none">
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-orange-500/[0.06] blur-[120px] rounded-full" />
+                    <ScrollReveal>
+                        <div className="text-center py-4 md:py-6">
+                            <div className="h-px w-16 bg-orange-500/30 mx-auto mb-6" />
+                            <p className="text-zinc-400 font-mono text-sm max-w-md mx-auto mb-5 leading-relaxed">
+                                Join 2,400+ home service businesses using Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
+                            </p>
+                            <Link
+                                to="/get-started"
+                                className="inline-flex items-center gap-2 px-10 py-3 bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all rounded-sm shadow-[0_0_20px_rgba(249,115,22,0.15)] hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
+                            >
+                                Get Started
+                                <ArrowRight size={14} />
+                            </Link>
                         </div>
-
-                        <ScrollReveal>
-                            <div className="relative border border-white/[0.08] bg-zinc-900/30 backdrop-blur-xl rounded-2xl overflow-hidden">
-                                {/* Top glow line */}
-                                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
-
-                                {/* Corner accents */}
-                                <div className="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-orange-500/40" />
-                                <div className="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-orange-500/40" />
-                                <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-orange-500/40" />
-                                <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-orange-500/40" />
-
-                                <div className="px-6 py-10 md:px-12 md:py-12 text-center relative">
-                                    <div className="max-w-2xl mx-auto">
-                                        <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 bg-orange-500/10 border border-orange-500/20 rounded-full">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                                            <span className="font-mono text-[10px] text-orange-400 uppercase tracking-[0.2em]">Maximum Efficiency, Zero Downtime</span>
-                                        </div>
-
-                                        <h2 className="font-heading font-bold text-xl md:text-2xl lg:text-3xl text-white uppercase tracking-tight mb-5 leading-[0.95]">
-                                            Ready to Deploy<br />
-                                            <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent">Intelligent Operations?</span>
-                                        </h2>
-                                        <p className="text-zinc-400 font-mono text-sm max-w-lg mx-auto mb-6 leading-relaxed">
-                                            Join 2,400+ home service businesses using Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
-                                        </p>
-                                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                            <Link
-                                                to="/get-started"
-                                                className="relative w-full sm:w-auto px-12 py-3 bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(249,115,22,0.25)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] flex justify-center items-center gap-3 no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
-                                            >
-                                                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
-                                                <span className="relative z-10 flex items-center gap-2">
-                                                    GET STARTED
-                                                    <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">
-                                                        <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
-                                                    </svg>
-                                                </span>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Bottom glow line */}
-                                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
-                            </div>
-                        </ScrollReveal>
-                    </div>
+                    </ScrollReveal>
                 </div>
             </section>
 
