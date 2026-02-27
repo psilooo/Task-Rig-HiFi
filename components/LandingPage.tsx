@@ -524,11 +524,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             <div className="w-2 h-2 rounded-full bg-orange-500" />
                                             <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]">Response Time</span>
                                         </div>
-                                        <div className="font-heading font-bold text-7xl md:text-8xl lg:text-[7rem] text-white tracking-tight leading-none mb-4">
-                                            <AnimatedCounter value="78%" duration={2.5} />
+                                        <div className="font-heading font-bold text-7xl md:text-8xl lg:text-[7rem] text-orange-500 tracking-tight leading-none mb-4">
+                                            <AnimatedCounter value="21x" duration={2.5} />
                                         </div>
                                         <p className="font-mono text-base md:text-lg text-zinc-400 leading-relaxed max-w-sm">
-                                            of leads go cold within 5 minutes of reaching out. If you're not responding instantly, your competitors are.
+                                            more likely to convert when contacted within 5 minutes. Most businesses take over 24 hours to respond.
                                         </p>
                                     </motion.div>
                                 </div>
@@ -538,19 +538,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     {[
                                         {
                                             stat: '62%',
-                                            label: 'After-Hours Inquiries',
-                                            desc: 'of customer messages arrive outside business hours — sitting unanswered until morning.',
+                                            label: 'Calls Going Unanswered',
+                                            desc: 'of inbound calls to small businesses go straight to voicemail — and most of those callers never try again.',
                                         },
                                         {
-                                            stat: '$1,200',
+                                            stat: '$15,340',
                                             label: 'Lost Per Customer',
-                                            desc: 'in average lifetime value every time a lead slips through the cracks.',
+                                            desc: 'average lifetime value of a single home service customer. Every missed lead is years of repeat business gone.',
                                         },
                                         {
-                                            stat: '23',
+                                            stat: '16',
                                             suffix: ' hrs/wk',
-                                            label: 'Wasted on Manual Work',
-                                            desc: 'spent on scheduling, follow-ups, and data entry that AI handles in seconds.',
+                                            label: 'Wasted on Admin',
+                                            desc: 'the average small business owner spends on scheduling, follow-ups, and data entry instead of growing their business.',
                                         },
                                     ].map((item, i) => (
                                         <motion.div
@@ -562,7 +562,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             className="flex items-start gap-6 md:gap-8 p-6 md:p-8 group hover:bg-white/[0.02] transition-colors"
                                         >
                                             <div className="flex-shrink-0 w-24 md:w-28">
-                                                <div className="font-heading font-bold text-3xl md:text-4xl text-white tracking-tight">
+                                                <div className="font-heading font-bold text-3xl md:text-4xl text-orange-500 tracking-tight">
                                                     <AnimatedCounter value={item.stat + (item.suffix || '')} duration={2} />
                                                 </div>
                                             </div>
@@ -600,7 +600,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     {/* Unified header */}
                     <div className="text-center mb-16 md:mb-20">
                         <ScrollReveal>
-                            <SectionBadge text="Product Showcase" />
+                            <SectionBadge text="Task Rig is" />
                             <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
                                 Smarter Than a Chatbot.
                             </h2>
