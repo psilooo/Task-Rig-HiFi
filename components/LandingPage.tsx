@@ -594,9 +594,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
             {/* ── Visual connector: Pain Points → Product Showcase ── */}
             <div className="relative z-10 flex flex-col items-center -my-2 md:-my-4">
-                <div className="w-px h-6 md:h-10 bg-gradient-to-b from-orange-500/30 to-orange-500/5" />
-                <div className="w-2 h-2 rounded-full bg-orange-500/40 shadow-[0_0_12px_rgba(255,106,21,0.3)]" />
-                <div className="w-px h-6 md:h-10 bg-gradient-to-b from-orange-500/5 to-transparent" />
+                <div className="relative w-px h-12 md:h-20 bg-gradient-to-b from-orange-500/30 via-orange-500/10 to-transparent overflow-hidden">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-orange-500/60 shadow-[0_0_12px_rgba(255,106,21,0.4)] animate-[connector-dot_2s_ease-in-out_infinite]" />
+                </div>
             </div>
 
             {/* ════════════════════════════════════════════════════════════════
@@ -612,7 +612,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     {/* Unified header */}
                     <div className="text-center mb-6 md:mb-8">
                         <ScrollReveal>
-                            <SectionBadge text="Task Rig is" />
+                            <div className="inline-flex items-center mb-4">
+                                <span className="font-mono text-orange-500 text-[10px] uppercase tracking-[0.2em]">Task Rig is</span>
+                            </div>
                             <h2 className="font-heading font-bold text-2xl md:text-3xl lg:text-4xl text-white uppercase tracking-tight">
                                 Smarter Than a Chatbot.
                             </h2>
