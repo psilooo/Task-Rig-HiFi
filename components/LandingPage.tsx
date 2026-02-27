@@ -827,7 +827,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         <ScrollReveal>
                             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
                                 <div>
-                                    <SectionBadge text="Field Reports" />
+                                    <SectionBadge text="What Our Clients Say" />
                                     <h2 className="font-heading font-bold text-xl md:text-2xl lg:text-3xl text-white uppercase tracking-tight leading-[0.95]">
                                         Testimonials
                                     </h2>
