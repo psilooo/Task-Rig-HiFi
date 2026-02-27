@@ -484,16 +484,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 PAIN POINTS — What most businesses don't realize
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10">
+            <section className="py-16 md:py-24 px-4 md:px-6 relative z-10">
                 {/* Ambient glow */}
                 <div className="absolute top-1/3 left-1/4 w-[500px] h-[400px] bg-orange-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
                     {/* Section header — left-aligned to match testimonials */}
-                    <div className="mb-16 md:mb-20">
+                    <div className="mb-10 md:mb-14">
                         <ScrollReveal>
                             <SectionBadge text="The Reality" />
-                            <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight leading-[0.95]">
+                            <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-white uppercase tracking-tight leading-[0.95]">
                                 What Happens While<br />
                                 <span className="text-zinc-500">You're on a Job</span>
                             </h2>
@@ -517,7 +517,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
                                         <span className="font-mono text-[10px] text-orange-500 uppercase tracking-[0.2em]">Speed to Lead</span>
                                     </div>
-                                    <div className="font-heading font-bold text-7xl md:text-8xl lg:text-[7rem] text-orange-500 tracking-tight leading-none mb-6">
+                                    <div className="font-heading font-bold text-6xl md:text-7xl lg:text-8xl text-orange-500 tracking-tight leading-none mb-6">
                                         <AnimatedCounter value="21x" duration={2.5} />
                                     </div>
                                     <p className="font-mono text-base text-zinc-400 leading-[1.7] max-w-sm">
@@ -593,27 +593,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             </section>
 
             {/* ── Visual connector: Pain Points → Product Showcase ── */}
-            <div className="relative z-10 flex flex-col items-center -my-8 md:-my-12">
-                <div className="w-px h-16 md:h-24 bg-gradient-to-b from-orange-500/30 to-orange-500/5" />
+            <div className="relative z-10 flex flex-col items-center -my-4 md:-my-8">
+                <div className="w-px h-10 md:h-16 bg-gradient-to-b from-orange-500/30 to-orange-500/5" />
                 <div className="w-2 h-2 rounded-full bg-orange-500/40 shadow-[0_0_12px_rgba(255,106,21,0.3)]" />
-                <div className="w-px h-16 md:h-24 bg-gradient-to-b from-orange-500/5 to-transparent" />
+                <div className="w-px h-10 md:h-16 bg-gradient-to-b from-orange-500/5 to-transparent" />
             </div>
 
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 2+3: PRODUCT SHOWCASE — Features & Live Demo
                 Unified two-panel layout with shared visual container
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10" ref={chatRef}>
+            <section className="py-16 md:py-24 px-4 md:px-6 relative z-10" ref={chatRef}>
                 {/* Ambient glow effects */}
                 <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/[0.03] blur-[180px] rounded-full pointer-events-none" />
                 <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
                     {/* Unified header */}
-                    <div className="text-center mb-16 md:mb-20">
+                    <div className="text-center mb-10 md:mb-14">
                         <ScrollReveal>
                             <SectionBadge text="Task Rig is" />
-                            <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
+                            <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-white uppercase tracking-tight">
                                 Smarter Than a Chatbot.
                             </h2>
                             <p className="mt-5 text-zinc-400 font-mono text-base max-w-2xl mx-auto leading-relaxed">
@@ -628,7 +628,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             {/* Inner glow accent along top edge */}
                             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
 
-                            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[600px]">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-0">
 
                                 {/* ── LEFT PANEL: Features ── */}
                                 <div ref={featureSectionRef} className="lg:col-span-5 p-6 md:p-8 lg:p-10 flex flex-col">
@@ -669,7 +669,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     </div>
 
                                     {/* Active Feature Detail */}
-                                    <div className="flex-1 flex flex-col min-h-[420px]">
+                                    <div className="flex-1 flex flex-col min-h-[320px]">
                                         <AnimatePresence mode="wait">
                                             <motion.div
                                                 key={activeFeature}
@@ -786,7 +786,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 4: TESTIMONIALS — Immersive Stacked Cards
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 overflow-clip">
+            <section className="py-16 md:py-24 px-4 md:px-6 relative z-10 overflow-clip">
                 {/* Ambient background effects */}
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                     <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-orange-500/[0.03] blur-[150px] rounded-full" />
@@ -801,12 +801,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                 <div className="max-w-7xl mx-auto relative">
                     {/* Section header with asymmetric layout */}
-                    <div className="mb-16 md:mb-20">
+                    <div className="mb-10 md:mb-14">
                         <ScrollReveal>
                             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
                                 <div>
                                     <SectionBadge text="Field Reports" />
-                                    <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight leading-[0.95]">
+                                    <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-white uppercase tracking-tight leading-[0.95]">
                                         Testimonials
                                     </h2>
                                 </div>
@@ -915,7 +915,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 5: PRICING (Integrated from taskrig_pricing.html)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center">
+            <section className="py-16 md:py-24 px-4 md:px-6 relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center">
 
                 {/* Header */}
                 <ScrollReveal className="w-full">
@@ -924,7 +924,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         Pricing
                         <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
                     </div>
-                    <h2 className="font-heading font-bold text-[clamp(2.25rem,6vw,4.5rem)] leading-none text-center tracking-[-0.02em] text-white uppercase mb-4">
+                    <h2 className="font-heading font-bold text-[clamp(1.875rem,5vw,3rem)] leading-none text-center tracking-[-0.02em] text-white uppercase mb-4">
                         Simple, Transparent Pricing
                     </h2>
                     <p className="font-mono text-[13px] text-zinc-500 text-center tracking-[0.04em] mb-16">
@@ -1079,7 +1079,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 6: FAQ — Terminal-Style Knowledge Base
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 border-t border-white/5 overflow-clip">
+            <section className="py-16 md:py-24 px-4 md:px-6 relative z-10 border-t border-white/5 overflow-clip">
                 {/* Ambient effects */}
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-500/[0.02] blur-[180px] rounded-full pointer-events-none" />
 
@@ -1090,11 +1090,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                 <div className="max-w-7xl mx-auto">
                     {/* Header — split layout */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 md:mb-20">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10 md:mb-14">
                         <div className="lg:col-span-5">
                             <ScrollReveal>
                                 <SectionBadge text="Knowledge Base" />
-                                <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-[3.5rem] text-white uppercase tracking-tight leading-[0.95] mb-4">
+                                <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-white uppercase tracking-tight leading-[0.95] mb-4">
                                     Common<br />
                                     <span className="text-zinc-500">Questions</span>
                                 </h2>
@@ -1120,7 +1120,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     </div>
 
                     {/* FAQ grid — two-column on desktop */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 mb-20 md:mb-28">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 mb-14 md:mb-20">
                         {faqItems.map((item, i) => (
                             <ScrollReveal key={i} delay={i * 0.05}>
                                 <motion.div
@@ -1211,7 +1211,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             <span className="font-mono text-[10px] text-orange-400 uppercase tracking-[0.2em]">Awaiting Your Command</span>
                                         </div>
 
-                                        <h2 className="font-heading font-bold text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight mb-5 leading-[0.95]">
+                                        <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-white uppercase tracking-tight mb-5 leading-[0.95]">
                                             Ready to Deploy<br />
                                             <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent">Intelligent Operations?</span>
                                         </h2>
