@@ -833,18 +833,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         Testimonials
                                     </h2>
                                 </div>
-                                <div className="flex items-center gap-4">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                        <span className="font-mono text-[10px] text-emerald-500/80 uppercase tracking-[0.2em]">Verified Reviews</span>
-                                    </div>
-                                    <div className="h-4 w-px bg-zinc-800" />
-                                    <div className="flex gap-0.5">
-                                        {[...Array(5)].map((_, j) => (
-                                            <Star key={j} size={10} className="text-orange-500 fill-orange-500" />
-                                        ))}
-                                    </div>
-                                </div>
                             </div>
                         </ScrollReveal>
                     </div>
@@ -1165,12 +1153,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     </button>
 
                                     {/* Answer panel */}
-                                    <AnimatePresence initial={false} mode="popLayout">
+                                    <AnimatePresence initial={false}>
                                         {openFaq === i && (
                                             <motion.div
                                                 initial={{ height: 0, opacity: 0 }}
                                                 animate={{ height: 'auto', opacity: 1, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
-                                                exit={{ height: 0, opacity: 0, transition: { duration: 0 } }}
+                                                exit={{ height: 0, opacity: 0, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
                                                 className="overflow-hidden"
                                             >
                                                 <div className="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.75rem]">
