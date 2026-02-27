@@ -116,8 +116,8 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                                     </span>
                                 </Link>
 
-                                {/* Trust Signal (Above the fold formula) */}
-                                <div className="flex flex-col sm:flex-row items-center gap-3 mt-4 opacity-80">
+                                {/* Trust Signal */}
+                                <div className="flex justify-center mt-4 opacity-80">
                                     <div className="flex gap-1">
                                         {[1, 2, 3, 4, 5].map((star) => (
                                             <svg key={star} width="16" height="16" viewBox="0 0 24 24" fill="#FF6A15" xmlns="http://www.w3.org/2000/svg">
@@ -125,7 +125,6 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                                             </svg>
                                         ))}
                                     </div>
-                                    <span className="font-mono text-sm text-zinc-400">Trusted by 2,400+ Home Service Businesses</span>
                                 </div>
                             </div>
                         </Reveal>

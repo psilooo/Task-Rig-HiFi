@@ -15,9 +15,10 @@ import {
     Minus,
     Quote,
     TrendingUp,
-    PhoneOff,
+    AlertTriangle,
     DollarSign,
-    PhoneMissed
+    Zap,
+    ShieldAlert
 } from 'lucide-react';
 import { Hero } from './Hero';
 import { TaskRigLogo } from './ui/TaskRigLogo';
@@ -542,65 +543,126 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                PAIN POINTS — "Sound Familiar?" stat cards
+                THREAT ASSESSMENT — HUD-style pain points
             ════════════════════════════════════════════════════════════════ */}
             <section className="py-24 md:py-32 px-4 md:px-6 relative z-10">
+                {/* Ambient glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-red-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
+
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16 md:mb-20">
                         <ScrollReveal>
-                            <SectionBadge text="The Problem" />
+                            <SectionBadge text="Threat Assessment" />
                             <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
-                                Sound Familiar?
+                                Your Business Has<br />
+                                <span className="text-zinc-500">Blind Spots</span>
                             </h2>
                         </ScrollReveal>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-                        {[
-                            {
-                                icon: PhoneOff,
-                                stat: '67%',
-                                desc: 'of calls to home service businesses go unanswered during working hours.',
-                            },
-                            {
-                                icon: Clock,
-                                stat: '4+',
-                                suffix: ' hrs',
-                                desc: 'average response time to a new lead — most won\'t wait past 5 minutes.',
-                            },
-                            {
-                                icon: DollarSign,
-                                stat: '$1,200',
-                                desc: 'lost per missed call when you factor in lifetime customer value.',
-                            },
-                            {
-                                icon: PhoneMissed,
-                                stat: '23%',
-                                desc: 'of callers who hit voicemail will never call back — they call your competitor.',
-                            },
-                        ].map((card, i) => (
-                            <ScrollReveal key={i} delay={i * 0.08}>
-                                <div className="relative p-6 md:p-8 border border-white/[0.07] bg-white/[0.02] rounded-xl hover:border-orange-500/20 transition-all duration-500 h-full">
-                                    <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center mb-5">
-                                        <card.icon size={20} className="text-orange-500" />
-                                    </div>
-                                    <div className="font-heading font-bold text-4xl md:text-5xl text-white tracking-tight mb-3">
-                                        <AnimatedCounter value={card.stat + (card.suffix || '')} duration={2} />
-                                    </div>
-                                    <p className="font-mono text-sm text-zinc-400 leading-relaxed">
-                                        {card.desc}
-                                    </p>
-                                </div>
-                            </ScrollReveal>
-                        ))}
-                    </div>
+                    <ScrollReveal>
+                        <div className="relative border border-white/[0.07] rounded-2xl bg-gradient-to-br from-white/[0.03] via-zinc-950/80 to-white/[0.02] backdrop-blur-sm overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.4)]">
+                            {/* Top glow line */}
+                            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent" />
 
-                    <ScrollReveal delay={0.4}>
-                        <div className="text-center mt-10">
-                            <a href="#product-showcase" className="inline-flex items-center gap-2 font-mono text-sm text-orange-500 hover:text-orange-400 transition-colors no-underline">
-                                Task Rig fixes this
-                                <ArrowRight size={14} />
-                            </a>
+                            {/* Header bar */}
+                            <div className="border-b border-white/[0.06] px-5 md:px-8 py-3 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <ShieldAlert size={12} className="text-red-500" />
+                                    <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">System Diagnostics</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                                    <span className="font-mono text-[10px] text-red-500/80 uppercase tracking-[0.2em]">4 Issues Detected</span>
+                                </div>
+                            </div>
+
+                            {/* 2x2 Card Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:odd:divide-x divide-white/[0.06]">
+                                {[
+                                    {
+                                        label: 'RESPONSE GAP',
+                                        stat: '78%',
+                                        desc: 'of leads go cold within 5 minutes of first contact',
+                                        severity: 'CRITICAL',
+                                        icon: AlertTriangle,
+                                    },
+                                    {
+                                        label: 'AFTER-HOURS VOID',
+                                        stat: '62%',
+                                        desc: 'of customer inquiries arrive outside business hours',
+                                        severity: 'WARNING',
+                                        icon: Clock,
+                                    },
+                                    {
+                                        label: 'REVENUE LEAK',
+                                        stat: '$1,200',
+                                        desc: 'average lifetime value lost per dropped customer',
+                                        severity: 'CRITICAL',
+                                        icon: DollarSign,
+                                    },
+                                    {
+                                        label: 'MANUAL OVERLOAD',
+                                        stat: '23',
+                                        suffix: ' hrs/wk',
+                                        desc: 'spent on repetitive tasks AI handles instantly',
+                                        severity: 'WARNING',
+                                        icon: Zap,
+                                    },
+                                ].map((card, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, y: 16 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, margin: '-60px' }}
+                                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 }}
+                                        className={`relative p-6 md:p-8 group hover:bg-white/[0.02] transition-colors ${i < 2 ? 'md:border-b md:border-white/[0.06]' : ''} ${i % 2 === 0 ? 'md:border-r md:border-white/[0.06]' : ''}`}
+                                    >
+                                        {/* Corner brackets */}
+                                        <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                        <div className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                                        {/* Label + Severity */}
+                                        <div className="flex items-center justify-between mb-5">
+                                            <div className="flex items-center gap-2.5">
+                                                <div className={`w-7 h-7 rounded-md flex items-center justify-center ${card.severity === 'CRITICAL' ? 'bg-red-500/10' : 'bg-amber-500/10'}`}>
+                                                    <card.icon size={14} className={card.severity === 'CRITICAL' ? 'text-red-500' : 'text-amber-500'} />
+                                                </div>
+                                                <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]">{card.label}</span>
+                                            </div>
+                                            <span className={`font-mono text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 border rounded-sm ${card.severity === 'CRITICAL'
+                                                ? 'text-red-400 border-red-500/30 bg-red-500/10'
+                                                : 'text-amber-400 border-amber-500/30 bg-amber-500/10'
+                                            }`}>
+                                                <span className="inline-flex items-center gap-1.5">
+                                                    <span className={`w-1 h-1 rounded-full animate-pulse ${card.severity === 'CRITICAL' ? 'bg-red-500' : 'bg-amber-500'}`} />
+                                                    {card.severity}
+                                                </span>
+                                            </span>
+                                        </div>
+
+                                        {/* Stat */}
+                                        <div className="font-heading font-bold text-4xl md:text-5xl text-white tracking-tight mb-3">
+                                            <AnimatedCounter value={card.stat + (card.suffix || '')} duration={2} />
+                                        </div>
+
+                                        {/* Description */}
+                                        <p className="font-mono text-sm text-zinc-500 leading-relaxed">
+                                            {card.desc}
+                                        </p>
+                                    </motion.div>
+                                ))}
+                            </div>
+
+                            {/* Terminal prompt footer */}
+                            <div className="border-t border-white/[0.06] px-5 md:px-8 py-3 flex items-center gap-3">
+                                <span className="font-mono text-[11px] text-zinc-600">&gt;</span>
+                                <span className="font-mono text-[11px] text-orange-500/80 tracking-wide">task-rig --deploy --resolve-all</span>
+                                <span className="w-1.5 h-4 bg-orange-500/70 animate-pulse" />
+                            </div>
+
+                            {/* Bottom glow line */}
+                            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
                         </div>
                     </ScrollReveal>
                 </div>
