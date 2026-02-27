@@ -14,7 +14,10 @@ import {
     Plus,
     Minus,
     Quote,
-    TrendingUp
+    TrendingUp,
+    PhoneOff,
+    DollarSign,
+    PhoneMissed
 } from 'lucide-react';
 import { Hero } from './Hero';
 import { TaskRigLogo } from './ui/TaskRigLogo';
@@ -539,17 +542,83 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
+                PAIN POINTS — "Sound Familiar?" stat cards
+            ════════════════════════════════════════════════════════════════ */}
+            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10">
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-16 md:mb-20">
+                        <ScrollReveal>
+                            <SectionBadge text="The Problem" />
+                            <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
+                                Sound Familiar?
+                            </h2>
+                        </ScrollReveal>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+                        {[
+                            {
+                                icon: PhoneOff,
+                                stat: '67%',
+                                desc: 'of calls to home service businesses go unanswered during working hours.',
+                            },
+                            {
+                                icon: Clock,
+                                stat: '4+',
+                                suffix: ' hrs',
+                                desc: 'average response time to a new lead — most won\'t wait past 5 minutes.',
+                            },
+                            {
+                                icon: DollarSign,
+                                stat: '$1,200',
+                                desc: 'lost per missed call when you factor in lifetime customer value.',
+                            },
+                            {
+                                icon: PhoneMissed,
+                                stat: '23%',
+                                desc: 'of callers who hit voicemail will never call back — they call your competitor.',
+                            },
+                        ].map((card, i) => (
+                            <ScrollReveal key={i} delay={i * 0.08}>
+                                <div className="relative p-6 md:p-8 border border-white/[0.07] bg-white/[0.02] rounded-xl hover:border-orange-500/20 transition-all duration-500 h-full">
+                                    <div className="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center mb-5">
+                                        <card.icon size={20} className="text-orange-500" />
+                                    </div>
+                                    <div className="font-heading font-bold text-4xl md:text-5xl text-white tracking-tight mb-3">
+                                        <AnimatedCounter value={card.stat + (card.suffix || '')} duration={2} />
+                                    </div>
+                                    <p className="font-mono text-sm text-zinc-400 leading-relaxed">
+                                        {card.desc}
+                                    </p>
+                                </div>
+                            </ScrollReveal>
+                        ))}
+                    </div>
+
+                    <ScrollReveal delay={0.4}>
+                        <div className="text-center mt-10">
+                            <a href="#product-showcase" className="inline-flex items-center gap-2 font-mono text-sm text-orange-500 hover:text-orange-400 transition-colors no-underline">
+                                Task Rig fixes this
+                                <ArrowRight size={14} />
+                            </a>
+                        </div>
+                    </ScrollReveal>
+                </div>
+            </section>
+
+
+            {/* ════════════════════════════════════════════════════════════════
                 SECTION 2+3: PRODUCT SHOWCASE — Features & Live Demo
                 Unified two-panel layout with shared visual container
             ════════════════════════════════════════════════════════════════ */}
-            <section className="pt-16 pb-24 md:pt-24 md:pb-32 px-4 md:px-6 relative z-10" ref={chatRef}>
+            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10" ref={chatRef}>
                 {/* Ambient glow effects */}
                 <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/[0.03] blur-[180px] rounded-full pointer-events-none" />
                 <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
                     {/* Unified header */}
-                    <div className="text-center mb-12 md:mb-16">
+                    <div className="text-center mb-16 md:mb-20">
                         <ScrollReveal>
                             <SectionBadge text="Product Showcase" />
                             <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
@@ -716,6 +785,35 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             {/* Inner glow accent along bottom edge */}
                             <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
                         </div>
+                    </ScrollReveal>
+                </div>
+            </section>
+
+
+            {/* ════════════════════════════════════════════════════════════════
+                MID-PAGE CTA — Capture prospects convinced by the demo
+            ════════════════════════════════════════════════════════════════ */}
+            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 border-y border-white/5">
+                <div className="max-w-7xl mx-auto text-center">
+                    <ScrollReveal>
+                        <h2 className="font-heading font-bold text-3xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight mb-6">
+                            Ready to Stop Missing Calls?
+                        </h2>
+                        <p className="text-zinc-400 font-mono text-base max-w-xl mx-auto mb-10 leading-relaxed">
+                            See how Task Rig answers, books, and follows up — so you never lose another lead.
+                        </p>
+                        <Link
+                            to="/get-started"
+                            className="relative inline-flex px-14 py-4 bg-[#FF6A15] hover:bg-[#ff853f] text-black font-mono font-bold text-sm uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(255,106,21,0.25)] hover:shadow-[0_0_30px_rgba(255,106,21,0.4)] justify-center items-center gap-3 no-underline"
+                        >
+                            <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
+                            <span className="relative z-10 flex items-center gap-2">
+                                GET STARTED
+                                <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">
+                                    <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
+                                </svg>
+                            </span>
+                        </Link>
                     </ScrollReveal>
                 </div>
             </section>
@@ -1026,9 +1124,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/40 to-transparent animate-scan-vertical" />
                 </div>
 
-                <div className="max-w-6xl mx-auto">
+                <div className="max-w-7xl mx-auto">
                     {/* Header — split layout */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 md:mb-16">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16 md:mb-20">
                         <div className="lg:col-span-5">
                             <ScrollReveal>
                                 <SectionBadge text="Knowledge Base" />
@@ -1061,7 +1159,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 mb-20 md:mb-28">
                         {faqItems.map((item, i) => (
                             <ScrollReveal key={i} delay={i * 0.05}>
-                                <div className={`group relative border rounded-lg overflow-hidden transition-all duration-500 ${openFaq === i
+                                <motion.div
+                                    layout
+                                    transition={{ layout: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
+                                    className={`group relative border rounded-lg overflow-hidden transition-[border-color,background-color,box-shadow] duration-500 ${openFaq === i
                                     ? 'border-orange-500/30 bg-orange-500/[0.04] shadow-[0_0_30px_rgba(255,106,21,0.06)]'
                                     : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.03]'
                                     }`}>
@@ -1095,13 +1196,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     </button>
 
                                     {/* Answer panel */}
-                                    <AnimatePresence>
+                                    <AnimatePresence initial={false}>
                                         {openFaq === i && (
                                             <motion.div
                                                 initial={{ height: 0, opacity: 0 }}
                                                 animate={{ height: 'auto', opacity: 1 }}
                                                 exit={{ height: 0, opacity: 0 }}
-                                                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                                                 className="overflow-hidden"
                                             >
                                                 <div className="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.75rem]">
@@ -1116,7 +1217,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
-                                </div>
+                                </motion.div>
                             </ScrollReveal>
                         ))}
                     </div>

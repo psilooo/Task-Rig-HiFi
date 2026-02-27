@@ -83,9 +83,9 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         {/* Main Title - Adjusted Spacing and Typography to match Figma */}
                         <Reveal delay={0.1}>
                             <h1 className="font-heading font-bold text-[1.75rem] sm:text-[2.5rem] md:text-[3.5rem] lg:text-[4rem] leading-[1.0] text-zinc-100 tracking-wide flex flex-col items-center relative z-10 w-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                                <span>DEPLOY INTELLIGENT</span>
+                                <span>YOUR BUSINESS,</span>
                                 <span className="text-zinc-300 relative">
-                                    WORKFORCE
+                                    NEVER OFFLINE
                                 </span>
                             </h1>
                         </Reveal>
@@ -94,7 +94,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                         <Reveal delay={0.2}>
                             <div className="max-w-[540px] mx-auto mt-6 mb-8 md:mt-10 md:mb-12">
                                 <p className="font-mono text-base text-zinc-400 leading-[1.6] tracking-wide">
-                                    Eliminate inefficiencies. Deploy autonomous agents to handle dispatch, logistics, and client negotiations.
+                                    AI agents that answer calls, respond to messages, book jobs, and manage your systems — 24/7, across every platform your business runs on.
                                 </p>
                             </div>
                         </Reveal>
