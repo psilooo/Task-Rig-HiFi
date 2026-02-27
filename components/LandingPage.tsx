@@ -352,7 +352,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             ctaText: 'Book a Free Demo',
             setupFee: '+ $197 one-time setup fee',
             highlighted: false,
-            colorScheme: 'green',
+            colorScheme: 'silver',
         },
         {
             name: 'Premium',
@@ -394,7 +394,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             ctaText: 'Book a Strategy Call',
             setupFee: '+ $797 one-time setup fee (scoped per client)',
             highlighted: false,
-            colorScheme: 'silver',
+            colorScheme: 'green',
         },
     ];
 
