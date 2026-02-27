@@ -448,15 +448,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 INTEGRATION PARTNERS — Infinite scrolling marquee
             ════════════════════════════════════════════════════════════════ */}
             <div className="border-y-2 border-zinc-800 relative z-10 bg-zinc-950 overflow-hidden">
-                {/* Header bar */}
-                <div className="max-w-7xl mx-auto border-b border-zinc-800 px-4 md:px-6 py-2 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <Link2 size={10} className="text-orange-500" />
-                        <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">Integrations</span>
-                    </div>
-                    <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.2em]">Connected</span>
-                </div>
-
                 {/* Scrolling marquee */}
                 {(() => {
                     const integrations = [
