@@ -447,98 +447,48 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                INTEGRATION PARTNERS + SYSTEM STATUS (Techno-Brutalism)
+                INTEGRATION PARTNERS — Infinite scrolling marquee
             ════════════════════════════════════════════════════════════════ */}
-            <div className="border-y-2 border-zinc-800 relative z-10 bg-zinc-950">
-                <div className="max-w-7xl mx-auto">
-                    {/* Status bar header */}
-                    <div className="border-b border-zinc-800 px-4 md:px-6 py-2 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-orange-500" />
-                            <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">System Status</span>
-                        </div>
-                        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.2em]">Live</span>
+            <div className="border-y-2 border-zinc-800 relative z-10 bg-zinc-950 overflow-hidden">
+                {/* Header bar */}
+                <div className="max-w-7xl mx-auto border-b border-zinc-800 px-4 md:px-6 py-2 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <Link2 size={10} className="text-orange-500" />
+                        <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">Integrations</span>
                     </div>
+                    <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.2em]">Connected</span>
+                </div>
 
-                    {/* Integration Partners + System Stats */}
-                    <ScrollReveal>
-                        <div className="grid grid-cols-1 md:grid-cols-5">
-                            {/* Integration Partners — 3 columns */}
-                            {[
-                                { name: 'Twilio', desc: 'SMS, voice & WhatsApp messaging', tag: 'COMMS' },
-                                { name: 'Zendesk', desc: 'Helpdesk ticketing & CRM sync', tag: 'CRM' },
-                                { name: 'Stripe', desc: 'Payment processing & invoicing', tag: 'PAY' },
-                            ].map((partner, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 12 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: '-40px' }}
-                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-                                    className="border-b md:border-b-0 md:border-r border-zinc-800 p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors"
-                                >
-                                    <div className="flex items-center justify-between mb-3">
-                                        <div className="flex items-center gap-2">
-                                            <Link2 size={10} className="text-orange-500/60" />
-                                            <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em]">Integration</span>
+                {/* Scrolling marquee */}
+                {(() => {
+                    const integrations = [
+                        'Twilio', 'Stripe', 'Google Calendar', 'QuickBooks', 'Mailgun',
+                        'Google My Business', 'Facebook', 'Instagram', 'Slack', 'Zapier',
+                        'Google Sheets', 'Calendly', 'Housecall Pro', 'ServiceTitan',
+                        'Jobber', 'Square', 'Podium', 'Yext', 'CallRail', 'Salesforce',
+                        'HubSpot', 'Shopify', 'WordPress', 'WhatsApp', 'Google Ads',
+                        'Facebook Ads', 'TikTok Ads', 'Outlook', 'Zoom', 'Google Analytics',
+                    ];
+                    return (
+                        <div className="relative py-5 md:py-6">
+                            {/* Left fade */}
+                            <div className="absolute top-0 left-0 bottom-0 w-20 md:w-32 bg-gradient-to-r from-zinc-950 to-transparent z-10 pointer-events-none" />
+                            {/* Right fade */}
+                            <div className="absolute top-0 right-0 bottom-0 w-20 md:w-32 bg-gradient-to-l from-zinc-950 to-transparent z-10 pointer-events-none" />
+
+                            <div className="marquee-track">
+                                <div className="marquee-content">
+                                    {[...integrations, ...integrations].map((name, i) => (
+                                        <div key={i} className="flex items-center gap-3 px-5 md:px-6 flex-shrink-0">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-orange-500/40 flex-shrink-0" />
+                                            <span className="font-mono text-[11px] md:text-xs text-zinc-400 uppercase tracking-[0.15em] whitespace-nowrap">{name}</span>
                                         </div>
-                                        <span className="font-mono text-[9px] text-orange-500/60 uppercase tracking-wider border border-orange-500/20 px-1.5 py-0.5">{partner.tag}</span>
-                                    </div>
-                                    <div className="font-mono font-bold text-2xl md:text-3xl text-white tracking-tight mb-1.5">{partner.name}</div>
-                                    <div className="font-mono text-[11px] text-zinc-500 leading-relaxed">{partner.desc}</div>
-                                </motion.div>
-                            ))}
-
-                            {/* System Stats — 2 columns */}
-                            {[
-                                { value: '99.9%', label: 'Platform Uptime', tag: 'SLA' },
-                                { value: '<2s', label: 'Avg Response', tag: 'LAT' },
-                            ].map((stat, i) => (
-                                <motion.div
-                                    key={`stat-${i}`}
-                                    initial={{ opacity: 0, y: 12 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: '-40px' }}
-                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.24 + i * 0.08 }}
-                                    className={`border-b md:border-b-0 border-zinc-800 ${i < 1 ? 'md:border-r' : ''} p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors`}
-                                >
-                                    <div className="flex items-center justify-between mb-3">
-                                        <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em]">{stat.label}</span>
-                                        <span className="font-mono text-[9px] text-orange-500/60 uppercase tracking-wider border border-orange-500/20 px-1.5 py-0.5">{stat.tag}</span>
-                                    </div>
-                                    <div className="font-mono font-bold text-3xl md:text-4xl text-white tracking-tight">
-                                        <AnimatedCounter value={stat.value} duration={2} />
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </ScrollReveal>
-
-                    {/* Company ticker strip */}
-                    <ScrollReveal delay={0.15}>
-                        <div className="border-t border-zinc-800 px-4 md:px-6 py-3 flex items-center gap-4">
-                            <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.3em] flex-shrink-0 border-r border-zinc-800 pr-4">Clients</span>
-                            <div className="relative flex-1 overflow-hidden">
-                                <div className="flex items-center gap-6 overflow-x-auto scrollbar-hide">
-                                    {['APEX PLUMBING', 'IRONCLAD HVAC', 'SUMMIT LEGAL', 'KEYSTONE PROP.', 'TRIDENT AUTO', 'BRIGHTPATH DENTAL', 'FORGE CONST.', 'VERTEX REALTY'].map((name, i) => (
-                                        <motion.span
-                                            key={i}
-                                            initial={{ opacity: 0 }}
-                                            whileInView={{ opacity: 1 }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.3, delay: 0.25 + i * 0.04 }}
-                                            className="font-mono text-[10px] text-zinc-500 tracking-wider whitespace-nowrap flex-shrink-0"
-                                        >
-                                            {name}
-                                        </motion.span>
                                     ))}
                                 </div>
-                                {/* Fade gradient on right edge to hint at scrollability */}
-                                <div className="absolute top-0 right-0 bottom-0 w-12 bg-gradient-to-r from-transparent to-zinc-950 pointer-events-none md:hidden" />
                             </div>
                         </div>
-                    </ScrollReveal>
-                </div>
+                    );
+                })()}
             </div>
 
 
