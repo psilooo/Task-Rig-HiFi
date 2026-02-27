@@ -766,13 +766,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         </ScrollReveal>
                     </div>
 
-                    {/* Testimonials — staggered asymmetric cards */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6">
+                    {/* Testimonials — equal-width cards */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-6">
                         {testimonials.map((t, i) => {
-                            const colSpans = ['lg:col-span-5', 'lg:col-span-4', 'lg:col-span-3'];
-                            const topOffsets = ['lg:mt-0', 'lg:mt-12', 'lg:mt-6'];
                             return (
-                                <ScrollReveal key={i} delay={i * 0.12} className={`${colSpans[i]} ${topOffsets[i]}`}>
+                                <ScrollReveal key={i} delay={i * 0.12}>
                                     <motion.div
                                         whileHover={{ y: -4, transition: { duration: 0.3 } }}
                                         className="group relative h-full"
