@@ -1152,27 +1152,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         </div>
                                     </button>
 
-                                    {/* Answer panel */}
-                                    <AnimatePresence initial={false}>
-                                        {openFaq === i && (
-                                            <motion.div
-                                                initial={{ height: 0, opacity: 0 }}
-                                                animate={{ height: 'auto', opacity: 1, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
-                                                exit={{ height: 0, opacity: 0, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
-                                                className="overflow-hidden"
-                                            >
-                                                <div className="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.75rem]">
-                                                    <div className="relative">
-                                                        {/* Decorative left line */}
-                                                        <div className="absolute -left-4 top-0 bottom-0 w-px bg-gradient-to-b from-orange-500/40 via-orange-500/20 to-transparent" />
-                                                        <p className="text-zinc-400 text-sm font-mono leading-[1.8]">
-                                                            {item.a}
-                                                        </p>
-                                                    </div>
+                                    {/* Answer panel — CSS grid transition for jolt-free switching */}
+                                    <div
+                                        className="grid transition-[grid-template-rows,opacity] duration-300"
+                                        style={{
+                                            gridTemplateRows: openFaq === i ? '1fr' : '0fr',
+                                            opacity: openFaq === i ? 1 : 0,
+                                        }}
+                                    >
+                                        <div className="overflow-hidden min-h-0">
+                                            <div className="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.75rem]">
+                                                <div className="relative">
+                                                    {/* Decorative left line */}
+                                                    <div className="absolute -left-4 top-0 bottom-0 w-px bg-gradient-to-b from-orange-500/40 via-orange-500/20 to-transparent" />
+                                                    <p className="text-zinc-400 text-sm font-mono leading-[1.8]">
+                                                        {item.a}
+                                                    </p>
                                                 </div>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </ScrollReveal>
                         ))}
