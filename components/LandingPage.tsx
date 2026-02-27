@@ -971,7 +971,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 </ScrollReveal>
 
                 {/* Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-[20px] items-end w-full">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-[20px] items-start w-full mt-4">
                     {pricingTiers.map((tier, i) => {
                         const isFeatured = tier.highlighted;
 
@@ -999,7 +999,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                 <div className={`relative p-[28px] md:p-[26px] lg:p-[30px] border rounded-[12px] flex flex-col h-full bg-zinc-950 transition-all duration-300 ${isFeatured ? 'border-orange-500/60 hover:-translate-y-[4px]' : 'border-zinc-800 hover:border-zinc-700 hover:-translate-y-[4px]'}`}>
                                     {isFeatured && (
                                         <>
-                                            <div className="absolute top-[-14px] left-1/2 -translate-x-1/2 bg-orange-500 text-white font-mono text-[10px] font-bold tracking-[0.14em] uppercase px-4 py-[3px] pt-[4px] rounded-[12px] whitespace-nowrap z-10 leading-none">
+                                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white font-mono text-[10px] font-bold tracking-[0.14em] uppercase px-4 py-[3px] pt-[4px] rounded-[12px] whitespace-nowrap z-10 leading-none">
                                                 Most Popular
                                             </div>
                                             {/* Animated orbiting glow border — sharp ring */}
