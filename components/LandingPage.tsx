@@ -144,21 +144,6 @@ const TypingBubble: React.FC<{ text: string; sender: string; delay: number; isIn
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
-    const faqGridRef = useRef<HTMLDivElement>(null);
-
-    const handleFaqClick = (i: number) => {
-        const next = openFaq === i ? null : i;
-        // When switching between items, lock grid height to prevent page shift
-        if (openFaq !== null && next !== null && faqGridRef.current) {
-            const grid = faqGridRef.current;
-            grid.style.minHeight = `${grid.offsetHeight}px`;
-            setOpenFaq(next);
-            // Release after animation completes
-            setTimeout(() => { grid.style.minHeight = ''; }, 350);
-        } else {
-            setOpenFaq(next);
-        }
-    };
     const [activeFeature, setActiveFeature] = useState(0);
     const [featureProgress, setFeatureProgress] = useState(0);
     const featureTimerRef = useRef<number | null>(null);
@@ -1142,7 +1127,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     </div>
 
                     {/* FAQ grid — two-column on desktop */}
-                    <div ref={faqGridRef} className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-10">
                         {faqItems.map((item, i) => (
                             <ScrollReveal key={i} delay={i * 0.05}>
                                 <div
@@ -1151,7 +1136,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.03]'
                                     }`}>
                                     <button
-                                        onClick={() => handleFaqClick(i)}
+                                        onClick={() => setOpenFaq(openFaq === i ? null : i)}
                                         className="w-full flex items-start gap-4 p-5 md:p-6 text-left focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
                                     >
                                         {/* Index number */}
@@ -1180,12 +1165,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     </button>
 
                                     {/* Answer panel */}
-                                    <AnimatePresence initial={false}>
+                                    <AnimatePresence initial={false} mode="popLayout">
                                         {openFaq === i && (
                                             <motion.div
                                                 initial={{ height: 0, opacity: 0 }}
                                                 animate={{ height: 'auto', opacity: 1, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
-                                                exit={{ height: 0, opacity: 0, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
+                                                exit={{ height: 0, opacity: 0, transition: { duration: 0 } }}
                                                 className="overflow-hidden"
                                             >
                                                 <div className="px-5 md:px-6 pb-5 md:pb-6 pl-[4.25rem] md:pl-[4.75rem]">
