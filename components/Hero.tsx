@@ -18,7 +18,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <DynamicNoise opacity={0.10} />
 
                 {/* Central Canvas Logo — desktop only (absolute behind text) */}
-                <div className="hidden md:flex absolute inset-0 items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 -mt-8 mr-6">
+                <div className="hidden md:flex absolute inset-0 items-center justify-center scale-[1.2] origin-center mix-blend-screen opacity-80 -mt-4 mr-6">
                     <DotMatrixLogo />
                 </div>
 
@@ -73,7 +73,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 <div className="w-full relative z-20 flex justify-center">
 
                     {/* CENTER COLUMN: Main Action Area */}
-                    <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0">
+                    <div className="relative flex flex-col items-center text-center w-full max-w-4xl shrink-0 md:mt-4">
 
                         {/* Mobile gear — above text, in flow */}
                         <div className="md:hidden flex items-center justify-center mix-blend-screen opacity-80 scale-[0.7] -mb-14">
