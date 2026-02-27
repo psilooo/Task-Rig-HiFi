@@ -940,24 +940,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                 {/* Annual toggle */}
                 <ScrollReveal delay={0.1} className="w-full">
-                    <div className="flex items-center justify-center gap-[12px] mb-6">
-                        <span className={`font-mono text-[12px] tracking-[0.08em] transition-colors leading-none pt-0.5 ${!isAnnual ? 'text-white' : 'text-zinc-500'}`}>Monthly</span>
-
-                        <button
-                            onClick={() => setIsAnnual(!isAnnual)}
-                            type="button"
-                            className={`w-[44px] h-[24px] rounded-[12px] border relative transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 ${isAnnual ? 'bg-orange-500 border-orange-500' : 'bg-zinc-900 border-zinc-700'}`}
-                            style={{ WebkitTapHighlightColor: 'transparent' }}
-                        >
-                            <div className={`absolute top-[3px] left-[3px] w-[16px] h-[16px] rounded-full bg-white transition-transform duration-200 ${isAnnual ? 'translate-x-[20px]' : 'translate-x-0'}`} />
-                        </button>
-
-                        <div className="flex items-center gap-3">
-                            <span className={`font-mono text-[12px] tracking-[0.08em] transition-colors leading-none pt-0.5 ${isAnnual ? 'text-white' : 'text-zinc-500'}`}>Annual</span>
-                            <span className="font-mono text-[10px] font-bold text-orange-500 bg-orange-500/[0.12] border border-orange-500 px-2 py-0.5 rounded leading-none pt-[3px] tracking-[0.06em]">
-                                Save 2 Months
-                            </span>
+                    <div className="flex flex-col items-center mb-6">
+                        <div className="inline-flex items-center border border-zinc-700 rounded-md overflow-hidden">
+                            <button
+                                onClick={() => setIsAnnual(false)}
+                                type="button"
+                                className={`px-5 py-2 font-mono text-[11px] uppercase tracking-[0.12em] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 ${!isAnnual ? 'bg-orange-500 text-black font-bold' : 'bg-zinc-900 text-zinc-500 hover:text-zinc-300'}`}
+                                style={{ WebkitTapHighlightColor: 'transparent' }}
+                            >
+                                Monthly
+                            </button>
+                            <button
+                                onClick={() => setIsAnnual(true)}
+                                type="button"
+                                className={`px-5 py-2 font-mono text-[11px] uppercase tracking-[0.12em] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 ${isAnnual ? 'bg-orange-500 text-black font-bold' : 'bg-zinc-900 text-zinc-500 hover:text-zinc-300'}`}
+                                style={{ WebkitTapHighlightColor: 'transparent' }}
+                            >
+                                Annual
+                            </button>
                         </div>
+                        <span className="font-mono text-[10px] font-bold text-orange-500 tracking-[0.08em] mt-2">
+                            Save 20%
+                        </span>
                     </div>
                 </ScrollReveal>
 
@@ -1018,7 +1022,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             <span className="font-mono text-[13px] text-zinc-500 pb-2 tracking-[0.04em]">CAD /mo</span>
                                         </div>
                                         <div className="font-mono text-[11px] text-orange-500 mb-[24px] min-h-[16px] tracking-[0.04em]">
-                                            {isAnnual ? 'Billed annually — saves 2 months' : ''}
+                                            {isAnnual ? 'Billed annually — save 20%' : ''}
                                         </div>
 
                                         <ul className="flex flex-col gap-[10px] mb-[24px] flex-1 list-none p-0">
