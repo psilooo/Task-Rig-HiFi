@@ -940,7 +940,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                 {/* Annual toggle */}
                 <ScrollReveal delay={0.1} className="w-full">
-                    <div className="flex flex-col items-center mb-6">
+                    <div className="flex items-center justify-center mb-6">
                         <div className="relative inline-flex items-center p-[3px] rounded-lg border border-white/[0.08] bg-white/[0.03] backdrop-blur-xl shadow-[0_0_20px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.04)]">
                             {/* Sliding active indicator */}
                             <div
@@ -962,10 +962,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             >
                                 Annual
                             </button>
+                            {/* Save badge anchored to top-right corner */}
+                            <div className="absolute -top-2.5 -right-3 bg-orange-500 text-black font-mono text-[9px] font-bold tracking-[0.08em] uppercase px-2 py-[2px] rounded-full shadow-[0_0_10px_rgba(249,115,22,0.4)] leading-none">
+                                –20%
+                            </div>
                         </div>
-                        <span className={`font-mono text-[10px] font-bold text-orange-500 tracking-[0.08em] mt-2.5 transition-opacity duration-300 ${isAnnual ? 'opacity-100' : 'opacity-0'}`}>
-                            Save 20%
-                        </span>
                     </div>
                 </ScrollReveal>
 
