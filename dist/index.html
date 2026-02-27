@@ -170,28 +170,13 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
 
-    /* Reduced motion: disable all CSS animations */
+    /* Reduced motion: disable decorative CSS animations */
     @media (prefers-reduced-motion: reduce) {
-      .marquee-content {
-        animation: none !important;
-      }
-
-      .animate-pulse {
-        animation: none !important;
-      }
-
-      .animate-spin {
-        animation: none !important;
-      }
-
+      .marquee-content,
+      .animate-pulse,
+      .animate-spin,
       [class*="animate-scan"] {
         animation: none !important;
-      }
-
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
       }
     }
   </style>
@@ -212,7 +197,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-dgmp-Csx.js"></script>
+  <script type="module" crossorigin src="/assets/index-D-ueEja7.js"></script>
 </head>
 
 <body>

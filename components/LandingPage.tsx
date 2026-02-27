@@ -921,7 +921,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             <section className="py-12 md:py-20 px-4 md:px-6 relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center">
 
                 {/* Header */}
-                <ScrollReveal className="w-full">
+                <ScrollReveal className="w-full text-center">
                     <SectionBadge text="Pricing" />
                     <h2 className="font-heading font-bold text-[clamp(1.875rem,1rem+3vw,3rem)] leading-none text-center tracking-[-0.02em] text-white uppercase mb-4">
                         Simple, Transparent Pricing
@@ -1102,20 +1102,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                 </p>
                             </ScrollReveal>
                         </div>
-                        <div className="lg:col-span-7 hidden lg:flex items-end justify-end">
-                            <ScrollReveal delay={0.15}>
-                                <div className="flex items-center gap-6 text-zinc-600 font-mono text-[10px] uppercase tracking-[0.2em]">
-                                    <span className="flex items-center gap-2">
-                                        <Terminal size={10} className="text-orange-500/60" />
-                                        {faqItems.length} Entries Loaded
-                                    </span>
-                                    <span className="flex items-center gap-2">
-                                        <MessageSquare size={10} className="text-orange-500/60" />
-                                        Quick Access
-                                    </span>
-                                </div>
-                            </ScrollReveal>
-                        </div>
+                        <div className="lg:col-span-7" />
                     </div>
 
                     {/* FAQ grid — two-column on desktop */}
@@ -1207,7 +1194,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     <div className="max-w-2xl mx-auto">
                                         <div className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 bg-orange-500/10 border border-orange-500/20 rounded-full">
                                             <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                                            <span className="font-mono text-[10px] text-orange-400 uppercase tracking-[0.2em]">Awaiting Your Command</span>
+                                            <span className="font-mono text-[10px] text-orange-400 uppercase tracking-[0.2em]">Maximum Efficiency, Zero Downtime</span>
                                         </div>
 
                                         <h2 className="font-heading font-bold text-2xl md:text-3xl lg:text-4xl text-white uppercase tracking-tight mb-5 leading-[0.95]">
