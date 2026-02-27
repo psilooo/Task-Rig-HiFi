@@ -1196,17 +1196,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                     {/* ── Final CTA ── */}
                     <ScrollReveal>
-                        <div className="text-center py-4 md:py-6">
-                            <div className="h-px w-16 bg-orange-500/30 mx-auto mb-6" />
-                            <p className="text-zinc-400 font-mono text-sm max-w-md mx-auto mb-5 leading-relaxed">
+                        <div className="relative text-center py-10 md:py-12 mt-4">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[150px] bg-orange-500/[0.05] blur-[80px] rounded-full pointer-events-none" />
+
+                            <h3 className="font-heading font-bold text-lg md:text-xl text-white uppercase tracking-tight mb-3 relative">
+                                Ready to Get Started?
+                            </h3>
+                            <p className="text-zinc-400 font-mono text-sm max-w-md mx-auto mb-6 leading-relaxed relative">
                                 Join 2,400+ home service businesses using Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
                             </p>
                             <Link
                                 to="/get-started"
-                                className="inline-flex items-center gap-2 px-10 py-3 bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all rounded-sm shadow-[0_0_20px_rgba(249,115,22,0.15)] hover:shadow-[0_0_25px_rgba(249,115,22,0.3)] no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
+                                className="relative inline-flex items-center gap-2 px-12 py-3.5 bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-xs uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
                             >
-                                Get Started
-                                <ArrowRight size={14} />
+                                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
+                                <span className="relative z-10 flex items-center gap-2">
+                                    GET STARTED
+                                    <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">
+                                        <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
+                                    </svg>
+                                </span>
                             </Link>
                         </div>
                     </ScrollReveal>
