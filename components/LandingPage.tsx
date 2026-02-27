@@ -870,13 +870,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             {/* Quote text */}
                                             <div className="relative flex-1 mb-6">
                                                 <div className="absolute -top-2 -left-1 text-orange-500/10 font-body text-6xl leading-none select-none">"</div>
-                                                <p className="text-zinc-300 text-base font-mono leading-[1.8] relative z-10 pl-3 border-l-2 border-orange-500/20">
+                                                <p className="text-zinc-300 text-base font-mono leading-[1.8] relative z-10">
                                                     {t.quote}
                                                 </p>
                                             </div>
 
                                             {/* Metric highlight */}
-                                            <div className="mb-5 p-3 bg-orange-500/[0.06] border border-orange-500/10 rounded-lg flex items-center gap-3">
+                                            <div className="mb-5 p-3 bg-orange-500/[0.06] rounded-lg flex items-center gap-3">
                                                 <TrendingUp size={14} className="text-orange-500 flex-shrink-0" />
                                                 <span className="font-heading font-bold text-base text-orange-400 uppercase tracking-wide">{t.metric}</span>
                                             </div>
@@ -994,7 +994,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                                 Most Popular
                                             </div>
                                             {/* Animated orbiting glow border */}
-                                            <div className="glow-border absolute inset-[-1px] rounded-[12px] p-[1px] pointer-events-none" />
+                                            <div className="glow-border absolute -inset-[3px] rounded-[14px] pointer-events-none blur-[4px] opacity-70" />
                                             {/* Slow pulsing ambient glow */}
                                             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[120px] bg-orange-500/[0.04] blur-[60px] rounded-full pointer-events-none animate-pulse" />
                                         </>
