@@ -14,11 +14,7 @@ import {
     Plus,
     Minus,
     Quote,
-    TrendingUp,
-    AlertTriangle,
-    DollarSign,
-    Zap,
-    ShieldAlert
+    TrendingUp
 } from 'lucide-react';
 import { Hero } from './Hero';
 import { TaskRigLogo } from './ui/TaskRigLogo';
@@ -493,19 +489,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                THREAT ASSESSMENT — HUD-style pain points
+                PAIN POINTS — The cost of slow response
             ════════════════════════════════════════════════════════════════ */}
             <section className="py-24 md:py-32 px-4 md:px-6 relative z-10">
                 {/* Ambient glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-red-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[400px] bg-orange-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16 md:mb-20">
                         <ScrollReveal>
-                            <SectionBadge text="Threat Assessment" />
+                            <SectionBadge text="The Problem" />
                             <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
-                                Your Business Has<br />
-                                <span className="text-zinc-500">Blind Spots</span>
+                                Every Missed Interaction<br />
+                                <span className="text-zinc-500">Costs You</span>
                             </h2>
                         </ScrollReveal>
                     </div>
@@ -513,102 +509,74 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     <ScrollReveal>
                         <div className="relative border border-white/[0.07] rounded-2xl bg-gradient-to-br from-white/[0.03] via-zinc-950/80 to-white/[0.02] backdrop-blur-sm overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.4)]">
                             {/* Top glow line */}
-                            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent" />
+                            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
 
-                            {/* Header bar */}
-                            <div className="border-b border-white/[0.06] px-5 md:px-8 py-3 flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <ShieldAlert size={12} className="text-red-500" />
-                                    <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">System Diagnostics</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                                    <span className="font-mono text-[10px] text-red-500/80 uppercase tracking-[0.2em]">4 Issues Detected</span>
-                                </div>
-                            </div>
-
-                            {/* 2x2 Card Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:odd:divide-x divide-white/[0.06]">
-                                {[
-                                    {
-                                        label: 'RESPONSE GAP',
-                                        stat: '78%',
-                                        desc: 'of leads go cold within 5 minutes of first contact',
-                                        severity: 'CRITICAL',
-                                        icon: AlertTriangle,
-                                    },
-                                    {
-                                        label: 'AFTER-HOURS VOID',
-                                        stat: '62%',
-                                        desc: 'of customer inquiries arrive outside business hours',
-                                        severity: 'WARNING',
-                                        icon: Clock,
-                                    },
-                                    {
-                                        label: 'REVENUE LEAK',
-                                        stat: '$1,200',
-                                        desc: 'average lifetime value lost per dropped customer',
-                                        severity: 'CRITICAL',
-                                        icon: DollarSign,
-                                    },
-                                    {
-                                        label: 'MANUAL OVERLOAD',
-                                        stat: '23',
-                                        suffix: ' hrs/wk',
-                                        desc: 'spent on repetitive tasks AI handles instantly',
-                                        severity: 'WARNING',
-                                        icon: Zap,
-                                    },
-                                ].map((card, i) => (
+                            <div className="grid grid-cols-1 lg:grid-cols-12">
+                                {/* ── LEFT: Hero stat ── */}
+                                <div className="lg:col-span-5 p-8 md:p-12 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-white/[0.06]">
                                     <motion.div
-                                        key={i}
                                         initial={{ opacity: 0, y: 16 }}
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true, margin: '-60px' }}
-                                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 }}
-                                        className={`relative p-6 md:p-8 group hover:bg-white/[0.02] transition-colors ${i < 2 ? 'md:border-b md:border-white/[0.06]' : ''} ${i % 2 === 0 ? 'md:border-r md:border-white/[0.06]' : ''}`}
+                                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                                     >
-                                        {/* Corner brackets */}
-                                        <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                        <div className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                                        {/* Label + Severity */}
-                                        <div className="flex items-center justify-between mb-5">
-                                            <div className="flex items-center gap-2.5">
-                                                <div className={`w-7 h-7 rounded-md flex items-center justify-center ${card.severity === 'CRITICAL' ? 'bg-red-500/10' : 'bg-amber-500/10'}`}>
-                                                    <card.icon size={14} className={card.severity === 'CRITICAL' ? 'text-red-500' : 'text-amber-500'} />
-                                                </div>
-                                                <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]">{card.label}</span>
-                                            </div>
-                                            <span className={`font-mono text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 border rounded-sm ${card.severity === 'CRITICAL'
-                                                ? 'text-red-400 border-red-500/30 bg-red-500/10'
-                                                : 'text-amber-400 border-amber-500/30 bg-amber-500/10'
-                                            }`}>
-                                                <span className="inline-flex items-center gap-1.5">
-                                                    <span className={`w-1 h-1 rounded-full animate-pulse ${card.severity === 'CRITICAL' ? 'bg-red-500' : 'bg-amber-500'}`} />
-                                                    {card.severity}
-                                                </span>
-                                            </span>
+                                        <div className="flex items-center gap-2 mb-6">
+                                            <div className="w-2 h-2 rounded-full bg-orange-500" />
+                                            <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]">Response Time</span>
                                         </div>
-
-                                        {/* Stat */}
-                                        <div className="font-heading font-bold text-4xl md:text-5xl text-white tracking-tight mb-3">
-                                            <AnimatedCounter value={card.stat + (card.suffix || '')} duration={2} />
+                                        <div className="font-heading font-bold text-7xl md:text-8xl lg:text-[7rem] text-white tracking-tight leading-none mb-4">
+                                            <AnimatedCounter value="78%" duration={2.5} />
                                         </div>
-
-                                        {/* Description */}
-                                        <p className="font-mono text-sm text-zinc-500 leading-relaxed">
-                                            {card.desc}
+                                        <p className="font-mono text-base md:text-lg text-zinc-400 leading-relaxed max-w-sm">
+                                            of leads go cold within 5 minutes of reaching out. If you're not responding instantly, your competitors are.
                                         </p>
                                     </motion.div>
-                                ))}
-                            </div>
+                                </div>
 
-                            {/* Terminal prompt footer */}
-                            <div className="border-t border-white/[0.06] px-5 md:px-8 py-3 flex items-center gap-3">
-                                <span className="font-mono text-[11px] text-zinc-600">&gt;</span>
-                                <span className="font-mono text-[11px] text-orange-500/80 tracking-wide">task-rig --deploy --resolve-all</span>
-                                <span className="w-1.5 h-4 bg-orange-500/70 animate-pulse" />
+                                {/* ── RIGHT: Three supporting stats ── */}
+                                <div className="lg:col-span-7 flex flex-col divide-y divide-white/[0.06]">
+                                    {[
+                                        {
+                                            stat: '62%',
+                                            label: 'After-Hours Inquiries',
+                                            desc: 'of customer messages arrive outside business hours — sitting unanswered until morning.',
+                                        },
+                                        {
+                                            stat: '$1,200',
+                                            label: 'Lost Per Customer',
+                                            desc: 'in average lifetime value every time a lead slips through the cracks.',
+                                        },
+                                        {
+                                            stat: '23',
+                                            suffix: ' hrs/wk',
+                                            label: 'Wasted on Manual Work',
+                                            desc: 'spent on scheduling, follow-ups, and data entry that AI handles in seconds.',
+                                        },
+                                    ].map((item, i) => (
+                                        <motion.div
+                                            key={i}
+                                            initial={{ opacity: 0, x: 20 }}
+                                            whileInView={{ opacity: 1, x: 0 }}
+                                            viewport={{ once: true, margin: '-60px' }}
+                                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 + i * 0.1 }}
+                                            className="flex items-start gap-6 md:gap-8 p-6 md:p-8 group hover:bg-white/[0.02] transition-colors"
+                                        >
+                                            <div className="flex-shrink-0 w-24 md:w-28">
+                                                <div className="font-heading font-bold text-3xl md:text-4xl text-white tracking-tight">
+                                                    <AnimatedCounter value={item.stat + (item.suffix || '')} duration={2} />
+                                                </div>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="font-heading font-bold text-sm text-white uppercase tracking-wide mb-1.5">
+                                                    {item.label}
+                                                </div>
+                                                <p className="font-mono text-sm text-zinc-500 leading-relaxed">
+                                                    {item.desc}
+                                                </p>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
                             </div>
 
                             {/* Bottom glow line */}
