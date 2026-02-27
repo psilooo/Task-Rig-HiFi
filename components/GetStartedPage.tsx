@@ -388,6 +388,9 @@ export const GetStartedPage: React.FC = () => {
     const searchRef = useRef<HTMLDivElement>(null);
     const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
+    const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+
     const [data, setData] = useState<LeadData>({
         businessName: '',
         businessAddress: '',
@@ -411,6 +414,8 @@ export const GetStartedPage: React.FC = () => {
         contactRole: '',
         preferredContactMethod: 'phone',
         notes: '',
+        consentMarketing: false,
+        consentTransactional: false,
     });
 
     const update = useCallback((partial: Partial<LeadData>) => {
@@ -566,6 +571,22 @@ export const GetStartedPage: React.FC = () => {
     }, []);
 
     const goNext = () => {
+        if (step === 5) {
+            let hasError = false;
+            if (data.contactEmail.trim() !== '' && !validateEmail(data.contactEmail)) {
+                setEmailError('Please enter a valid email address.');
+                hasError = true;
+            } else {
+                setEmailError('');
+            }
+            if (data.contactPhone.trim() !== '' && !validatePhone(data.contactPhone)) {
+                setPhoneError('Please enter a phone number with at least 10 digits.');
+                hasError = true;
+            } else {
+                setPhoneError('');
+            }
+            if (hasError) return;
+        }
         if (step < TOTAL_STEPS) {
             setDirection(1);
             setStep(step + 1);
@@ -582,6 +603,21 @@ export const GetStartedPage: React.FC = () => {
     };
 
     const handleSubmit = () => {
+        let hasError = false;
+        if (!validateEmail(data.contactEmail)) {
+            setEmailError('Please enter a valid email address.');
+            hasError = true;
+        } else {
+            setEmailError('');
+        }
+        if (!validatePhone(data.contactPhone)) {
+            setPhoneError('Please enter a phone number with at least 10 digits.');
+            hasError = true;
+        } else {
+            setPhoneError('');
+        }
+        if (hasError) return;
+
         const payload = {
             ...data,
             submittedAt: new Date().toISOString(),
@@ -597,13 +633,30 @@ export const GetStartedPage: React.FC = () => {
         scrollToTop();
     };
 
+    const validateEmail = (email: string): boolean => {
+        const trimmed = email.trim();
+        return trimmed.includes('@') && trimmed.includes('.');
+    };
+
+    const validatePhone = (phone: string): boolean => {
+        const digits = phone.replace(/\D/g, '');
+        return digits.length >= 10;
+    };
+
     const canAdvance = (): boolean => {
         switch (step) {
             case 1: return data.businessName.trim() !== '';
             case 2: return data.industries.length > 0;
             case 3: return data.painPoints.length > 0;
             case 4: return data.teamSize !== '';
-            case 5: return data.contactName.trim() !== '' && data.contactEmail.trim() !== '' && data.contactPhone.trim() !== '';
+            case 5:
+                return (
+                    data.contactName.trim() !== '' &&
+                    data.contactEmail.trim() !== '' &&
+                    validateEmail(data.contactEmail) &&
+                    data.contactPhone.trim() !== '' &&
+                    validatePhone(data.contactPhone)
+                );
             default: return false;
         }
     };
@@ -664,10 +717,13 @@ export const GetStartedPage: React.FC = () => {
                                     Call Now
                                 </span>
                             </a>
-                            <button className="w-full sm:w-auto px-8 py-3.5 border border-zinc-700 hover:border-orange-500/40 text-zinc-300 hover:text-white font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md flex items-center justify-center gap-2">
+                            <a
+                                href="tel:+18442222486"
+                                className="w-full sm:w-auto px-8 py-3.5 border border-zinc-700 hover:border-orange-500/40 text-zinc-300 hover:text-white font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md flex items-center justify-center gap-2 no-underline"
+                            >
                                 <Calendar size={16} />
                                 Schedule a Call
-                            </button>
+                            </a>
                         </div>
 
                         <div className="text-left border border-zinc-800/60 bg-zinc-900/30 rounded-lg overflow-hidden">
@@ -727,7 +783,7 @@ export const GetStartedPage: React.FC = () => {
             </nav>
 
             {/* Main Content */}
-            <div className="flex-1 relative z-10 pt-18 md:pt-24 pb-8 md:pb-16 px-4 md:px-6">
+            <div className="flex-1 relative z-10 pt-16 md:pt-24 pb-8 md:pb-16 px-4 md:px-6">
                 <div className="w-full max-w-3xl mx-auto mb-2 md:mb-4">
                     <Link to="/" className="group inline-flex items-center gap-1.5 md:gap-2 py-2 text-zinc-400 hover:text-white font-mono text-[10px] md:text-xs uppercase tracking-widest transition-colors no-underline">
                         <ArrowLeft size={12} className="text-zinc-500 group-hover:text-orange-500 transition-colors md:[&]:w-[14px] md:[&]:h-[14px]" />
@@ -788,6 +844,16 @@ export const GetStartedPage: React.FC = () => {
                                 {STEP_META[step - 1].label}
                             </span>
                         </div>
+                    </div>
+
+                    {/* Social Proof */}
+                    <div className="flex items-center justify-center gap-4 mb-6">
+                        <div className="flex gap-0.5">
+                            {[1,2,3,4,5].map(s => (
+                                <svg key={s} width="12" height="12" viewBox="0 0 24 24" fill="#FF6A15"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
+                            ))}
+                        </div>
+                        <span className="font-mono text-[11px] text-zinc-500">Trusted by 2,400+ businesses</span>
                     </div>
 
                     {/* Step Content Container */}
@@ -1207,8 +1273,14 @@ export const GetStartedPage: React.FC = () => {
 
                                         <div className="space-y-4">
                                             <InputField label="Full Name" value={data.contactName} onChange={(v) => update({ contactName: v })} placeholder="Jane Doe" required icon={User} />
-                                            <InputField label="Email Address" value={data.contactEmail} onChange={(v) => update({ contactEmail: v })} placeholder="jane@acmehvac.com" type="email" required icon={Mail} />
-                                            <InputField label="Phone Number" value={data.contactPhone} onChange={(v) => update({ contactPhone: v })} placeholder="+1 (555) 000-0000" type="tel" required icon={Phone} />
+                                            <div>
+                                                <InputField label="Email Address" value={data.contactEmail} onChange={(v) => { update({ contactEmail: v }); if (emailError) setEmailError(''); }} placeholder="jane@acmehvac.com" type="email" required icon={Mail} />
+                                                {emailError && <p className="text-red-400 font-mono text-xs mt-1">{emailError}</p>}
+                                            </div>
+                                            <div>
+                                                <InputField label="Phone Number" value={data.contactPhone} onChange={(v) => { update({ contactPhone: v }); if (phoneError) setPhoneError(''); }} placeholder="+1 (555) 000-0000" type="tel" required icon={Phone} />
+                                                {phoneError && <p className="text-red-400 font-mono text-xs mt-1">{phoneError}</p>}
+                                            </div>
 
                                             <div>
                                                 <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Your Role</label>
@@ -1290,7 +1362,7 @@ export const GetStartedPage: React.FC = () => {
                                         />
                                         {data.consentMarketing && <Check size={12} className="text-orange-500" />}
                                     </div>
-                                    <span className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest leading-relaxed flex-1 text-left">
+                                    <span className="text-zinc-500 font-mono text-xs leading-relaxed flex-1 text-left">
                                         I consent to receive marketing text messages from TaskRig at the phone number provided. Frequency may vary. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.
                                     </span>
                                 </label>
@@ -1305,7 +1377,7 @@ export const GetStartedPage: React.FC = () => {
                                         />
                                         {data.consentTransactional && <Check size={12} className="text-orange-500" />}
                                     </div>
-                                    <span className="text-zinc-500 font-mono text-[10px] uppercase tracking-widest leading-relaxed flex-1 text-left">
+                                    <span className="text-zinc-500 font-mono text-xs leading-relaxed flex-1 text-left">
                                         I consent to receive non-marketing text messages from TaskRig about my order updates, appointment reminders, etc. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.
                                     </span>
                                 </label>

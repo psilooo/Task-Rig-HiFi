@@ -125,7 +125,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                                             </svg>
                                         ))}
                                     </div>
-                                    <span className="font-mono text-sm text-zinc-400">Trusted by 500+ businesses</span>
+                                    <span className="font-mono text-sm text-zinc-400">Trusted by 2,400+ Home Service Businesses</span>
                                 </div>
                             </div>
                         </Reveal>

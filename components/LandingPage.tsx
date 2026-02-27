@@ -45,12 +45,6 @@ const SectionBadge: React.FC<{ text: string }> = ({ text }) => (
     </div>
 );
 
-const GlassCard: React.FC<{ children: React.ReactNode; className?: string; hover?: boolean }> = ({ children, className = '', hover = true }) => (
-    <div className={`p-6 md:p-8 border border-white/10 bg-white/[0.03] backdrop-blur-md rounded-lg transition-all duration-300 ${hover ? 'hover:border-orange-500/30 hover:shadow-[0_0_20px_rgba(255,106,21,0.08)] hover:bg-white/[0.05]' : ''} ${className}`}>
-        {children}
-    </div>
-);
-
 // ─── Animated Counter ──────────────────────────────────────────────
 
 const AnimatedCounter: React.FC<{ value: string; duration?: number }> = ({ value, duration = 2 }) => {
@@ -382,7 +376,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
         {
             name: 'Enterprise',
             tagline: 'Multi-location operations & high-volume businesses.',
-            prices: { monthly: '1,197', annual: 997 },
+            prices: { monthly: '1,197', annual: '997' },
             features: [
                 { text: 'Everything in Premium', emph: ', plus:' },
                 { text: 'Unlimited minutes', emph: ' — up to 1,200/mo, custom above that' },
@@ -520,19 +514,23 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     <ScrollReveal delay={0.15}>
                         <div className="border-t border-zinc-800 px-4 md:px-6 py-3 flex items-center gap-4">
                             <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.3em] flex-shrink-0 border-r border-zinc-800 pr-4">Clients</span>
-                            <div className="flex-1 flex items-center justify-between">
-                                {['APEX PLUMBING', 'IRONCLAD HVAC', 'SUMMIT LEGAL', 'KEYSTONE PROP.', 'TRIDENT AUTO', 'BRIGHTPATH DENTAL', 'FORGE CONST.', 'VERTEX REALTY'].map((name, i) => (
-                                    <motion.span
-                                        key={i}
-                                        initial={{ opacity: 0 }}
-                                        whileInView={{ opacity: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.3, delay: 0.25 + i * 0.04 }}
-                                        className="font-mono text-[10px] text-zinc-500 tracking-wider whitespace-nowrap"
-                                    >
-                                        {name}
-                                    </motion.span>
-                                ))}
+                            <div className="relative flex-1 overflow-hidden">
+                                <div className="flex items-center gap-6 overflow-x-auto scrollbar-hide">
+                                    {['APEX PLUMBING', 'IRONCLAD HVAC', 'SUMMIT LEGAL', 'KEYSTONE PROP.', 'TRIDENT AUTO', 'BRIGHTPATH DENTAL', 'FORGE CONST.', 'VERTEX REALTY'].map((name, i) => (
+                                        <motion.span
+                                            key={i}
+                                            initial={{ opacity: 0 }}
+                                            whileInView={{ opacity: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.3, delay: 0.25 + i * 0.04 }}
+                                            className="font-mono text-[10px] text-zinc-500 tracking-wider whitespace-nowrap flex-shrink-0"
+                                        >
+                                            {name}
+                                        </motion.span>
+                                    ))}
+                                </div>
+                                {/* Fade gradient on right edge to hint at scrollability */}
+                                <div className="absolute top-0 right-0 bottom-0 w-12 bg-gradient-to-r from-transparent to-zinc-950 pointer-events-none md:hidden" />
                             </div>
                         </div>
                     </ScrollReveal>
@@ -833,14 +831,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         <div className="mt-12 md:mt-16 border border-white/[0.07] bg-white/[0.02] backdrop-blur-md rounded-xl overflow-hidden">
                             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/[0.06]">
                                 {[
-                                    { value: '2,400+', label: 'Active Operators' },
-                                    { value: '4.9/5', label: 'Average Rating' },
-                                    { value: '98%', label: 'Retention Rate' },
-                                    { value: '<30s', label: 'Avg. Response' },
+                                    { value: '2,400+', label: 'Active Operators', animated: true },
+                                    { value: '4.9/5', label: 'Average Rating', animated: false },
+                                    { value: '98%', label: 'Retention Rate', animated: true },
+                                    { value: '<30s', label: 'Avg. Response', animated: true },
                                 ].map((stat, i) => (
                                     <div key={i} className="p-4 md:p-6 text-center group hover:bg-white/[0.02] transition-colors">
                                         <div className="font-heading font-bold text-2xl md:text-3xl text-white tracking-tight mb-1">
-                                            <AnimatedCounter value={stat.value} duration={2} />
+                                            {stat.animated ? <AnimatedCounter value={stat.value} duration={2} /> : stat.value}
                                         </div>
                                         <div className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]">{stat.label}</div>
                                     </div>
@@ -855,19 +853,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 5: PRICING (Integrated from taskrig_pricing.html)
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-16 md:py-24 px-6 relative z-10 w-full max-w-[1160px] mx-auto flex flex-col items-center">
+            <section className="py-24 md:py-32 px-4 md:px-6 relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center">
 
                 {/* Header */}
                 <ScrollReveal className="w-full">
-                    <div className="flex items-center justify-center gap-2 font-mono text-[11px] tracking-[0.18em] text-[#f5620f] uppercase mb-5">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#f5620f]" />
+                    <div className="flex items-center justify-center gap-2 font-mono text-[11px] tracking-[0.18em] text-orange-500 uppercase mb-5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
                         Pricing
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#f5620f]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
                     </div>
                     <h2 className="font-heading font-bold text-[clamp(2.25rem,6vw,4.5rem)] leading-none text-center tracking-[-0.02em] text-white uppercase mb-4">
                         Simple, Transparent Pricing
                     </h2>
-                    <p className="font-mono text-[13px] text-[#888888] text-center tracking-[0.04em] mb-16">
+                    <p className="font-mono text-[13px] text-zinc-500 text-center tracking-[0.04em] mb-16">
                         Fully built for you. Live in 48 hours. Cancel anytime. No hidden fees.
                     </p>
                 </ScrollReveal>
@@ -875,20 +873,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 {/* Annual toggle */}
                 <ScrollReveal delay={0.1} className="w-full">
                     <div className="flex items-center justify-center gap-[12px] mb-[52px]">
-                        <span className={`font-mono text-[12px] tracking-[0.08em] transition-colors leading-none pt-0.5 ${!isAnnual ? 'text-white' : 'text-[#888888]'}`}>Monthly</span>
+                        <span className={`font-mono text-[12px] tracking-[0.08em] transition-colors leading-none pt-0.5 ${!isAnnual ? 'text-white' : 'text-zinc-500'}`}>Monthly</span>
 
                         <button
                             onClick={() => setIsAnnual(!isAnnual)}
                             type="button"
-                            className={`w-[44px] h-[24px] rounded-[12px] border relative transition-colors duration-200 outline-none focus:outline-none ${isAnnual ? 'bg-[#f5620f] border-[#f5620f]' : 'bg-[#1a1a1a] border-[#3a3a3a]'}`}
+                            className={`w-[44px] h-[24px] rounded-[12px] border relative transition-colors duration-200 outline-none focus:outline-none ${isAnnual ? 'bg-orange-500 border-orange-500' : 'bg-zinc-900 border-zinc-700'}`}
                             style={{ WebkitTapHighlightColor: 'transparent' }}
                         >
                             <div className={`absolute top-[3px] left-[3px] w-[16px] h-[16px] rounded-full bg-white transition-transform duration-200 ${isAnnual ? 'translate-x-[20px]' : 'translate-x-0'}`} />
                         </button>
 
                         <div className="flex items-center gap-3">
-                            <span className={`font-mono text-[12px] tracking-[0.08em] transition-colors leading-none pt-0.5 ${isAnnual ? 'text-white' : 'text-[#888888]'}`}>Annual</span>
-                            <span className="font-mono text-[10px] font-bold text-[#f5620f] bg-[rgba(245,98,15,0.12)] border border-[#f5620f] px-2 py-0.5 rounded leading-none pt-[3px] tracking-[0.06em]">
+                            <span className={`font-mono text-[12px] tracking-[0.08em] transition-colors leading-none pt-0.5 ${isAnnual ? 'text-white' : 'text-zinc-500'}`}>Annual</span>
+                            <span className="font-mono text-[10px] font-bold text-orange-500 bg-orange-500/[0.12] border border-orange-500 px-2 py-0.5 rounded leading-none pt-[3px] tracking-[0.06em]">
                                 Save 2 Months
                             </span>
                         </div>
@@ -903,32 +901,32 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                         // Dynamic Color mapping
                         const getTagColors = (scheme?: string) => {
                             switch (scheme) {
-                                case 'green': return 'text-[#4ade80] bg-[#4ade80]/10 border-[#4ade80]/30';
-                                case 'blue': return 'text-[#60a5fa] bg-[#60a5fa]/10 border-[#60a5fa]/30';
-                                case 'silver': return 'text-[#d1d5db] bg-[#d1d5db]/[0.08] border-[#d1d5db]/25';
+                                case 'green': return 'text-emerald-400 bg-emerald-400/10 border-emerald-400/30';
+                                case 'blue': return 'text-blue-400 bg-blue-400/10 border-blue-400/30';
+                                case 'silver': return 'text-zinc-300 bg-zinc-300/[0.08] border-zinc-300/25';
                                 default: return 'text-zinc-300 bg-zinc-800/50 border-zinc-700/50';
                             }
                         };
 
                         const getCheckColor = (scheme?: string) => {
                             switch (scheme) {
-                                case 'green': return '#4ade80';
+                                case 'green': return '#34d399';
                                 case 'blue': return '#60a5fa';
                                 case 'silver': return '#ffffff';
-                                default: return '#c8c8c8';
+                                default: return '#d4d4d8';
                             }
                         };
 
                         return (
                             <ScrollReveal key={i} delay={i * 0.1}>
-                                <div className={`relative p-[36px] md:p-[32px] lg:p-[36px] border rounded-[12px] flex flex-col h-full bg-[#141414] transition-all duration-300 ${isFeatured ? 'border-[#f5620f] transform -translate-y-[8px] hover:-translate-y-[12px] bg-[linear-gradient(160deg,#1c1208_0%,#141414_60%)]' : 'border-[#2a2a2a] hover:border-[#3a3a3a] hover:-translate-y-[4px]'}`}>
+                                <div className={`relative p-[36px] md:p-[32px] lg:p-[36px] border rounded-[12px] flex flex-col h-full bg-zinc-950 transition-all duration-300 ${isFeatured ? 'border-orange-500 transform -translate-y-[8px] hover:-translate-y-[12px] bg-[linear-gradient(160deg,rgb(28,18,8)_0%,rgb(9,9,11)_60%)]' : 'border-zinc-800 hover:border-zinc-700 hover:-translate-y-[4px]'}`}>
                                     {isFeatured && (
                                         <>
-                                            <div className="absolute top-[-14px] left-1/2 -translate-x-1/2 bg-[#f5620f] text-white font-mono text-[10px] font-bold tracking-[0.14em] uppercase px-4 py-[3px] pt-[4px] rounded-[12px] whitespace-nowrap z-10 leading-none">
+                                            <div className="absolute top-[-14px] left-1/2 -translate-x-1/2 bg-orange-500 text-white font-mono text-[10px] font-bold tracking-[0.14em] uppercase px-4 py-[3px] pt-[4px] rounded-[12px] whitespace-nowrap z-10 leading-none">
                                                 Most Popular
                                             </div>
-                                            {/* Orange glow under-layer matching css pseudo-element */}
-                                            <div className="absolute inset-[-1px] rounded-[12px] bg-[linear-gradient(135deg,#f5620f_0%,transparent_60%)] opacity-15 pointer-events-none" />
+                                            {/* Orange glow under-layer */}
+                                            <div className="absolute inset-[-1px] rounded-[12px] bg-[linear-gradient(135deg,rgb(245,98,15)_0%,transparent_60%)] opacity-15 pointer-events-none" />
                                         </>
                                     )}
 
@@ -940,22 +938,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         </div>
 
                                         <h3 className="font-heading font-black text-[22px] tracking-[-0.01em] text-white uppercase mb-1.5">{tier.name}</h3>
-                                        <p className="font-mono text-[11px] text-[#888888] tracking-[0.04em] mb-7 leading-relaxed flex-shrink-0 min-h-[40px]">{tier.tagline}</p>
+                                        <p className="font-mono text-[11px] text-zinc-500 tracking-[0.04em] mb-7 leading-relaxed flex-shrink-0 min-h-[40px]">{tier.tagline}</p>
 
                                         <div className="flex items-end gap-1 mb-1.5">
-                                            <span className="font-mono text-[13px] text-[#888888] pb-2">$</span>
+                                            <span className="font-mono text-[13px] text-zinc-500 pb-2">$</span>
                                             <span className="font-heading font-black text-[52px] leading-none text-white tracking-[-0.03em]">
                                                 {isAnnual ? tier.prices.annual : tier.prices.monthly}
                                             </span>
-                                            <span className="font-mono text-[13px] text-[#888888] pb-2 tracking-[0.04em]">CAD /mo</span>
+                                            <span className="font-mono text-[13px] text-zinc-500 pb-2 tracking-[0.04em]">CAD /mo</span>
                                         </div>
-                                        <div className="font-mono text-[11px] text-[#f5620f] mb-[32px] min-h-[16px] tracking-[0.04em]">
+                                        <div className="font-mono text-[11px] text-orange-500 mb-[32px] min-h-[16px] tracking-[0.04em]">
                                             {isAnnual ? 'Billed annually — saves 2 months' : ''}
                                         </div>
 
                                         <ul className="flex flex-col gap-[12px] mb-[32px] flex-1 list-none p-0">
                                             {tier.features.map((feat, j) => (
-                                                <li key={j} className="flex items-start gap-[10px] text-[14px] text-[#c8c8c8] leading-[1.45]">
+                                                <li key={j} className="flex items-start gap-[10px] text-[14px] text-zinc-300 leading-[1.45]">
                                                     <svg className="flex-shrink-0 mt-[3px] w-4 h-4" viewBox="0 0 16 16" fill="none">
                                                         <circle cx="8" cy="8" r="7.5" stroke={getCheckColor(tier.colorScheme)} strokeOpacity="0.3" />
                                                         <path d="M5 8l2 2 4-4" stroke={getCheckColor(tier.colorScheme)} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -975,22 +973,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             ))}
                                         </ul>
 
-                                        <div className="font-mono text-[10px] text-[#555555] tracking-[0.04em] mt-1 mb-[24px]">
+                                        <div className="font-mono text-[10px] text-zinc-500 tracking-[0.04em] mt-1 mb-[24px]">
                                             {tier.overage}
                                         </div>
 
-                                        <div className="h-px bg-[#2a2a2a] w-full mb-[24px]"></div>
+                                        <div className="h-px bg-zinc-800 w-full mb-[24px]"></div>
 
-                                        <button className={`block w-full py-[14px] rounded-[8px] font-mono text-[12px] font-bold tracking-[0.12em] uppercase text-center transition-all cursor-pointer ${isFeatured
-                                            ? 'bg-[#f5620f] text-white shadow-[0_4px_24px_rgba(245,98,15,0.25)] hover:bg-[#ff6e1a] hover:shadow-[0_4px_32px_rgba(245,98,15,0.55)] hover:-translate-y-px border-none'
-                                            : tier.name === 'Enterprise'
-                                                ? 'bg-transparent border border-[#3a3a3a] text-[#888888] hover:border-[#888888] hover:text-[#e8e8e8]'
-                                                : 'bg-transparent border border-[#3a3a3a] text-[#e8e8e8] hover:border-white hover:text-white hover:bg-white/[0.04]'
-                                            }`}>
-                                            {tier.ctaText}
-                                        </button>
+                                        <Link to="/get-started" className="no-underline block w-full">
+                                            <div className={`block w-full py-[14px] rounded-[8px] font-mono text-[12px] font-bold tracking-[0.12em] uppercase text-center transition-all cursor-pointer ${isFeatured
+                                                ? 'bg-orange-500 text-white shadow-[0_4px_24px_rgba(245,98,15,0.25)] hover:bg-orange-600 hover:shadow-[0_4px_32px_rgba(245,98,15,0.55)] hover:-translate-y-px border-none'
+                                                : tier.name === 'Enterprise'
+                                                    ? 'bg-transparent border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-200'
+                                                    : 'bg-transparent border border-zinc-700 text-zinc-200 hover:border-white hover:text-white hover:bg-white/[0.04]'
+                                                }`}>
+                                                {tier.ctaText}
+                                            </div>
+                                        </Link>
 
-                                        <div className="font-mono text-[10px] text-[#555555] text-center mt-2.5 tracking-[0.06em]">
+                                        <div className="font-mono text-[10px] text-zinc-500 text-center mt-2.5 tracking-[0.06em]">
                                             {tier.setupFee}
                                         </div>
                                     </div>
@@ -1004,8 +1004,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 <ScrollReveal delay={0.2} className="w-full">
                     <div className="mt-12 flex items-center justify-center gap-x-8 gap-y-4 flex-wrap">
                         {['No long-term contracts', 'CASL & PIPEDA compliant', 'Live in 48 hours', 'Canadian-built & managed', 'Cancel anytime'].map((item, idx) => (
-                            <div key={idx} className="flex items-center gap-2 font-mono text-[11px] tracking-[0.06em] text-[#888888]">
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5H13l-3.5 2.5 1.5 4L7 9 3 11l1.5-4L1 4.5h4.5L7 1z" stroke="#f5620f" strokeWidth="1.2" strokeLinejoin="round" /></svg>
+                            <div key={idx} className="flex items-center gap-2 font-mono text-[11px] tracking-[0.06em] text-zinc-500">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="text-orange-500"><path d="M7 1l1.5 3.5H13l-3.5 2.5 1.5 4L7 9 3 11l1.5-4L1 4.5h4.5L7 1z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" /></svg>
                                 {item}
                             </div>
                         ))}
@@ -1033,8 +1033,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <ScrollReveal>
                                 <SectionBadge text="Knowledge Base" />
                                 <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-[3.5rem] text-white uppercase tracking-tight leading-[0.95] mb-4">
-                                    Intel<br />
-                                    <span className="text-zinc-500">Briefing</span>
+                                    Common<br />
+                                    <span className="text-zinc-500">Questions</span>
                                 </h2>
                                 <p className="text-zinc-500 font-mono text-xs leading-relaxed max-w-sm">
                                     Everything you need to know before deploying Task Rig. Select a query to access detailed intelligence.
@@ -1151,20 +1151,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent">Intelligent Operations?</span>
                                         </h2>
                                         <p className="text-zinc-400 font-mono text-sm max-w-lg mx-auto mb-10 leading-relaxed">
-                                            Join 2,400+ operators using Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
+                                            Join 2,400+ home service businesses using Task Rig to respond faster, book more jobs, and never miss a customer inquiry.
                                         </p>
                                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                            <button className="relative w-full sm:w-auto px-8 py-3 bg-zinc-950/40 border border-zinc-700 hover:border-zinc-400 text-zinc-300 hover:text-white font-mono text-[11px] font-bold uppercase tracking-widest transition-all clip-path-slant flex justify-center items-center gap-3 group backdrop-blur-md">
-                                                <div className="absolute inset-0 bg-white/[0.02] group-hover:bg-white/[0.05] transition-colors pointer-events-none block"></div>
-                                                LEARN MORE
-                                                <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-60 group-hover:opacity-100">
-                                                    <path d="M1 6H14M14 6L9 1M14 6L9 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" strokeLinejoin="miter" />
-                                                </svg>
-                                            </button>
-
                                             <Link
                                                 to="/get-started"
-                                                className="relative w-full sm:w-auto px-12 py-3 bg-[#FF6A15] hover:bg-[#ff853f] text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(255,106,21,0.25)] hover:shadow-[0_0_30px_rgba(255,106,21,0.4)] flex justify-center items-center gap-3 no-underline"
+                                                className="relative w-full sm:w-auto px-12 py-3 bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-[11px] uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(249,115,22,0.25)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] flex justify-center items-center gap-3 no-underline"
                                             >
                                                 <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
                                                 <span className="relative z-10 flex items-center gap-2">
