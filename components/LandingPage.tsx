@@ -464,7 +464,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 <div className="absolute bottom-2 right-3 md:right-6 w-2.5 h-2.5 border-b border-r border-orange-500/30" />
 
                 {/* Label */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zinc-950 px-3 z-20">
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 bg-zinc-950 px-3 z-20">
                     <span className="font-mono text-[9px] text-orange-500/60 uppercase tracking-[0.3em]">Integrations</span>
                 </div>
 
