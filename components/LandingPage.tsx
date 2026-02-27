@@ -149,8 +149,60 @@ const TypingBubble: React.FC<{ text: string; sender: string; delay: number; isIn
 export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
     const [activeFeature, setActiveFeature] = useState(0);
+    const [featureProgress, setFeatureProgress] = useState(0);
+    const featureTimerRef = useRef<number | null>(null);
+    const featureStartRef = useRef<number>(0);
+    const featurePausedRef = useRef(false);
     const chatRef = useRef<HTMLDivElement>(null);
     const chatInView = useInView(chatRef, { once: true, margin: '-100px' });
+    const featureSectionRef = useRef<HTMLDivElement>(null);
+    const featureSectionInView = useInView(featureSectionRef, { margin: '-100px' });
+
+    const FEATURE_DURATION = 10000; // 10 seconds per tab
+
+    // Auto-advance feature tabs with progress bar
+    useEffect(() => {
+        if (!featureSectionInView) {
+            featurePausedRef.current = true;
+            if (featureTimerRef.current) {
+                cancelAnimationFrame(featureTimerRef.current);
+                featureTimerRef.current = null;
+            }
+            return;
+        }
+
+        featurePausedRef.current = false;
+        featureStartRef.current = performance.now();
+        setFeatureProgress(0);
+
+        const tick = (now: number) => {
+            if (featurePausedRef.current) return;
+            const elapsed = now - featureStartRef.current;
+            const progress = Math.min(elapsed / FEATURE_DURATION, 1);
+            setFeatureProgress(progress);
+
+            if (progress >= 1) {
+                setActiveFeature(prev => (prev + 1) % 4);
+                featureStartRef.current = performance.now();
+                setFeatureProgress(0);
+            }
+            featureTimerRef.current = requestAnimationFrame(tick);
+        };
+
+        featureTimerRef.current = requestAnimationFrame(tick);
+
+        return () => {
+            if (featureTimerRef.current) {
+                cancelAnimationFrame(featureTimerRef.current);
+            }
+        };
+    }, [featureSectionInView, activeFeature]);
+
+    const handleFeatureClick = (index: number) => {
+        setActiveFeature(index);
+        setFeatureProgress(0);
+        featureStartRef.current = performance.now();
+    };
 
     // ─── Data ──────────────────────────────────────────────────────
 
@@ -397,6 +449,98 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
+                INTEGRATION PARTNERS + SYSTEM STATUS (Techno-Brutalism)
+            ════════════════════════════════════════════════════════════════ */}
+            <div className="border-y-2 border-zinc-800 relative z-10 bg-zinc-950">
+                <div className="max-w-7xl mx-auto">
+                    {/* Status bar header */}
+                    <div className="border-b border-zinc-800 px-4 md:px-6 py-2 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <div className="w-2 h-2 bg-orange-500" />
+                            <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">System Status</span>
+                        </div>
+                        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.2em]">Live</span>
+                    </div>
+
+                    {/* Integration Partners + System Stats */}
+                    <ScrollReveal>
+                        <div className="grid grid-cols-1 md:grid-cols-5">
+                            {/* Integration Partners — 3 columns */}
+                            {[
+                                { name: 'Twilio', desc: 'SMS, voice & WhatsApp messaging', tag: 'COMMS' },
+                                { name: 'Zendesk', desc: 'Helpdesk ticketing & CRM sync', tag: 'CRM' },
+                                { name: 'Stripe', desc: 'Payment processing & invoicing', tag: 'PAY' },
+                            ].map((partner, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 12 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: '-40px' }}
+                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
+                                    className="border-b md:border-b-0 md:border-r border-zinc-800 p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors"
+                                >
+                                    <div className="flex items-center justify-between mb-3">
+                                        <div className="flex items-center gap-2">
+                                            <Link2 size={10} className="text-orange-500/60" />
+                                            <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em]">Integration</span>
+                                        </div>
+                                        <span className="font-mono text-[9px] text-orange-500/60 uppercase tracking-wider border border-orange-500/20 px-1.5 py-0.5">{partner.tag}</span>
+                                    </div>
+                                    <div className="font-mono font-bold text-2xl md:text-3xl text-white tracking-tight mb-1.5">{partner.name}</div>
+                                    <div className="font-mono text-[11px] text-zinc-500 leading-relaxed">{partner.desc}</div>
+                                </motion.div>
+                            ))}
+
+                            {/* System Stats — 2 columns */}
+                            {[
+                                { value: '99.9%', label: 'Platform Uptime', tag: 'SLA' },
+                                { value: '<2s', label: 'Avg Response', tag: 'LAT' },
+                            ].map((stat, i) => (
+                                <motion.div
+                                    key={`stat-${i}`}
+                                    initial={{ opacity: 0, y: 12 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: '-40px' }}
+                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.24 + i * 0.08 }}
+                                    className={`border-b md:border-b-0 border-zinc-800 ${i < 1 ? 'md:border-r' : ''} p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors`}
+                                >
+                                    <div className="flex items-center justify-between mb-3">
+                                        <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em]">{stat.label}</span>
+                                        <span className="font-mono text-[9px] text-orange-500/60 uppercase tracking-wider border border-orange-500/20 px-1.5 py-0.5">{stat.tag}</span>
+                                    </div>
+                                    <div className="font-mono font-bold text-3xl md:text-4xl text-white tracking-tight">
+                                        <AnimatedCounter value={stat.value} duration={2} />
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </ScrollReveal>
+
+                    {/* Company ticker strip */}
+                    <ScrollReveal delay={0.15}>
+                        <div className="border-t border-zinc-800 px-4 md:px-6 py-3 flex items-center gap-4">
+                            <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.3em] flex-shrink-0 border-r border-zinc-800 pr-4">Clients</span>
+                            <div className="flex-1 flex items-center justify-between">
+                                {['APEX PLUMBING', 'IRONCLAD HVAC', 'SUMMIT LEGAL', 'KEYSTONE PROP.', 'TRIDENT AUTO', 'BRIGHTPATH DENTAL', 'FORGE CONST.', 'VERTEX REALTY'].map((name, i) => (
+                                    <motion.span
+                                        key={i}
+                                        initial={{ opacity: 0 }}
+                                        whileInView={{ opacity: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.3, delay: 0.25 + i * 0.04 }}
+                                        className="font-mono text-[10px] text-zinc-500 tracking-wider whitespace-nowrap"
+                                    >
+                                        {name}
+                                    </motion.span>
+                                ))}
+                            </div>
+                        </div>
+                    </ScrollReveal>
+                </div>
+            </div>
+
+
+            {/* ════════════════════════════════════════════════════════════════
                 SECTION 2+3: PRODUCT SHOWCASE — Features & Live Demo
                 Unified two-panel layout with shared visual container
             ════════════════════════════════════════════════════════════════ */}
@@ -428,7 +572,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[600px]">
 
                                 {/* ── LEFT PANEL: Features ── */}
-                                <div className="lg:col-span-5 p-6 md:p-8 lg:p-10 flex flex-col">
+                                <div ref={featureSectionRef} className="lg:col-span-5 p-6 md:p-8 lg:p-10 flex flex-col">
                                     {/* Panel label */}
                                     <div className="flex items-center gap-2 mb-6">
                                         <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
@@ -440,16 +584,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         {featureTabs.map((tab, i) => (
                                             <button
                                                 key={i}
-                                                onClick={() => setActiveFeature(i)}
-                                                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-300 whitespace-nowrap flex-shrink-0 ${activeFeature === i
-                                                    ? 'bg-orange-500/10 border border-orange-500/30 shadow-[0_0_20px_rgba(255,106,21,0.06)]'
+                                                onClick={() => handleFeatureClick(i)}
+                                                className={`relative flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-300 whitespace-nowrap flex-shrink-0 overflow-hidden ${activeFeature === i
+                                                    ? 'border border-orange-500/30 shadow-[0_0_20px_rgba(255,106,21,0.06)]'
                                                     : 'bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04]'
                                                     }`}
                                             >
-                                                <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${activeFeature === i ? 'bg-orange-500/20' : 'bg-zinc-800/60'}`}>
+                                                {/* Progress bar fill */}
+                                                <div
+                                                    className={`absolute inset-0 rounded-lg origin-left ${activeFeature === i ? 'bg-orange-500/10' : ''}`}
+                                                    style={{
+                                                        transform: activeFeature === i ? `scaleX(${featureProgress})` : 'scaleX(0)',
+                                                        transformOrigin: 'left',
+                                                    }}
+                                                />
+                                                <div className={`relative z-10 w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${activeFeature === i ? 'bg-orange-500/20' : 'bg-zinc-800/60'}`}>
                                                     <tab.icon size={16} className={activeFeature === i ? 'text-orange-500' : 'text-zinc-500'} />
                                                 </div>
-                                                <div>
+                                                <div className="relative z-10">
                                                     <div className={`font-heading font-bold text-sm uppercase tracking-wide transition-colors ${activeFeature === i ? 'text-white' : 'text-zinc-400'}`}>{tab.label}</div>
                                                     <div className="text-[11px] font-mono text-zinc-600 hidden lg:block mt-0.5">{tab.title}</div>
                                                 </div>
@@ -569,98 +721,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     </ScrollReveal>
                 </div>
             </section>
-
-
-            {/* ════════════════════════════════════════════════════════════════
-                INTEGRATION PARTNERS + SYSTEM STATUS (Techno-Brutalism)
-            ════════════════════════════════════════════════════════════════ */}
-            <div className="border-y-2 border-zinc-800 relative z-10 bg-zinc-950">
-                <div className="max-w-7xl mx-auto">
-                    {/* Status bar header */}
-                    <div className="border-b border-zinc-800 px-4 md:px-6 py-2 flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-orange-500" />
-                            <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.3em]">System Status</span>
-                        </div>
-                        <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.2em]">Live</span>
-                    </div>
-
-                    {/* Integration Partners + System Stats */}
-                    <ScrollReveal>
-                        <div className="grid grid-cols-1 md:grid-cols-5">
-                            {/* Integration Partners — 3 columns */}
-                            {[
-                                { name: 'Twilio', desc: 'SMS, voice & WhatsApp messaging', tag: 'COMMS' },
-                                { name: 'Zendesk', desc: 'Helpdesk ticketing & CRM sync', tag: 'CRM' },
-                                { name: 'Stripe', desc: 'Payment processing & invoicing', tag: 'PAY' },
-                            ].map((partner, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 12 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: '-40px' }}
-                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-                                    className="border-b md:border-b-0 md:border-r border-zinc-800 p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors"
-                                >
-                                    <div className="flex items-center justify-between mb-3">
-                                        <div className="flex items-center gap-2">
-                                            <Link2 size={10} className="text-orange-500/60" />
-                                            <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em]">Integration</span>
-                                        </div>
-                                        <span className="font-mono text-[9px] text-orange-500/60 uppercase tracking-wider border border-orange-500/20 px-1.5 py-0.5">{partner.tag}</span>
-                                    </div>
-                                    <div className="font-mono font-bold text-2xl md:text-3xl text-white tracking-tight mb-1.5">{partner.name}</div>
-                                    <div className="font-mono text-[11px] text-zinc-500 leading-relaxed">{partner.desc}</div>
-                                </motion.div>
-                            ))}
-
-                            {/* System Stats — 2 columns */}
-                            {[
-                                { value: '99.9%', label: 'Platform Uptime', tag: 'SLA' },
-                                { value: '<2s', label: 'Avg Response', tag: 'LAT' },
-                            ].map((stat, i) => (
-                                <motion.div
-                                    key={`stat-${i}`}
-                                    initial={{ opacity: 0, y: 12 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: '-40px' }}
-                                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.24 + i * 0.08 }}
-                                    className={`border-b md:border-b-0 border-zinc-800 ${i < 1 ? 'md:border-r' : ''} p-5 md:p-6 group hover:bg-zinc-900/50 transition-colors`}
-                                >
-                                    <div className="flex items-center justify-between mb-3">
-                                        <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em]">{stat.label}</span>
-                                        <span className="font-mono text-[9px] text-orange-500/60 uppercase tracking-wider border border-orange-500/20 px-1.5 py-0.5">{stat.tag}</span>
-                                    </div>
-                                    <div className="font-mono font-bold text-3xl md:text-4xl text-white tracking-tight">
-                                        <AnimatedCounter value={stat.value} duration={2} />
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </ScrollReveal>
-
-                    {/* Company ticker strip */}
-                    <ScrollReveal delay={0.15}>
-                        <div className="border-t border-zinc-800 px-4 md:px-6 py-3 flex items-center gap-4">
-                            <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.3em] flex-shrink-0 border-r border-zinc-800 pr-4">Clients</span>
-                            <div className="flex-1 flex items-center justify-between">
-                                {['APEX PLUMBING', 'IRONCLAD HVAC', 'SUMMIT LEGAL', 'KEYSTONE PROP.', 'TRIDENT AUTO', 'BRIGHTPATH DENTAL', 'FORGE CONST.', 'VERTEX REALTY'].map((name, i) => (
-                                    <motion.span
-                                        key={i}
-                                        initial={{ opacity: 0 }}
-                                        whileInView={{ opacity: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.3, delay: 0.25 + i * 0.04 }}
-                                        className="font-mono text-[10px] text-zinc-500 tracking-wider whitespace-nowrap"
-                                    >
-                                        {name}
-                                    </motion.span>
-                                ))}
-                            </div>
-                        </div>
-                    </ScrollReveal>
-                </div>
-            </div>
 
 
             {/* ════════════════════════════════════════════════════════════════
