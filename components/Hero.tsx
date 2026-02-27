@@ -68,7 +68,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
 
             {/* Main Content Container */}
-            <div className="flex-1 flex items-start pt-4 md:items-center justify-center relative z-20 w-full max-w-7xl mx-auto px-4 md:px-8 py-12">
+            <div className="flex-1 flex items-start pt-4 md:items-center justify-center relative z-20 w-full max-w-7xl mx-auto px-4 md:px-8 py-8">
 
                 <div className="w-full relative z-20 flex justify-center">
 
@@ -92,7 +92,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                         {/* Subtitle */}
                         <Reveal delay={0.2}>
-                            <div className="max-w-[540px] mx-auto mt-6 mb-8 md:mt-10 md:mb-12">
+                            <div className="max-w-[540px] mx-auto mt-5 mb-6 md:mt-8 md:mb-8">
                                 <p className="font-mono text-base text-zinc-400 leading-[1.6] tracking-wide">
                                     AI agents that answer calls, respond to messages, book jobs, and manage your systems — 24/7, across every platform your business runs on.
                                 </p>
@@ -101,7 +101,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                         {/* Actions & Trust Signal */}
                         <Reveal delay={0.3}>
-                            <div className="flex flex-col items-center justify-center gap-6 w-full">
+                            <div className="flex flex-col items-center justify-center gap-4 w-full">
 
                                 <Link
                                     to="/get-started"
