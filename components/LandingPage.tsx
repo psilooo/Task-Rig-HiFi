@@ -592,6 +592,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 </div>
             </section>
 
+            {/* ── Visual connector: Pain Points → Product Showcase ── */}
+            <div className="relative z-10 flex flex-col items-center -my-8 md:-my-12">
+                <div className="w-px h-16 md:h-24 bg-gradient-to-b from-orange-500/30 to-orange-500/5" />
+                <div className="w-2 h-2 rounded-full bg-orange-500/40 shadow-[0_0_12px_rgba(255,106,21,0.3)]" />
+                <div className="w-px h-16 md:h-24 bg-gradient-to-b from-orange-500/5 to-transparent" />
+            </div>
 
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 2+3: PRODUCT SHOWCASE — Features & Live Demo
