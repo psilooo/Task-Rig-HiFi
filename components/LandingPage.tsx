@@ -808,11 +808,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 SECTION 4: TESTIMONIALS — Immersive Stacked Cards
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-10 md:py-14 px-4 md:px-6 relative z-10 overflow-clip">
-                {/* Ambient background effects */}
+            <section className="py-10 md:py-14 px-4 md:px-6 relative z-10 overflow-visible">
+                {/* Ambient background effects — overflow-visible so glow bleeds into adjacent sections */}
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                     <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-orange-500/[0.03] blur-[150px] rounded-full" />
-                    <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] bg-orange-500/[0.02] blur-[120px] rounded-full" />
+                    <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-orange-500/[0.02] blur-[120px] rounded-full" />
                 </div>
 
                 {/* Decorative vertical lines */}
