@@ -504,7 +504,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                         {/* ── LEFT: Hero stat card ── */}
                         <ScrollReveal className="lg:col-span-5">
-                            <div className="relative border border-white/[0.07] rounded-2xl bg-gradient-to-br from-white/[0.03] via-zinc-950/80 to-white/[0.02] backdrop-blur-sm overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.3)] h-full flex flex-col justify-between p-8 md:p-10 lg:p-12">
+                            <div className="relative border border-white/[0.07] rounded-2xl bg-gradient-to-br from-white/[0.03] via-zinc-950/80 to-white/[0.02] backdrop-blur-sm overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.3)] h-full flex flex-col justify-between p-6 md:p-8 lg:p-10">
                                 {/* Top glow line */}
                                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
 
@@ -513,19 +513,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                 <div className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-orange-500/20" />
 
                                 <div>
-                                    <div className="flex items-center gap-2 mb-8">
+                                    <div className="flex items-center gap-2 mb-5">
                                         <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
                                         <span className="font-mono text-[10px] text-orange-500 uppercase tracking-[0.2em]">Speed to Lead</span>
                                     </div>
-                                    <div className="font-heading font-bold text-6xl md:text-7xl lg:text-8xl text-orange-500 tracking-tight leading-none mb-6">
+                                    <div className="font-heading font-bold text-6xl md:text-7xl lg:text-8xl text-orange-500 tracking-tight leading-none mb-4">
                                         <AnimatedCounter value="21x" duration={2.5} />
                                     </div>
-                                    <p className="font-mono text-base text-zinc-400 leading-[1.7] max-w-sm">
+                                    <p className="font-mono text-sm text-zinc-400 leading-[1.7] max-w-sm">
                                         Leads contacted within 5 minutes are <span className="text-white">21 times more likely</span> to convert into paying customers. The average small business takes over 24 hours to follow up.
                                     </p>
                                 </div>
 
-                                <div className="mt-8 pt-6 border-t border-white/[0.06]">
+                                <div className="mt-6 pt-4 border-t border-white/[0.06]">
                                     <p className="font-mono text-xs text-zinc-600 leading-relaxed">
                                         Source: Lead Response Management Study, InsideSales.com
                                     </p>
@@ -610,14 +610,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
                 <div className="max-w-7xl mx-auto">
                     {/* Unified header */}
-                    <div className="text-center mb-10 md:mb-14">
+                    <div className="text-center mb-8 md:mb-10">
                         <ScrollReveal>
                             <SectionBadge text="Task Rig is" />
                             <h2 className="font-heading font-bold text-3xl md:text-4xl lg:text-5xl text-white uppercase tracking-tight">
                                 Smarter Than a Chatbot.
                             </h2>
-                            <p className="mt-5 text-zinc-400 font-mono text-base max-w-2xl mx-auto leading-relaxed">
-                                Task Rig doesn't just answer questions — it understands context, takes action, and learns your business. Watch it handle a real customer booking in real-time.
+                            <p className="mt-3 text-zinc-400 font-mono text-sm max-w-2xl mx-auto leading-relaxed">
+                                Task Rig doesn't just answer questions — it understands context, takes action, and learns your business.
                             </p>
                         </ScrollReveal>
                     </div>
@@ -631,20 +631,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-0">
 
                                 {/* ── LEFT PANEL: Features ── */}
-                                <div ref={featureSectionRef} className="lg:col-span-5 p-6 md:p-8 lg:p-10 flex flex-col">
+                                <div ref={featureSectionRef} className="lg:col-span-5 p-5 md:p-6 lg:p-7 flex flex-col">
                                     {/* Panel label */}
-                                    <div className="flex items-center gap-2 mb-6">
+                                    <div className="flex items-center gap-2 mb-4">
                                         <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
                                         <span className="font-mono text-orange-500 text-[10px] uppercase tracking-[0.2em]">How It Works</span>
                                     </div>
 
                                     {/* Vertical Tab Buttons */}
-                                    <div className="flex flex-row lg:flex-col gap-2 mb-6 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
+                                    <div className="flex flex-row lg:flex-col gap-1.5 mb-4 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
                                         {featureTabs.map((tab, i) => (
                                             <button
                                                 key={i}
                                                 onClick={() => handleFeatureClick(i)}
-                                                className={`relative flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-300 whitespace-nowrap flex-shrink-0 overflow-hidden ${activeFeature === i
+                                                className={`relative flex items-center gap-2.5 px-3 py-2 rounded-lg text-left transition-all duration-300 whitespace-nowrap flex-shrink-0 overflow-hidden ${activeFeature === i
                                                     ? 'border border-orange-500/30 shadow-[0_0_20px_rgba(255,106,21,0.06)]'
                                                     : 'bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04]'
                                                     }`}
@@ -657,19 +657,19 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                                         transformOrigin: 'left',
                                                     }}
                                                 />
-                                                <div className={`relative z-10 w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${activeFeature === i ? 'bg-orange-500/20' : 'bg-zinc-800/60'}`}>
-                                                    <tab.icon size={16} className={activeFeature === i ? 'text-orange-500' : 'text-zinc-500'} />
+                                                <div className={`relative z-10 w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 transition-colors ${activeFeature === i ? 'bg-orange-500/20' : 'bg-zinc-800/60'}`}>
+                                                    <tab.icon size={14} className={activeFeature === i ? 'text-orange-500' : 'text-zinc-500'} />
                                                 </div>
                                                 <div className="relative z-10">
-                                                    <div className={`font-heading font-bold text-sm uppercase tracking-wide transition-colors ${activeFeature === i ? 'text-white' : 'text-zinc-400'}`}>{tab.label}</div>
-                                                    <div className="text-[11px] font-mono text-zinc-600 hidden lg:block mt-0.5">{tab.title}</div>
+                                                    <div className={`font-heading font-bold text-xs uppercase tracking-wide transition-colors ${activeFeature === i ? 'text-white' : 'text-zinc-400'}`}>{tab.label}</div>
+                                                    <div className="text-[10px] font-mono text-zinc-600 hidden lg:block mt-0.5">{tab.title}</div>
                                                 </div>
                                             </button>
                                         ))}
                                     </div>
 
                                     {/* Active Feature Detail */}
-                                    <div className="flex-1 flex flex-col min-h-[320px]">
+                                    <div className="flex-1 flex flex-col">
                                         <AnimatePresence mode="wait">
                                             <motion.div
                                                 key={activeFeature}
@@ -679,12 +679,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                                                 className="flex-1 flex flex-col"
                                             >
-                                                <h3 className="font-heading font-bold text-xl md:text-2xl text-white uppercase tracking-tight mb-3">{featureTabs[activeFeature].title}</h3>
-                                                <p className="text-zinc-400 font-mono text-base leading-relaxed mb-5">{featureTabs[activeFeature].desc}</p>
+                                                <h3 className="font-heading font-bold text-lg md:text-xl text-white uppercase tracking-tight mb-2">{featureTabs[activeFeature].title}</h3>
+                                                <p className="text-zinc-400 font-mono text-sm leading-relaxed mb-4">{featureTabs[activeFeature].desc}</p>
 
                                                 {/* Visual preview */}
-                                                <div className="p-1 border border-white/5 rounded-lg bg-zinc-900/50 mb-5">
-                                                    <div className="p-4">
+                                                <div className="p-1 border border-white/5 rounded-lg bg-zinc-900/50 mb-4">
+                                                    <div className="p-3">
                                                         {featureTabs[activeFeature].visual}
                                                     </div>
                                                 </div>
@@ -725,9 +725,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                 </div>
 
                                 {/* ── RIGHT PANEL: Live Chat Demo ── */}
-                                <div className="lg:col-span-5 p-6 md:p-8 lg:p-10 flex flex-col">
+                                <div className="lg:col-span-5 p-5 md:p-6 lg:p-7 flex flex-col">
                                     {/* Panel label */}
-                                    <div className="flex items-center gap-2 mb-6">
+                                    <div className="flex items-center gap-2 mb-4">
                                         <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
                                         <span className="font-mono text-orange-500 text-[10px] uppercase tracking-[0.2em]">See It In Action</span>
                                     </div>
@@ -735,12 +735,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     {/* Chat window */}
                                     <div className="flex-1 flex flex-col border border-white/10 bg-white/[0.02] backdrop-blur-md rounded-xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.3)]">
                                         {/* Title bar */}
-                                        <div className="px-5 py-3 border-b border-white/5 flex items-center justify-between bg-zinc-900/40">
+                                        <div className="px-4 py-2.5 border-b border-white/5 flex items-center justify-between bg-zinc-900/40">
                                             <div className="flex items-center gap-3">
                                                 <div className="flex gap-1.5">
-                                                    <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-                                                    <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
-                                                    <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+                                                    <div className="w-2 h-2 rounded-full bg-zinc-700" />
+                                                    <div className="w-2 h-2 rounded-full bg-zinc-700" />
+                                                    <div className="w-2 h-2 rounded-full bg-zinc-700" />
                                                 </div>
                                                 <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider ml-2">Live Chat — Booking</span>
                                             </div>
@@ -750,7 +750,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             </div>
                                         </div>
                                         {/* Messages */}
-                                        <div className="p-5 space-y-3 flex-1 h-[360px] md:h-auto md:min-h-[360px]">
+                                        <div className="p-4 space-y-2.5 flex-1 h-[300px] md:h-auto md:min-h-[280px]">
                                             {chatMessages.map((msg, i) => (
                                                 <TypingBubble
                                                     key={i}
@@ -762,12 +762,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             ))}
                                         </div>
                                         {/* Input bar */}
-                                        <div className="px-5 py-3 border-t border-white/5 flex items-center gap-3 bg-zinc-900/20">
-                                            <div className="flex-1 h-9 rounded-md bg-zinc-800/40 border border-white/5 flex items-center px-3">
+                                        <div className="px-4 py-2.5 border-t border-white/5 flex items-center gap-3 bg-zinc-900/20">
+                                            <div className="flex-1 h-8 rounded-md bg-zinc-800/40 border border-white/5 flex items-center px-3">
                                                 <span className="text-zinc-600 font-mono text-xs">Type a message...</span>
                                             </div>
-                                            <div className="w-9 h-9 rounded-md bg-orange-500/10 flex items-center justify-center">
-                                                <Send size={14} className="text-orange-500" />
+                                            <div className="w-8 h-8 rounded-md bg-orange-500/10 flex items-center justify-center">
+                                                <Send size={13} className="text-orange-500" />
                                             </div>
                                         </div>
                                     </div>
