@@ -564,8 +564,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-orange-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                                         <div className="flex items-start gap-6 md:gap-8 p-5 md:p-7">
-                                            {/* Stat — fixed width so text columns align */}
-                                            <div className="flex-shrink-0 w-[5.5rem] md:w-[6.5rem] pt-1">
+                                            {/* Stat — fixed width, centered */}
+                                            <div className="flex-shrink-0 w-[5.5rem] md:w-[6.5rem] pt-1 text-center">
                                                 <div className="font-heading font-bold text-3xl md:text-4xl text-orange-500 tracking-tight leading-none">
                                                     <AnimatedCounter value={item.stat} duration={2} />
                                                 </div>
