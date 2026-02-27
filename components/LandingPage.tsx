@@ -546,15 +546,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                     source: 'Numa Business Phone Report',
                                 },
                                 {
-                                    stat: '$15,340',
+                                    stat: '$15k',
                                     title: 'Walking Out the Door',
                                     desc: 'is the average lifetime value of a single home service customer. One unanswered call doesn\'t just lose a job — it loses years of repeat revenue.',
                                     source: 'Mediagistic HVAC Industry Report',
                                 },
                                 {
                                     stat: '16',
-                                    suffix: ' hrs/wk',
-                                    title: 'Buried in Busywork',
+                                    title: 'Hours Per Week, Buried in Busywork',
                                     desc: 'is what the average owner spends on scheduling, reminders, follow-ups, and data entry. That\'s two full days a week not spent on billable work.',
                                     source: 'Time Etc Entrepreneur Survey',
                                 },
@@ -565,10 +564,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-orange-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                                         <div className="flex items-start gap-6 md:gap-8 p-5 md:p-7">
-                                            {/* Stat */}
-                                            <div className="flex-shrink-0 pt-1">
+                                            {/* Stat — fixed width so text columns align */}
+                                            <div className="flex-shrink-0 w-[5.5rem] md:w-[6.5rem] pt-1">
                                                 <div className="font-heading font-bold text-3xl md:text-4xl text-orange-500 tracking-tight leading-none">
-                                                    <AnimatedCounter value={item.stat + (item.suffix || '')} duration={2} />
+                                                    <AnimatedCounter value={item.stat} duration={2} />
                                                 </div>
                                             </div>
 
