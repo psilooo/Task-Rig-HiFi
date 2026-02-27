@@ -624,7 +624,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 SECTION 2+3: PRODUCT SHOWCASE — Features & Live Demo
                 Unified two-panel layout with shared visual container
             ════════════════════════════════════════════════════════════════ */}
-            <section className="py-10 md:py-14 px-4 md:px-6 relative z-10" ref={chatRef}>
+            <section className="py-8 md:py-10 px-4 md:px-6 relative z-10" ref={chatRef}>
                 {/* Ambient glow effects */}
                 <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/[0.03] blur-[180px] rounded-full pointer-events-none" />
                 <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
@@ -654,7 +654,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-0">
 
                                 {/* ── LEFT PANEL: Features ── */}
-                                <div ref={featureSectionRef} className="lg:col-span-5 p-5 md:p-6 lg:p-7 flex flex-col">
+                                <div ref={featureSectionRef} className="lg:col-span-5 p-4 md:p-5 lg:p-6 flex flex-col">
                                     {/* Panel label */}
                                     <div className="flex items-center gap-2 mb-4">
                                         <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
@@ -748,7 +748,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                 </div>
 
                                 {/* ── RIGHT PANEL: Live Chat Demo ── */}
-                                <div className="lg:col-span-5 p-5 md:p-6 lg:p-7 flex flex-col">
+                                <div className="lg:col-span-5 p-4 md:p-5 lg:p-6 flex flex-col">
                                     {/* Panel label */}
                                     <div className="flex items-center gap-2 mb-4">
                                         <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
