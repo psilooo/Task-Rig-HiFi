@@ -448,7 +448,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             {/* ════════════════════════════════════════════════════════════════
                 INTEGRATION PARTNERS — Tactical HUD marquee
             ════════════════════════════════════════════════════════════════ */}
-            <div className="relative z-10 bg-zinc-950 overflow-hidden border-y border-zinc-800/60">
+            <div className="relative z-10 bg-zinc-950 overflow-hidden">
                 {/* Top scan line */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/40 to-transparent" />
                 {/* Bottom scan line */}
@@ -487,8 +487,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <div className="marquee-track">
                                 <div className="marquee-content">
                                     {[...integrations, ...integrations].map((name, i) => (
-                                        <div key={i} className="flex items-center gap-2 px-4 md:px-5 flex-shrink-0 group/item">
-                                            <div className="w-px h-3 bg-zinc-700/60 flex-shrink-0" />
+                                        <div key={i} className="flex items-center px-4 md:px-5 flex-shrink-0 group/item">
                                             <div className="flex items-center gap-2 px-2 py-1 rounded-sm border border-transparent hover:border-orange-500/20 hover:bg-orange-500/[0.04] transition-all">
                                                 <div className="w-1 h-1 rounded-full bg-orange-500/50 group-hover/item:bg-orange-500 group-hover/item:shadow-[0_0_6px_rgba(249,115,22,0.6)] transition-all flex-shrink-0" />
                                                 <span className="font-mono text-[10px] md:text-[11px] text-zinc-500 group-hover/item:text-zinc-300 uppercase tracking-[0.15em] whitespace-nowrap transition-colors">{name}</span>
