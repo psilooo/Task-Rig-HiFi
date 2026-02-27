@@ -482,100 +482,114 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
 
 
             {/* ════════════════════════════════════════════════════════════════
-                PAIN POINTS — The cost of slow response
+                PAIN POINTS — What most businesses don't realize
             ════════════════════════════════════════════════════════════════ */}
             <section className="py-24 md:py-32 px-4 md:px-6 relative z-10">
                 {/* Ambient glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[400px] bg-orange-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
+                <div className="absolute top-1/3 left-1/4 w-[500px] h-[400px] bg-orange-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-16 md:mb-20">
+                    {/* Section header — left-aligned to match testimonials */}
+                    <div className="mb-16 md:mb-20">
                         <ScrollReveal>
-                            <SectionBadge text="The Problem" />
-                            <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight">
-                                Every Missed Interaction<br />
-                                <span className="text-zinc-500">Costs You</span>
+                            <SectionBadge text="The Reality" />
+                            <h2 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl text-white uppercase tracking-tight leading-[0.95]">
+                                What Happens While<br />
+                                <span className="text-zinc-500">You're on a Job</span>
                             </h2>
                         </ScrollReveal>
                     </div>
 
-                    <ScrollReveal>
-                        <div className="relative border border-white/[0.07] rounded-2xl bg-gradient-to-br from-white/[0.03] via-zinc-950/80 to-white/[0.02] backdrop-blur-sm overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.4)]">
-                            {/* Top glow line */}
-                            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
 
-                            <div className="grid grid-cols-1 lg:grid-cols-12">
-                                {/* ── LEFT: Hero stat ── */}
-                                <div className="lg:col-span-5 p-8 md:p-12 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-white/[0.06]">
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 16 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true, margin: '-60px' }}
-                                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                    >
-                                        <div className="flex items-center gap-2 mb-6">
-                                            <div className="w-2 h-2 rounded-full bg-orange-500" />
-                                            <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em]">Response Time</span>
-                                        </div>
-                                        <div className="font-heading font-bold text-7xl md:text-8xl lg:text-[7rem] text-orange-500 tracking-tight leading-none mb-4">
-                                            <AnimatedCounter value="21x" duration={2.5} />
-                                        </div>
-                                        <p className="font-mono text-base md:text-lg text-zinc-400 leading-relaxed max-w-sm">
-                                            Leads are 21x more likely to convert when contacted within 5 minutes. Most businesses take over 24 hours to respond.
-                                        </p>
-                                    </motion.div>
+                        {/* ── LEFT: Hero stat card ── */}
+                        <ScrollReveal className="lg:col-span-5">
+                            <div className="relative border border-white/[0.07] rounded-2xl bg-gradient-to-br from-white/[0.03] via-zinc-950/80 to-white/[0.02] backdrop-blur-sm overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.3)] h-full flex flex-col justify-between p-8 md:p-10 lg:p-12">
+                                {/* Top glow line */}
+                                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+
+                                {/* Corner accents */}
+                                <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-orange-500/20" />
+                                <div className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-orange-500/20" />
+
+                                <div>
+                                    <div className="flex items-center gap-2 mb-8">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                                        <span className="font-mono text-[10px] text-orange-500 uppercase tracking-[0.2em]">Speed to Lead</span>
+                                    </div>
+                                    <div className="font-heading font-bold text-7xl md:text-8xl lg:text-[7rem] text-orange-500 tracking-tight leading-none mb-6">
+                                        <AnimatedCounter value="21x" duration={2.5} />
+                                    </div>
+                                    <p className="font-mono text-base text-zinc-400 leading-[1.7] max-w-sm">
+                                        Leads contacted within 5 minutes are <span className="text-white">21 times more likely</span> to convert into paying customers. The average small business takes over 24 hours to follow up.
+                                    </p>
                                 </div>
 
-                                {/* ── RIGHT: Three supporting stats ── */}
-                                <div className="lg:col-span-7 flex flex-col divide-y divide-white/[0.06]">
-                                    {[
-                                        {
-                                            stat: '62%',
-                                            label: 'Calls Going Unanswered',
-                                            desc: 'of inbound calls to small businesses go straight to voicemail — and most of those callers never try again.',
-                                        },
-                                        {
-                                            stat: '$15,340',
-                                            label: 'At Stake Per Customer',
-                                            desc: 'is the average lifetime value of one home service customer. A single missed lead costs you years of repeat business.',
-                                        },
-                                        {
-                                            stat: '16',
-                                            suffix: ' hrs/wk',
-                                            label: 'Wasted on Admin',
-                                            desc: 'is what the average small business owner spends on scheduling, follow-ups, and data entry instead of growing their business.',
-                                        },
-                                    ].map((item, i) => (
-                                        <motion.div
-                                            key={i}
-                                            initial={{ opacity: 0, x: 20 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            viewport={{ once: true, margin: '-60px' }}
-                                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 + i * 0.1 }}
-                                            className="flex items-start gap-6 md:gap-8 p-6 md:p-8 group hover:bg-white/[0.02] transition-colors"
-                                        >
-                                            <div className="flex-shrink-0 w-24 md:w-28">
-                                                <div className="font-heading font-bold text-3xl md:text-4xl text-orange-500 tracking-tight">
+                                <div className="mt-8 pt-6 border-t border-white/[0.06]">
+                                    <p className="font-mono text-xs text-zinc-600 leading-relaxed">
+                                        Source: Lead Response Management Study, InsideSales.com
+                                    </p>
+                                </div>
+
+                                {/* Bottom glow line */}
+                                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
+                            </div>
+                        </ScrollReveal>
+
+                        {/* ── RIGHT: Three supporting stat cards ── */}
+                        <div className="lg:col-span-7 flex flex-col gap-4 md:gap-5">
+                            {[
+                                {
+                                    stat: '62%',
+                                    title: 'Missed While You Work',
+                                    desc: 'of inbound calls to small businesses go unanswered. Most of those callers won\'t leave a voicemail — they\'ll call a competitor who picks up.',
+                                    source: 'Numa Business Phone Report',
+                                },
+                                {
+                                    stat: '$15,340',
+                                    title: 'Walking Out the Door',
+                                    desc: 'is the average lifetime value of a single home service customer. One unanswered call doesn\'t just lose a job — it loses years of repeat revenue.',
+                                    source: 'Mediagistic HVAC Industry Report',
+                                },
+                                {
+                                    stat: '16',
+                                    suffix: ' hrs/wk',
+                                    title: 'Buried in Busywork',
+                                    desc: 'is what the average owner spends on scheduling, reminders, follow-ups, and data entry. That\'s two full days a week not spent on billable work.',
+                                    source: 'Time Etc Entrepreneur Survey',
+                                },
+                            ].map((item, i) => (
+                                <ScrollReveal key={i} delay={i * 0.1}>
+                                    <div className="relative border border-white/[0.07] rounded-xl bg-gradient-to-br from-white/[0.02] to-transparent backdrop-blur-sm overflow-hidden group hover:border-white/[0.12] transition-all duration-500">
+                                        {/* Top accent */}
+                                        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-orange-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                        <div className="flex items-start gap-6 md:gap-8 p-5 md:p-7">
+                                            {/* Stat */}
+                                            <div className="flex-shrink-0 pt-1">
+                                                <div className="font-heading font-bold text-3xl md:text-4xl text-orange-500 tracking-tight leading-none">
                                                     <AnimatedCounter value={item.stat + (item.suffix || '')} duration={2} />
                                                 </div>
                                             </div>
+
+                                            {/* Content */}
                                             <div className="flex-1 min-w-0">
-                                                <div className="font-heading font-bold text-sm text-white uppercase tracking-wide mb-1.5">
-                                                    {item.label}
+                                                <div className="font-heading font-bold text-sm text-white uppercase tracking-wide mb-2">
+                                                    {item.title}
                                                 </div>
-                                                <p className="font-mono text-sm text-zinc-500 leading-relaxed">
+                                                <p className="font-mono text-[13px] text-zinc-500 leading-[1.7]">
                                                     {item.desc}
                                                 </p>
+                                                <p className="font-mono text-[10px] text-zinc-700 mt-3">
+                                                    {item.source}
+                                                </p>
                                             </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Bottom glow line */}
-                            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
+                                        </div>
+                                    </div>
+                                </ScrollReveal>
+                            ))}
                         </div>
-                    </ScrollReveal>
+                    </div>
                 </div>
             </section>
 
