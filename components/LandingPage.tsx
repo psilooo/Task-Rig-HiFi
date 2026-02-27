@@ -1052,9 +1052,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                         <Link to="/get-started" className="no-underline block w-full focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 rounded-[8px]">
                                             <div className={`block w-full py-[14px] rounded-[8px] font-mono text-[12px] font-bold tracking-[0.12em] uppercase text-center transition-all cursor-pointer ${isFeatured
                                                 ? 'bg-orange-500 text-white shadow-[0_4px_24px_rgba(245,98,15,0.25)] hover:bg-orange-600 hover:shadow-[0_4px_32px_rgba(245,98,15,0.55)] hover:-translate-y-px border-none'
-                                                : tier.name === 'Enterprise'
-                                                    ? 'bg-transparent border border-zinc-700 text-zinc-500 hover:border-zinc-500 hover:text-zinc-200'
-                                                    : 'bg-transparent border border-zinc-700 text-zinc-200 hover:border-white hover:text-white hover:bg-white/[0.04]'
+                                                : 'bg-transparent border border-orange-500/40 text-orange-400 shadow-[0_0_12px_rgba(249,115,22,0.15)] hover:border-orange-500/70 hover:text-orange-300 hover:shadow-[0_0_20px_rgba(249,115,22,0.3)]'
                                                 }`}>
                                                 {tier.ctaText}
                                             </div>
