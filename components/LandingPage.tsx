@@ -1115,7 +1115,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     </div>
 
                     {/* FAQ grid — two-column on desktop */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 items-start gap-3 md:gap-4 mb-8 md:mb-10">
                         {faqItems.map((item, i) => (
                             <ScrollReveal key={i} delay={i * 0.05}>
                                 <div
