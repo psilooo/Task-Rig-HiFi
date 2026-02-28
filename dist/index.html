@@ -146,6 +146,34 @@
       100% { transform: translateX(-50%); }
     }
 
+    /* Orbiting glow for Premium pricing card */
+    @keyframes border-rotate {
+      0% { --border-angle: 0deg; }
+      100% { --border-angle: 360deg; }
+    }
+
+    @property --border-angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    .glow-border {
+      --border-angle: 0deg;
+      animation: border-rotate 4s linear infinite;
+      background:
+        conic-gradient(from var(--border-angle), transparent 50%, rgba(249,115,22,0.5) 75%, rgba(255,106,21,0.8) 88%, rgba(249,115,22,0.5) 100%) border-box;
+      border: 3px solid transparent;
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      mask-composite: exclude;
+    }
+
     @keyframes connector-dot {
       0% { top: -4px; opacity: 0; }
       15% { opacity: 1; }
@@ -175,7 +203,8 @@
       .marquee-content,
       .animate-pulse,
       .animate-spin,
-      [class*="animate-scan"] {
+      [class*="animate-scan"],
+      .glow-border {
         animation: none !important;
       }
     }
@@ -197,7 +226,7 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/assets/index-CVutfrZO.js"></script>
+  <script type="module" crossorigin src="/assets/index-TPpupWdH.js"></script>
 </head>
 
 <body>
