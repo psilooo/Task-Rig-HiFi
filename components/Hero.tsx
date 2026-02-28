@@ -90,9 +90,9 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                             <Link
                                 to="/get-started"
-                                className="relative w-full sm:w-auto px-14 py-4 bg-[#FF6A15] hover:bg-[#ff853f] text-black font-mono font-bold text-sm uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_20px_rgba(255,106,21,0.25)] hover:shadow-[0_0_30px_rgba(255,106,21,0.4)] flex justify-center items-center gap-3 no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
+                                className="relative overflow-hidden w-full sm:w-auto px-14 py-4 bg-orange-500 hover:bg-orange-600 text-white font-mono font-bold text-sm uppercase tracking-widest transition-all group rounded-sm shadow-[0_0_20px_rgba(249,115,22,0.25)] hover:shadow-[0_0_30px_rgba(249,115,22,0.4)] flex justify-center items-center gap-3 no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
                             >
-                                <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
+                                <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none"></div>
                                 <span className="relative z-10 flex items-center gap-2">
                                     GET STARTED
                                     <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">

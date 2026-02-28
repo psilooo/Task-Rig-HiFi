@@ -1207,9 +1207,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative">
                                 <Link
                                     to="/get-started"
-                                    className="relative w-full sm:w-auto px-14 py-4 bg-orange-500 hover:bg-orange-400 text-black font-mono font-bold text-sm uppercase tracking-widest transition-all group clip-path-slant shadow-[0_0_25px_rgba(249,115,22,0.25)] hover:shadow-[0_0_35px_rgba(249,115,22,0.45)] no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 flex justify-center items-center gap-3"
+                                    className="relative overflow-hidden w-full sm:w-auto px-14 py-4 bg-orange-500 hover:bg-orange-600 text-white font-mono font-bold text-sm uppercase tracking-widest transition-all group rounded-sm shadow-[0_0_25px_rgba(249,115,22,0.25)] hover:shadow-[0_0_35px_rgba(249,115,22,0.45)] no-underline focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 flex justify-center items-center gap-3"
                                 >
-                                    <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
+                                    <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
                                     <span className="relative z-10 flex items-center gap-2">
                                         GET STARTED
                                         <svg width="14" height="10" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5 opacity-80 group-hover:opacity-100">
@@ -1219,9 +1219,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                 </Link>
                                 <a
                                     href="tel:+18442222486"
-                                    className="text-zinc-400 hover:text-orange-500 font-mono text-xs uppercase tracking-widest transition-colors flex items-center gap-2 py-2 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
+                                    className="relative overflow-hidden w-full sm:w-auto px-10 py-3.5 border border-zinc-700 hover:border-orange-500/40 text-zinc-300 hover:text-white font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-sm no-underline flex justify-center items-center focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950"
                                 >
-                                    <Phone size={14} />
                                     Or Call Our Demo Line
                                 </a>
                             </div>
