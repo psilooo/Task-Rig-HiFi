@@ -42,7 +42,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 </div>
 
                 {/* Gear logo */}
-                <div className="mix-blend-screen opacity-90 scale-[1.5] -translate-x-[15%]">
+                <div className="mix-blend-screen opacity-90 scale-[2.0] -translate-x-[25%]">
                     <DotMatrixLogo />
                 </div>
             </div>
