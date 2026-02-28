@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    ArrowLeft, ArrowRight, Search, MapPin, Phone, Mail, User, Users, Building2,
+    ArrowLeft, Search, MapPin, Phone, Mail, User, Users, Building2,
     Check, Wrench, Calendar, MessageSquare, CreditCard, BarChart3,
-    Bot, Zap, Globe, Shield, Clock, Send, Star, Sparkles,
+    Bot, Zap, Globe, Shield, Clock, Star, Sparkles,
     FileText, Heart, Truck, Home, Hammer, Briefcase, Stethoscope,
-    Car, UtensilsCrossed, Scissors, PaintBucket, TreePine, Cog, ChevronDown
+    Car, UtensilsCrossed, Scissors, PaintBucket, TreePine, Cog, ChevronDown,
+    Terminal, ChevronRight
 } from 'lucide-react';
 import { TaskRigLogo } from './ui/TaskRigLogo';
 import { DynamicNoise } from './DynamicNoise';
@@ -65,14 +66,12 @@ interface PlaceDetails {
 
 // ─── CONSTANTS ────────────────────────────────────────────────────
 
-const TOTAL_STEPS = 5;
-
-const STEP_META = [
-    { label: 'Business', tag: '/// Identify', icon: Building2 },
-    { label: 'Industry', tag: '/// Industry', icon: Briefcase },
-    { label: 'Challenges', tag: '/// Challenges', icon: Zap },
-    { label: 'Scale', tag: '/// Scale', icon: BarChart3 },
-    { label: 'Connect', tag: '/// Get in touch', icon: Send },
+const PHASES = [
+    { num: 1, code: 'SYS_INIT', title: 'Business Identification', prompt: '> SCANNING BUSINESS RECORDS...' },
+    { num: 2, code: 'OPS_CONFIG', title: 'Operations Profile', prompt: '> LOADING INDUSTRY DATABASE...' },
+    { num: 3, code: 'SYS_DIAG', title: 'System Diagnostics', prompt: '> RUNNING SYSTEM DIAGNOSTICS...' },
+    { num: 4, code: 'SCALE_CAL', title: 'Capacity Parameters', prompt: '> CALIBRATING SCALE PARAMETERS...' },
+    { num: 5, code: 'OP_LINK', title: 'Operator Registration', prompt: '> PREPARING SECURE LINK...' },
 ];
 
 const INDUSTRIES = [
@@ -109,6 +108,11 @@ const PAIN_POINTS = [
     { id: 'customer-followup', label: 'Customer follow-up', icon: MessageSquare },
     { id: 'data-silos', label: 'Data spread across tools', icon: BarChart3 },
     { id: 'hiring', label: 'Hard to hire/retain staff', icon: Users },
+];
+
+const CURRENT_TOOLS_OPTIONS = [
+    'Spreadsheets', 'Google Workspace', 'QuickBooks', 'ServiceTitan',
+    'Housecall Pro', 'Jobber', 'None / Manual', 'Other',
 ];
 
 const INTEGRATIONS = [
@@ -154,243 +158,438 @@ const INDUSTRY_SERVICES: Record<string, string[]> = {
     'moving': ['Local Moves', 'Long Distance', 'Packing', 'Storage', 'Junk Removal', 'Commercial'],
 };
 
-// ─── ANIMATIONS ───────────────────────────────────────────────────
+const DEPLOYMENT_LINES = [
+    '> Compiling business profile...',
+    '> Initializing AI agent core...',
+    '> Loading industry knowledge base...',
+    '> Configuring integration endpoints...',
+    '> Calibrating response algorithms...',
+    '> Running pre-flight diagnostics...',
+    '> All systems nominal.',
+    '',
+    '██████████████████████████████ 100%',
+    '',
+    'DEPLOYMENT SUCCESSFUL',
+];
 
-const slideVariants = {
-    enter: (direction: number) => ({
-        x: direction > 0 ? 80 : -80,
-        opacity: 0,
-        filter: 'blur(4px)',
-    }),
-    center: {
-        x: 0,
-        opacity: 1,
-        filter: 'blur(0px)',
-    },
-    exit: (direction: number) => ({
-        x: direction < 0 ? 80 : -80,
-        opacity: 0,
-        filter: 'blur(4px)',
-    }),
-};
+// ─── HOOKS ────────────────────────────────────────────────────────
 
-const springTransition = {
-    type: 'spring' as const,
-    stiffness: 300,
-    damping: 30,
-    opacity: { duration: 0.3, ease: 'easeOut' },
-    filter: { duration: 0.3, ease: 'easeOut' },
-};
+function useTypingEffect(text: string, enabled: boolean, speed = 25): { displayText: string; isComplete: boolean } {
+    const [displayText, setDisplayText] = useState('');
+    const [isComplete, setIsComplete] = useState(false);
 
-const staggerChildren = {
+    useEffect(() => {
+        if (!enabled) {
+            setDisplayText('');
+            setIsComplete(false);
+            return;
+        }
+        let i = 0;
+        setDisplayText('');
+        setIsComplete(false);
+        const interval = setInterval(() => {
+            i++;
+            setDisplayText(text.slice(0, i));
+            if (i >= text.length) {
+                clearInterval(interval);
+                setIsComplete(true);
+            }
+        }, speed);
+        return () => clearInterval(interval);
+    }, [text, enabled, speed]);
+
+    return { displayText, isComplete };
+}
+
+// ─── ANIMATION VARIANTS ──────────────────────────────────────────
+
+const staggerContainer = {
     hidden: { opacity: 0 },
     show: {
         opacity: 1,
-        transition: { staggerChildren: 0.04 },
+        transition: { staggerChildren: 0.03 },
     },
 };
 
-const fadeInUp = {
-    hidden: { opacity: 0, y: 12 },
+const staggerItem = {
+    hidden: { opacity: 0, y: 8 },
     show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } },
 };
 
-// ─── SUBCOMPONENTS ────────────────────────────────────────────────
+// ─── TERMINAL SUBCOMPONENTS ──────────────────────────────────────
 
-const StepLabel: React.FC<{ tag: string; title: string; subtitle: string }> = ({ tag, title, subtitle }) => (
-    <div className="mb-6 md:mb-8">
-        {tag && <span className="font-mono text-orange-500 text-[10px] uppercase tracking-[0.2em] mb-2 block">{tag}</span>}
-        <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl text-white uppercase tracking-tight mb-2 leading-[1.1]">
-            {title}
-        </h2>
-        <p className="font-mono text-sm sm:text-base text-zinc-500 leading-relaxed max-w-lg">
-            {subtitle}
-        </p>
+const TerminalTitleBar: React.FC<{ completedPhases: Set<number>; activePhase: number }> = ({ completedPhases, activePhase }) => (
+    <div className="flex items-center justify-between px-4 py-2.5 border-b border-zinc-800/60 bg-zinc-900/60">
+        <div className="flex items-center gap-3">
+            <div className="flex gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
+            </div>
+            <div className="flex items-center gap-2">
+                <Terminal size={12} className="text-zinc-500" />
+                <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em] hidden sm:inline">
+                    TASKRIG // SYSTEM DEPLOYMENT
+                </span>
+                <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em] sm:hidden">
+                    SYS DEPLOY
+                </span>
+            </div>
+        </div>
+        <div className="flex items-center gap-2">
+            {/* Mobile: horizontal status dots */}
+            <div className="flex lg:hidden items-center gap-1.5">
+                {PHASES.map(p => (
+                    <div
+                        key={p.num}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                            completedPhases.has(p.num)
+                                ? 'bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.4)]'
+                                : p.num === activePhase
+                                    ? 'bg-orange-500 shadow-[0_0_6px_rgba(249,115,22,0.4)] animate-pulse'
+                                    : 'bg-zinc-700'
+                        }`}
+                    />
+                ))}
+            </div>
+            <span className="font-mono text-[9px] text-zinc-600 uppercase tracking-wider">v2.1.0</span>
+        </div>
     </div>
 );
 
-const ChipButton: React.FC<{
-    selected: boolean;
+const DeploymentPipeline: React.FC<{
+    activePhase: number;
+    completedPhases: Set<number>;
+    onPhaseClick: (phase: number) => void;
+}> = ({ activePhase, completedPhases, onPhaseClick }) => (
+    <div className="hidden lg:flex flex-col w-48 shrink-0 sticky top-24 self-start">
+        <div className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em] mb-4 px-1">
+            Deployment Pipeline
+        </div>
+        <div className="space-y-1">
+            {PHASES.map((phase, i) => {
+                const isComplete = completedPhases.has(phase.num);
+                const isActive = phase.num === activePhase;
+                const isAccessible = isComplete || isActive;
+                return (
+                    <React.Fragment key={phase.num}>
+                        <button
+                            onClick={() => isAccessible && onPhaseClick(phase.num)}
+                            disabled={!isAccessible}
+                            className={`w-full text-left px-3 py-2.5 rounded transition-all duration-200 group ${
+                                isActive
+                                    ? 'bg-orange-500/[0.08] border border-orange-500/30'
+                                    : isComplete
+                                        ? 'bg-emerald-500/[0.05] border border-emerald-500/20 hover:bg-emerald-500/[0.08] cursor-pointer'
+                                        : 'bg-zinc-900/30 border border-zinc-800/30 opacity-40 cursor-not-allowed'
+                            }`}
+                        >
+                            <div className="flex items-center gap-2 mb-0.5">
+                                <div className={`w-1.5 h-1.5 rounded-full ${
+                                    isComplete ? 'bg-emerald-500' : isActive ? 'bg-orange-500 animate-pulse' : 'bg-zinc-700'
+                                }`} />
+                                <span className={`font-mono text-[9px] uppercase tracking-wider ${
+                                    isComplete ? 'text-emerald-400' : isActive ? 'text-orange-400' : 'text-zinc-600'
+                                }`}>
+                                    {phase.code}
+                                </span>
+                            </div>
+                            <div className={`font-mono text-[10px] pl-3.5 ${
+                                isComplete ? 'text-zinc-400' : isActive ? 'text-zinc-300' : 'text-zinc-700'
+                            }`}>
+                                {phase.title}
+                            </div>
+                        </button>
+                        {i < PHASES.length - 1 && (
+                            <div className="flex justify-center py-0.5">
+                                <div className={`w-px h-3 ${
+                                    completedPhases.has(phase.num) ? 'bg-emerald-500/40' : 'bg-zinc-800/40'
+                                }`} />
+                            </div>
+                        )}
+                    </React.Fragment>
+                );
+            })}
+        </div>
+    </div>
+);
+
+const PhaseStatusBadge: React.FC<{ status: 'pending' | 'active' | 'complete' }> = ({ status }) => {
+    const styles = {
+        pending: 'text-zinc-500 border-zinc-700',
+        active: 'text-orange-400 border-orange-500/40 animate-pulse',
+        complete: 'text-emerald-400 border-emerald-500/40',
+    };
+    const labels = { pending: 'PENDING', active: 'ACTIVE', complete: 'COMPLETE' };
+    return (
+        <span className={`font-mono text-[9px] uppercase tracking-wider border px-2 py-0.5 rounded ${styles[status]}`}>
+            [ {labels[status]} ]
+        </span>
+    );
+};
+
+const TerminalPrompt: React.FC<{ text: string; enabled: boolean; onComplete?: () => void }> = ({ text, enabled, onComplete }) => {
+    const { displayText, isComplete } = useTypingEffect(text, enabled);
+
+    useEffect(() => {
+        if (isComplete && onComplete) onComplete();
+    }, [isComplete, onComplete]);
+
+    if (!enabled) return null;
+
+    return (
+        <div className="font-mono text-sm text-emerald-400/80 mb-4 flex items-center">
+            <span>{displayText}</span>
+            {!isComplete && <span className="ml-0.5 animate-pulse">|</span>}
+        </div>
+    );
+};
+
+const SystemLogMessage: React.FC<{ message: string; delay?: number }> = ({ message, delay = 0 }) => (
+    <motion.div
+        initial={{ opacity: 0, x: -8 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3, delay }}
+        className="font-mono text-[11px] text-zinc-500 flex items-center gap-2 py-0.5"
+    >
+        <Check size={10} className="text-emerald-500 shrink-0" />
+        <span>{message}</span>
+    </motion.div>
+);
+
+const ScanLineTransition: React.FC<{ active: boolean }> = ({ active }) => (
+    <AnimatePresence>
+        {active && (
+            <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                exit={{ scaleX: 0, opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="h-px bg-gradient-to-r from-transparent via-orange-500/60 to-transparent origin-left my-3"
+            />
+        )}
+    </AnimatePresence>
+);
+
+const CollapsedPhaseSummary: React.FC<{
+    phase: typeof PHASES[number];
+    summary: string;
     onClick: () => void;
-    icon?: React.ElementType;
-    label: string;
-    desc?: string;
-    size?: 'sm' | 'md';
-}> = ({ selected, onClick, icon: Icon, label, desc, size = 'md' }) => (
+}> = ({ phase, summary, onClick }) => (
     <button
         onClick={onClick}
-        className={`group text-left transition-all duration-200 rounded-md border flex items-center gap-3 w-full ${size === 'sm' ? 'px-3 py-2' : 'px-4 py-3'
-            } ${selected
-                ? 'border-orange-500/50 bg-orange-500/[0.08] shadow-[0_0_12px_rgba(249,115,22,0.1)]'
-                : 'border-zinc-800 bg-zinc-950/40 hover:border-zinc-700 hover:bg-zinc-900/40'
-            }`}
+        className="w-full text-left px-4 py-3 border-l-2 border-emerald-500/50 bg-emerald-500/[0.03] hover:bg-emerald-500/[0.06] transition-all group rounded-r"
     >
-        {Icon && (
-            <div className={`w-8 h-8 rounded flex items-center justify-center shrink-0 transition-colors ${selected ? 'bg-orange-500/15' : 'bg-zinc-800/80 group-hover:bg-zinc-800'
-                }`}>
-                <Icon size={14} className={selected ? 'text-orange-500' : 'text-zinc-500 group-hover:text-zinc-400'} />
+        <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 min-w-0">
+                <PhaseStatusBadge status="complete" />
+                <span className="font-mono text-[11px] text-emerald-400 uppercase tracking-wider">{phase.code}</span>
+                <span className="font-mono text-[11px] text-zinc-500 truncate hidden sm:inline">// {summary}</span>
             </div>
-        )}
-        <div className="flex-1 min-w-0">
-            <div className={`font-mono text-sm uppercase tracking-wider ${selected ? 'text-orange-400' : 'text-zinc-300'}`}>
-                {label}
-            </div>
-            {desc && <div className="font-mono text-xs text-zinc-600 mt-0.5">{desc}</div>}
-        </div>
-        <div className="shrink-0 w-4 h-4 flex items-center justify-center">
-            {selected && (
-                <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="w-4 h-4 rounded-full bg-orange-500 flex items-center justify-center"
-                >
-                    <Check size={10} className="text-black" />
-                </motion.div>
-            )}
+            <ChevronDown size={14} className="text-zinc-600 group-hover:text-zinc-400 transition-colors shrink-0" />
         </div>
     </button>
 );
 
-const InputField: React.FC<{
+// ─── FORM PRIMITIVES ─────────────────────────────────────────────
+
+const TerminalInputField: React.FC<{
     label: string;
     value: string;
     onChange: (v: string) => void;
     placeholder?: string;
     type?: string;
     required?: boolean;
-    icon?: React.ElementType;
-}> = ({ label, value, onChange, placeholder, type = 'text', required, icon: Icon }) => (
+    error?: string;
+}> = ({ label, value, onChange, placeholder, type = 'text', required, error }) => (
     <div>
-        <label className="block font-mono text-xs text-zinc-500 uppercase tracking-[0.15em] mb-2">
-            {label} {required && <span className="text-orange-500/60">*</span>}
+        <label className="block font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] mb-1.5">
+            // {label.toUpperCase().replace(/\s/g, '_')} {required && <span className="text-orange-500/60">*</span>}
         </label>
         <div className="relative">
-            {Icon && (
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <Icon size={14} className="text-zinc-600" />
-                </div>
-            )}
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-zinc-600 text-sm pointer-events-none">&gt;</span>
             <input
                 type={type}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className={`w-full bg-zinc-950/60 border border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.08)] py-3 font-mono text-base text-white placeholder:text-zinc-700 outline-none transition-all rounded-md ${Icon ? 'pl-10 pr-4' : 'px-4'}`}
+                className="w-full bg-transparent border-b border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.06)] pl-8 pr-4 py-2.5 font-mono text-sm text-white placeholder:text-zinc-700 outline-none transition-all"
             />
+        </div>
+        {error && <p className="text-red-400 font-mono text-[10px] mt-1">{error}</p>}
+    </div>
+);
+
+const TerminalChipButton: React.FC<{
+    selected: boolean;
+    onClick: () => void;
+    icon?: React.ElementType;
+    label: string;
+    desc?: string;
+}> = ({ selected, onClick, icon: Icon, label, desc }) => (
+    <button
+        onClick={onClick}
+        className={`group text-left transition-all duration-200 border flex items-center gap-2.5 w-full px-3 py-2 ${
+            selected
+                ? 'border-orange-500/40 bg-orange-500/[0.06]'
+                : 'border-zinc-800/60 bg-zinc-900/20 hover:border-zinc-700 hover:bg-zinc-800/30'
+        }`}
+    >
+        <span className={`font-mono text-[10px] shrink-0 ${selected ? 'text-orange-400' : 'text-zinc-600'}`}>
+            {selected ? '>' : ' '}
+        </span>
+        {Icon && <Icon size={13} className={selected ? 'text-orange-500' : 'text-zinc-600 group-hover:text-zinc-400'} />}
+        <div className="flex-1 min-w-0">
+            <span className={`font-mono text-[11px] uppercase tracking-wider ${selected ? 'text-orange-400' : 'text-zinc-400'}`}>
+                {label}
+            </span>
+            {desc && <span className="font-mono text-[10px] text-zinc-600 ml-2 hidden sm:inline">{desc}</span>}
+        </div>
+        <span className={`font-mono text-[10px] shrink-0 ${selected ? 'text-orange-500' : 'text-zinc-700'}`}>
+            {selected ? '[x]' : '[ ]'}
+        </span>
+    </button>
+);
+
+const TerminalCheckbox: React.FC<{
+    checked: boolean;
+    onChange: (v: boolean) => void;
+    label: string;
+}> = ({ checked, onChange, label }) => (
+    <button
+        onClick={() => onChange(!checked)}
+        className="flex items-start gap-3 group text-left w-full"
+    >
+        <span className={`font-mono text-sm mt-0.5 shrink-0 ${checked ? 'text-orange-500' : 'text-zinc-600 group-hover:text-zinc-400'}`}>
+            {checked ? '[x]' : '[ ]'}
+        </span>
+        <span className="text-zinc-500 font-mono text-[11px] leading-relaxed flex-1">
+            {label}
+        </span>
+    </button>
+);
+
+const TerminalSelect: React.FC<{
+    label: string;
+    value: string;
+    options: string[];
+    onChange: (v: string) => void;
+    required?: boolean;
+    icon?: React.ElementType;
+}> = ({ label, value, options, onChange, required, icon: Icon }) => (
+    <div>
+        <div className="flex items-center gap-2 mb-2">
+            {Icon && (
+                <div className="w-5 h-5 rounded bg-orange-500/10 flex items-center justify-center">
+                    <Icon size={10} className="text-orange-500" />
+                </div>
+            )}
+            <label className="font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em]">
+                // {label.toUpperCase().replace(/\s/g, '_')} {required && <span className="text-orange-500/60">*</span>}
+            </label>
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+            {options.map((opt) => (
+                <button
+                    key={opt}
+                    onClick={() => onChange(opt)}
+                    className={`px-3 py-1.5 font-mono text-[11px] border transition-all duration-200 ${
+                        value === opt
+                            ? 'border-orange-500/40 bg-orange-500/10 text-orange-400'
+                            : 'border-zinc-800/60 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                    }`}
+                >
+                    {value === opt && <span className="mr-1">&gt;</span>}{opt}
+                </button>
+            ))}
         </div>
     </div>
 );
 
-const InsightCard: React.FC<{ industry: string }> = ({ industry }) => {
-    const insights: Record<string, { stat: string; label: string; tip: string }> = {
-        'hvac': { stat: '67%', label: 'of HVAC calls go unanswered after hours', tip: 'TaskRig AI answers every call 24/7 — even at 2 AM.' },
-        'plumbing': { stat: '43%', label: 'of plumbing leads are lost to slow response', tip: 'Average response time with TaskRig: under 30 seconds.' },
-        'electrical': { stat: '52%', label: 'of electricians lose jobs to faster competitors', tip: 'Auto-scheduling puts you first in line, every time.' },
-        'roofing': { stat: '71%', label: 'of storm damage calls happen outside business hours', tip: 'Never miss a high-value emergency lead again.' },
-        'landscaping': { stat: '38%', label: 'of landscaping inquiries need same-day quotes', tip: 'AI generates instant estimates while you work.' },
-        'construction': { stat: '55%', label: 'of contractors say admin is their biggest bottleneck', tip: 'Automate scheduling, invoicing, and follow-ups.' },
-        'cleaning': { stat: '60%', label: 'of cleaning companies struggle with no-shows', tip: 'Automated reminders reduce no-shows by 80%.' },
-        'healthcare': { stat: '45%', label: 'of patient calls result in voicemail', tip: 'AI handles intake, scheduling, and triage 24/7.' },
-        'dental': { stat: '34%', label: 'of dental appointments are missed without reminders', tip: 'Smart reminders via SMS reduce cancellations.' },
-        'legal': { stat: '48%', label: 'of legal intake calls go unanswered', tip: 'AI screens and qualifies leads before your team sees them.' },
-        'real-estate': { stat: '62%', label: 'of real estate leads expect a response within 5 min', tip: 'Instant AI response captures leads competitors miss.' },
-        'auto-repair': { stat: '41%', label: 'of auto repair shops rely solely on phone bookings', tip: 'Multi-channel booking catches every customer.' },
-        'pest-control': { stat: '58%', label: 'of pest control leads call during active infestations', tip: 'Instant AI response books the emergency visit before they call a competitor.' },
-        'general-contracting': { stat: '46%', label: 'of GCs lose bids due to slow follow-up', tip: 'Automated estimates and scheduling keep you first in line.' },
-        'moving': { stat: '64%', label: 'of movers book with the first company that answers', tip: 'AI answers instantly and books the quote — even at midnight.' },
-    };
+// ─── PHASE CONTENT COMPONENTS ────────────────────────────────────
 
-    const data = insights[industry] || { stat: '73%', label: 'of service businesses lose leads to slow response', tip: 'TaskRig responds in under 30 seconds, 24/7.' };
+const PhaseConfirmButton: React.FC<{ enabled: boolean; onClick: () => void; isLast?: boolean }> = ({ enabled, onClick, isLast }) => (
+    <button
+        onClick={onClick}
+        disabled={!enabled}
+        className={`group relative mt-6 w-full sm:w-auto px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest transition-all overflow-hidden ${
+            isLast ? 'clip-path-slant' : ''
+        } ${
+            enabled
+                ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
+                : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
+        }`}
+    >
+        {enabled && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
+        <span className="relative z-10 flex items-center justify-center gap-2">
+            {isLast ? (
+                <><ChevronRight size={14} /> DEPLOY SYSTEM</>
+            ) : (
+                <><Check size={14} /> CONFIRM PHASE</>
+            )}
+        </span>
+    </button>
+);
 
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-6 p-4 md:p-5 border border-orange-500/20 bg-orange-500/[0.04] rounded-lg relative overflow-hidden"
-        >
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/40 to-transparent" />
-            <div className="flex items-center gap-2 mb-3">
-                <Sparkles size={12} className="text-orange-500" />
-                <span className="font-mono text-[9px] text-orange-500/80 uppercase tracking-[0.2em]">Industry Insight</span>
-            </div>
-            <div className="flex items-baseline gap-2 mb-1">
-                <span className="font-heading font-bold text-2xl md:text-3xl text-orange-400">{data.stat}</span>
-                <span className="font-mono text-xs text-zinc-400">{data.label}</span>
-            </div>
-            <p className="font-mono text-[11px] text-zinc-500 mt-2 leading-relaxed">
-                {data.tip}
-            </p>
-        </motion.div>
-    );
-};
+// ─── PHASE SUMMARIES ─────────────────────────────────────────────
 
-const ValuePreview: React.FC<{ leadData: LeadData }> = ({ leadData }) => {
-    const selectedIntegrations = INTEGRATIONS.filter(i => leadData.desiredIntegrations.includes(i.id));
-    const selectedPains = PAIN_POINTS.filter(p => leadData.painPoints.includes(p.id));
+function getPhaseSummary(phase: number, data: LeadData): string {
+    switch (phase) {
+        case 1:
+            return data.businessName || 'No business';
+        case 2: {
+            const names = data.industries.map(id => INDUSTRIES.find(i => i.id === id)?.label).filter(Boolean);
+            return names.length > 0 ? names.join(', ') : 'No industry';
+        }
+        case 3:
+            return `${data.painPoints.length} issues, ${data.desiredIntegrations.length} integrations`;
+        case 4:
+            return data.teamSize ? `Team: ${data.teamSize}` : 'Not configured';
+        case 5:
+            return data.contactName || 'No contact';
+        default:
+            return '';
+    }
+}
 
-    if (selectedPains.length === 0 && selectedIntegrations.length === 0) return null;
+function getPhaseLogMessages(phase: number, data: LeadData): string[] {
+    switch (phase) {
+        case 1:
+            return [
+                `Business verified${data.businessRating ? ` — ${data.businessRating} stars` : ''}`,
+                data.businessAddress ? `Location: ${data.businessAddress.split(',')[0]}` : 'Location pending manual entry',
+            ];
+        case 2: {
+            const names = data.industries.map(id => INDUSTRIES.find(i => i.id === id)?.label).filter(Boolean);
+            return [
+                `Industry profile loaded: ${names.join(', ')}`,
+                data.services.length > 0 ? `${data.services.length} services configured` : 'Service catalog ready',
+            ];
+        }
+        case 3:
+            return [
+                `${data.painPoints.length} pain points identified`,
+                `${data.desiredIntegrations.length} integrations queued`,
+            ];
+        case 4:
+            return [
+                `Scale: ${data.teamSize || 'TBD'} operators`,
+                data.monthlyCallVolume ? `Volume: ${data.monthlyCallVolume}` : 'Volume calibration complete',
+            ];
+        case 5:
+            return [
+                `Operator registered: ${data.contactName}`,
+                `Contact channel: ${data.preferredContactMethod}`,
+            ];
+        default:
+            return [];
+    }
+}
 
-    return (
-        <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            className="mt-6 border border-zinc-800/60 bg-zinc-900/30 rounded-lg overflow-hidden"
-        >
-            <div className="px-4 py-3 border-b border-zinc-800/40 flex items-center gap-2">
-                <Bot size={12} className="text-orange-500" />
-                <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">Your TaskRig Setup Preview</span>
-            </div>
-            <div className="p-4 space-y-3">
-                {selectedPains.length > 0 && (
-                    <div>
-                        <div className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em] mb-2">Solving For</div>
-                        <div className="flex flex-wrap gap-1.5">
-                            {selectedPains.map(p => (
-                                <span key={p.id} className="px-2 py-1 bg-orange-500/10 border border-orange-500/20 text-orange-400 font-mono text-[10px] rounded">
-                                    {p.label}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                )}
-                {selectedIntegrations.length > 0 && (
-                    <div>
-                        <div className="font-mono text-[9px] text-zinc-600 uppercase tracking-[0.2em] mb-2">Integrations</div>
-                        <div className="flex flex-wrap gap-1.5">
-                            {selectedIntegrations.map(i => (
-                                <span key={i.id} className="px-2 py-1 bg-zinc-800/80 border border-zinc-700/50 text-zinc-300 font-mono text-[10px] rounded">
-                                    {i.label}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
-        </motion.div>
-    );
-};
-
-// ─── MAIN COMPONENT ───────────────────────────────────────────────
+// ─── MAIN COMPONENT ──────────────────────────────────────────────
 
 export const GetStartedPage: React.FC = () => {
-    const [step, setStep] = useState(1);
-    const [direction, setDirection] = useState(1);
-    const [submitted, setSubmitted] = useState(false);
-
-    // Google Places
-    const [searchQuery, setSearchQuery] = useState('');
-    const [predictions, setPredictions] = useState<PlacePrediction[]>([]);
-    const [selectedPlace, setSelectedPlace] = useState<PlaceDetails | null>(null);
-    const [isSearching, setIsSearching] = useState(false);
-    const [showPredictions, setShowPredictions] = useState(false);
-    const [showManualEntry, setShowManualEntry] = useState(false);
-    const searchRef = useRef<HTMLDivElement>(null);
-    const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
-
-    const [emailError, setEmailError] = useState('');
-    const [phoneError, setPhoneError] = useState('');
-
+    // Existing data state
     const [data, setData] = useState<LeadData>({
         businessName: '',
         businessAddress: '',
@@ -417,6 +616,35 @@ export const GetStartedPage: React.FC = () => {
         consentMarketing: false,
         consentTransactional: false,
     });
+
+    // Terminal phase state
+    const [activePhase, setActivePhase] = useState(1);
+    const [completedPhases, setCompletedPhases] = useState<Set<number>>(new Set());
+    const [expandedPhases, setExpandedPhases] = useState<Set<number>>(new Set([1]));
+    const [phaseTypingComplete, setPhaseTypingComplete] = useState<Record<number, boolean>>({});
+    const [phaseHasBeenExpanded, setPhaseHasBeenExpanded] = useState<Set<number>>(new Set([1]));
+    const [isDeploying, setIsDeploying] = useState(false);
+    const [deploymentComplete, setDeploymentComplete] = useState(false);
+    const [deploymentLogLines, setDeploymentLogLines] = useState<string[]>([]);
+    const [showScanLine, setShowScanLine] = useState(false);
+
+    // Google Places state
+    const [searchQuery, setSearchQuery] = useState('');
+    const [predictions, setPredictions] = useState<PlacePrediction[]>([]);
+    const [selectedPlace, setSelectedPlace] = useState<PlaceDetails | null>(null);
+    const [isSearching, setIsSearching] = useState(false);
+    const [showPredictions, setShowPredictions] = useState(false);
+    const [showManualEntry, setShowManualEntry] = useState(false);
+    const searchRef = useRef<HTMLDivElement>(null);
+    const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+
+    // Validation
+    const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+
+    // Refs
+    const phaseRefs = useRef<Record<number, HTMLDivElement | null>>({});
+    const deployLogRef = useRef<HTMLDivElement>(null);
 
     const update = useCallback((partial: Partial<LeadData>) => {
         setData(prev => ({ ...prev, ...partial }));
@@ -473,7 +701,6 @@ export const GetStartedPage: React.FC = () => {
                     }
                 );
             } else {
-                // Demo fallback when Google Maps is not loaded
                 setPredictions([
                     {
                         place_id: 'demo-1',
@@ -562,76 +789,7 @@ export const GetStartedPage: React.FC = () => {
         });
     };
 
-    // ─── NAVIGATION ───────────────────────────────────────────────
-
-    const scrollToTop = useCallback(() => {
-        requestAnimationFrame(() => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }, []);
-
-    const goNext = () => {
-        if (step === 5) {
-            let hasError = false;
-            if (data.contactEmail.trim() !== '' && !validateEmail(data.contactEmail)) {
-                setEmailError('Please enter a valid email address.');
-                hasError = true;
-            } else {
-                setEmailError('');
-            }
-            if (data.contactPhone.trim() !== '' && !validatePhone(data.contactPhone)) {
-                setPhoneError('Please enter a phone number with at least 10 digits.');
-                hasError = true;
-            } else {
-                setPhoneError('');
-            }
-            if (hasError) return;
-        }
-        if (step < TOTAL_STEPS) {
-            setDirection(1);
-            setStep(step + 1);
-            scrollToTop();
-        }
-    };
-
-    const goBack = () => {
-        if (step > 1) {
-            setDirection(-1);
-            setStep(step - 1);
-            scrollToTop();
-        }
-    };
-
-    const handleSubmit = () => {
-        let hasError = false;
-        if (!validateEmail(data.contactEmail)) {
-            setEmailError('Please enter a valid email address.');
-            hasError = true;
-        } else {
-            setEmailError('');
-        }
-        if (!validatePhone(data.contactPhone)) {
-            setPhoneError('Please enter a phone number with at least 10 digits.');
-            hasError = true;
-        } else {
-            setPhoneError('');
-        }
-        if (hasError) return;
-
-        const payload = {
-            ...data,
-            submittedAt: new Date().toISOString(),
-            source: 'get-started-wizard',
-            utmSource: new URLSearchParams(window.location.search).get('utm_source') || '',
-            utmMedium: new URLSearchParams(window.location.search).get('utm_medium') || '',
-            utmCampaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
-        };
-
-        // Ready to POST to API endpoint
-        console.log('[TaskRig Lead Capture]', JSON.stringify(payload, null, 2));
-        setSubmitted(true);
-        scrollToTop();
-    };
+    // ─── VALIDATION ───────────────────────────────────────────────
 
     const validateEmail = (email: string): boolean => {
         const trimmed = email.trim();
@@ -643,8 +801,10 @@ export const GetStartedPage: React.FC = () => {
         return digits.length >= 10;
     };
 
-    const canAdvance = (): boolean => {
-        switch (step) {
+    // ─── PHASE NAVIGATION ─────────────────────────────────────────
+
+    const canConfirmPhase = (phase: number): boolean => {
+        switch (phase) {
             case 1: return data.businessName.trim() !== '';
             case 2: return data.industries.length > 0;
             case 3: return data.painPoints.length > 0;
@@ -661,116 +821,108 @@ export const GetStartedPage: React.FC = () => {
         }
     };
 
-    // ─── SUBMITTED STATE ──────────────────────────────────────────
+    const confirmPhase = (phase: number) => {
+        if (phase === 5) {
+            let hasError = false;
+            if (!validateEmail(data.contactEmail)) {
+                setEmailError('Please enter a valid email address.');
+                hasError = true;
+            } else {
+                setEmailError('');
+            }
+            if (!validatePhone(data.contactPhone)) {
+                setPhoneError('Please enter a phone number with at least 10 digits.');
+                hasError = true;
+            } else {
+                setPhoneError('');
+            }
+            if (hasError) return;
+        }
 
-    if (submitted) {
-        return (
-            <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30 flex flex-col">
-                <div className="fixed inset-0 pointer-events-none z-0">
-                    <DynamicNoise opacity={0.06} />
-                </div>
-                <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
+        // Mark phase complete, collapse it
+        setCompletedPhases(prev => new Set(prev).add(phase));
+        setExpandedPhases(prev => {
+            const next = new Set(prev);
+            next.delete(phase);
+            return next;
+        });
 
-                <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-14 md:h-20">
-                    <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex items-center">
-                        <Link to="/" className="flex items-center gap-2 md:gap-3 no-underline">
-                            <TaskRigLogo className="h-5 md:h-8 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
-                            <div className="font-heading font-bold text-base md:text-2xl tracking-tight text-white">TASK RIG</div>
-                        </Link>
-                    </div>
-                </nav>
+        // Show scan line
+        setShowScanLine(true);
+        setTimeout(() => setShowScanLine(false), 500);
 
-                <div className="flex-1 flex items-center justify-center relative z-10 pt-20 px-4">
-                    <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-center max-w-lg mx-auto"
-                    >
-                        <motion.div
-                            initial={{ scale: 0, rotate: -180 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.2 }}
-                            className="w-20 h-20 mx-auto mb-8 rounded-full bg-orange-500/10 border border-orange-500/30 flex items-center justify-center shadow-[0_0_30px_rgba(249,115,22,0.15)]"
-                        >
-                            <Check className="text-orange-500" size={36} />
-                        </motion.div>
+        if (phase < 5) {
+            const nextPhase = phase + 1;
+            setActivePhase(nextPhase);
+            setExpandedPhases(prev => new Set(prev).add(nextPhase));
+            setPhaseHasBeenExpanded(prev => new Set(prev).add(nextPhase));
 
-                        <h1 className="font-heading font-bold text-3xl md:text-5xl text-white uppercase tracking-tight mb-4">
-                            Profile Complete
-                        </h1>
-                        <p className="font-mono text-sm text-zinc-400 leading-relaxed mb-4">
-                            We've built a custom TaskRig deployment profile for <span className="text-orange-400">{data.businessName || 'your business'}</span>.
-                        </p>
-                        <p className="font-mono text-xs text-zinc-500 leading-relaxed mb-10">
-                            A deployment specialist will reach out within 24 hours to walk you through your personalized setup and get you live.
-                        </p>
+            // Scroll to next phase
+            setTimeout(() => {
+                phaseRefs.current[nextPhase]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    };
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-                            <a
-                                href="tel:+18442222486"
-                                className="group relative w-full sm:w-auto px-8 py-3.5 bg-orange-500 hover:bg-orange-600 text-black font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md shadow-[0_0_25px_rgba(249,115,22,0.25)] hover:shadow-[0_0_40px_rgba(249,115,22,0.35)] flex items-center justify-center gap-2 no-underline overflow-hidden"
-                            >
-                                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
-                                <span className="relative z-10 flex items-center gap-2">
-                                    <Phone size={16} />
-                                    Call Now
-                                </span>
-                            </a>
-                            <a
-                                href="tel:+18442222486"
-                                className="w-full sm:w-auto px-8 py-3.5 border border-zinc-700 hover:border-orange-500/40 text-zinc-300 hover:text-white font-heading font-bold uppercase tracking-widest text-sm transition-all rounded-md flex items-center justify-center gap-2 no-underline"
-                            >
-                                <Calendar size={16} />
-                                Schedule a Call
-                            </a>
-                        </div>
+    const togglePhaseExpand = (phase: number) => {
+        if (!completedPhases.has(phase) && phase !== activePhase) return;
+        setExpandedPhases(prev => {
+            const next = new Set(prev);
+            if (next.has(phase)) {
+                next.delete(phase);
+            } else {
+                next.add(phase);
+                setPhaseHasBeenExpanded(p => new Set(p).add(phase));
+            }
+            return next;
+        });
+    };
 
-                        <div className="text-left border border-zinc-800/60 bg-zinc-900/30 rounded-lg overflow-hidden">
-                            <div className="px-5 py-3 border-b border-zinc-800/40 flex items-center gap-2">
-                                <FileText size={16} className="text-orange-500" />
-                                <span className="font-mono text-xs text-zinc-400 uppercase tracking-[0.15em]">Your Deployment Summary</span>
-                            </div>
-                            <div className="p-5 space-y-3 font-mono text-sm">
-                                {data.businessName && (
-                                    <div className="flex justify-between"><span className="text-zinc-500">Business</span><span className="text-zinc-300">{data.businessName}</span></div>
-                                )}
-                                {data.industries.length > 0 && (
-                                    <div className="flex justify-between"><span className="text-zinc-500">Industry</span><span className="text-zinc-300">{data.industries.map(id => INDUSTRIES.find(i => i.id === id)?.label || data.customIndustry).join(', ')}</span></div>
-                                )}
-                                {data.teamSize && (
-                                    <div className="flex justify-between"><span className="text-zinc-500">Team Size</span><span className="text-zinc-300">{data.teamSize}</span></div>
-                                )}
-                                {data.desiredIntegrations.length > 0 && (
-                                    <div className="flex justify-between"><span className="text-zinc-500">Integrations</span><span className="text-zinc-300">{data.desiredIntegrations.length} selected</span></div>
-                                )}
-                                {data.painPoints.length > 0 && (
-                                    <div className="flex justify-between"><span className="text-zinc-500">Focus Areas</span><span className="text-zinc-300">{data.painPoints.length} identified</span></div>
-                                )}
-                            </div>
-                        </div>
+    // ─── DEPLOY ────────────────────────────────────────────────────
 
-                        <div className="mt-10">
-                            <Link to="/" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 font-mono text-xs uppercase tracking-widest transition-colors no-underline">
-                                <ArrowLeft size={14} />
-                                Back to Home
-                            </Link>
-                        </div>
-                    </motion.div>
-                </div>
-            </div>
-        );
-    }
+    const handleDeploy = () => {
+        const payload = {
+            ...data,
+            submittedAt: new Date().toISOString(),
+            source: 'get-started-wizard',
+            utmSource: new URLSearchParams(window.location.search).get('utm_source') || '',
+            utmMedium: new URLSearchParams(window.location.search).get('utm_medium') || '',
+            utmCampaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
+        };
 
-    // ─── WIZARD ───────────────────────────────────────────────────
+        console.log('[TaskRig Lead Capture]', JSON.stringify(payload, null, 2));
+        setIsDeploying(true);
+
+        // Type deployment lines one by one
+        let lineIndex = 0;
+        const typeLine = () => {
+            if (lineIndex < DEPLOYMENT_LINES.length) {
+                setDeploymentLogLines(prev => [...prev, DEPLOYMENT_LINES[lineIndex]]);
+                lineIndex++;
+                // Scroll to bottom of log
+                setTimeout(() => {
+                    deployLogRef.current?.scrollTo({ top: deployLogRef.current.scrollHeight, behavior: 'smooth' });
+                }, 50);
+                setTimeout(typeLine, lineIndex === DEPLOYMENT_LINES.length ? 500 : 300 + Math.random() * 200);
+            } else {
+                setDeploymentComplete(true);
+            }
+        };
+        setTimeout(typeLine, 500);
+    };
+
+    const allPhasesComplete = completedPhases.size === 5;
+
+    // ─── RENDER ────────────────────────────────────────────────────
 
     return (
         <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30 flex flex-col">
+            {/* Background layers */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <DynamicNoise opacity={0.06} />
             </div>
-            <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
-            <div className="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] bg-orange-600/[0.03] blur-[120px] rounded-full pointer-events-none z-0"></div>
+            <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0" />
+            <div className="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] bg-orange-600/[0.03] blur-[120px] rounded-full pointer-events-none z-0" />
 
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-14 md:h-20">
@@ -784,668 +936,336 @@ export const GetStartedPage: React.FC = () => {
 
             {/* Main Content */}
             <div className="flex-1 relative z-10 pt-16 md:pt-24 pb-8 md:pb-16 px-4 md:px-6">
-                <div className="w-full max-w-3xl mx-auto mb-2 md:mb-4">
-                    <Link to="/" className="group inline-flex items-center gap-1.5 md:gap-2 py-2 text-zinc-400 hover:text-white font-mono text-[10px] md:text-xs uppercase tracking-widest transition-colors no-underline">
-                        <ArrowLeft size={12} className="text-zinc-500 group-hover:text-orange-500 transition-colors md:[&]:w-[14px] md:[&]:h-[14px]" />
-                        <span className="hidden sm:inline">Back to Home</span>
-                    </Link>
-                </div>
-                <div className="w-full max-w-3xl mx-auto">
-
-                    {/* Progress Bar */}
-                    <div className="mb-6 md:mb-8">
-                        <div className="flex items-center justify-between mb-3">
-                            {STEP_META.map((s, i) => {
-                                const stepNum = i + 1;
-                                const isActive = stepNum === step;
-                                const isComplete = stepNum < step;
-                                const StepIcon = s.icon;
-                                return (
-                                    <React.Fragment key={i}>
-                                        <div className="flex items-center gap-1.5 md:gap-2">
-                                            <div className={`w-6 h-6 md:w-7 md:h-7 rounded-md flex items-center justify-center transition-all duration-300 ${isActive
-                                                ? 'bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.3)]'
-                                                : isComplete
-                                                    ? 'bg-orange-500/20 border border-orange-500/30'
-                                                    : 'bg-zinc-900 border border-zinc-800'
-                                                }`}>
-                                                {isComplete ? (
-                                                    <Check size={12} className="text-orange-500" />
-                                                ) : (
-                                                    <StepIcon size={12} className={isActive ? 'text-black' : 'text-zinc-600'} />
-                                                )}
-                                            </div>
-                                            <span className={`hidden md:block font-mono text-[10px] uppercase tracking-wider transition-colors ${isActive ? 'text-orange-400' : isComplete ? 'text-zinc-500' : 'text-zinc-700'
-                                                }`}>
-                                                {s.label}
-                                            </span>
-                                        </div>
-                                        {i < STEP_META.length - 1 && (
-                                            <div className={`w-4 md:w-8 lg:w-12 h-px mx-1 md:mx-2 transition-colors ${stepNum < step ? 'bg-orange-500/40' : 'bg-zinc-800'
-                                                }`} />
-                                        )}
-                                    </React.Fragment>
-                                );
-                            })}
-                        </div>
-                        <div className="h-[2px] bg-zinc-800 relative overflow-hidden rounded-full">
-                            <motion.div
-                                className="absolute inset-y-0 left-0 bg-gradient-to-r from-orange-600 to-orange-400 rounded-full"
-                                initial={false}
-                                animate={{ width: `${(step / TOTAL_STEPS) * 100}%` }}
-                                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                            />
-                        </div>
-                        <div className="flex justify-between mt-2">
-                            <span className="font-mono text-[10px] text-zinc-600 uppercase tracking-widest">
-                                Step {step} of {TOTAL_STEPS}
-                            </span>
-                            <span className="font-mono text-[10px] text-zinc-700 uppercase tracking-widest">
-                                {STEP_META[step - 1].label}
-                            </span>
-                        </div>
+                <div className="max-w-5xl mx-auto">
+                    {/* Back link */}
+                    <div className="mb-4">
+                        <Link to="/" className="group inline-flex items-center gap-1.5 py-2 text-zinc-400 hover:text-white font-mono text-[10px] md:text-xs uppercase tracking-widest transition-colors no-underline">
+                            <ArrowLeft size={12} className="text-zinc-500 group-hover:text-orange-500 transition-colors" />
+                            <span className="hidden sm:inline">Back to Home</span>
+                        </Link>
                     </div>
 
-                    {/* Social Proof */}
-                    <div className="flex items-center justify-center gap-4 mb-6">
-                        <div className="flex gap-0.5">
-                            {[1,2,3,4,5].map(s => (
-                                <svg key={s} width="12" height="12" viewBox="0 0 24 24" fill="#FF6A15"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
-                            ))}
-                        </div>
-                        <span className="font-mono text-[11px] text-zinc-500">Trusted by 2,400+ businesses</span>
-                    </div>
+                    {/* Layout: Pipeline + Terminal */}
+                    <div className="flex gap-8">
+                        {/* Sidebar Pipeline (desktop) */}
+                        <DeploymentPipeline
+                            activePhase={activePhase}
+                            completedPhases={completedPhases}
+                            onPhaseClick={(p) => {
+                                togglePhaseExpand(p);
+                                setTimeout(() => {
+                                    phaseRefs.current[p]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }, 100);
+                            }}
+                        />
 
-                    {/* Step Content Container */}
-                    <div className="relative border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm rounded-lg shadow-2xl shadow-black/30 overflow-hidden">
-                        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
-                        <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-orange-500/30" />
-                        <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-orange-500/30" />
+                        {/* Terminal Panel */}
+                        <div className="flex-1 max-w-3xl">
+                            <div className="border border-zinc-800/50 bg-zinc-900/20 backdrop-blur-sm rounded-lg shadow-2xl shadow-black/30 overflow-hidden relative">
+                                {/* Corner brackets */}
+                                <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-orange-500/30 z-10" />
+                                <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-orange-500/30 z-10" />
+                                <div className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-orange-500/30 z-10" />
+                                <div className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-orange-500/30 z-10" />
 
-                        <div className="p-5 sm:p-6 md:p-8 lg:p-10 min-h-[450px] md:min-h-[500px] flex flex-col">
-                            <AnimatePresence mode="wait" custom={direction}>
-                                {/* STEP 1: Business Lookup */}
-                                {step === 1 && (
-                                    <motion.div key="step1" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
-                                        <StepLabel tag={STEP_META[0].tag} title="Find Your Business" subtitle="Search for your business to auto-fill your details, or enter manually." />
+                                {/* Title Bar */}
+                                <TerminalTitleBar completedPhases={completedPhases} activePhase={activePhase} />
 
-                                        <div ref={searchRef} className="relative mb-6">
-                                            <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-2">
-                                                Business Name <span className="text-orange-500/60">*</span>
-                                            </label>
-                                            <div className="relative">
-                                                <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                                                    {isSearching ? (
-                                                        <div className="w-4 h-4 border-2 border-orange-500/50 border-t-transparent rounded-full animate-spin" />
-                                                    ) : (
-                                                        <Search size={14} className="text-zinc-600" />
-                                                    )}
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    value={selectedPlace ? data.businessName : searchQuery}
-                                                    onChange={(e) => {
-                                                        if (selectedPlace) {
-                                                            clearPlace();
-                                                            setSearchQuery(e.target.value);
-                                                        } else {
-                                                            handleSearchInput(e.target.value);
-                                                        }
-                                                    }}
-                                                    onFocus={() => !selectedPlace && setShowPredictions(true)}
-                                                    placeholder="Search for your business..."
-                                                    className="w-full bg-zinc-950/60 border border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.08)] pl-10 pr-4 py-3 font-mono text-base text-white placeholder:text-zinc-700 outline-none transition-all rounded-md"
-                                                />
-                                            </div>
+                                {/* Terminal Body */}
+                                <div className="p-4 sm:p-5 md:p-6 space-y-3">
+                                    {/* Phase Sections */}
+                                    {PHASES.map((phase) => {
+                                        const isComplete = completedPhases.has(phase.num);
+                                        const isExpanded = expandedPhases.has(phase.num);
+                                        const isActive = phase.num === activePhase;
+                                        const isAccessible = isComplete || isActive;
+                                        const hasBeenExpanded = phaseHasBeenExpanded.has(phase.num);
 
-                                            <AnimatePresence>
-                                                {showPredictions && predictions.length > 0 && !selectedPlace && (
-                                                    <motion.div
-                                                        initial={{ opacity: 0, y: -4 }}
-                                                        animate={{ opacity: 1, y: 0 }}
-                                                        exit={{ opacity: 0, y: -4 }}
-                                                        className="absolute top-full left-0 right-0 mt-1 border border-zinc-700 bg-zinc-900 rounded-md shadow-xl z-20 overflow-hidden"
-                                                    >
-                                                        {predictions.map((p) => (
-                                                            <button
-                                                                key={p.place_id}
-                                                                onClick={() => selectPlace(p)}
-                                                                className="w-full text-left px-4 py-3 hover:bg-zinc-800/60 transition-colors border-b border-zinc-800/50 last:border-0 flex items-start gap-3"
-                                                            >
-                                                                <MapPin size={14} className="text-orange-500 mt-0.5 shrink-0" />
-                                                                <div>
-                                                                    <div className="font-mono text-sm text-white">{p.structured_formatting.main_text}</div>
-                                                                    <div className="font-mono text-[11px] text-zinc-500 mt-0.5">{p.structured_formatting.secondary_text}</div>
-                                                                </div>
-                                                            </button>
-                                                        ))}
-                                                    </motion.div>
+                                        if (!isAccessible) return null;
+
+                                        return (
+                                            <div
+                                                key={phase.num}
+                                                ref={(el) => { phaseRefs.current[phase.num] = el; }}
+                                                className="scroll-mt-24"
+                                            >
+                                                {/* Collapsed summary */}
+                                                {isComplete && !isExpanded && (
+                                                    <>
+                                                        <CollapsedPhaseSummary
+                                                            phase={phase}
+                                                            summary={getPhaseSummary(phase.num, data)}
+                                                            onClick={() => togglePhaseExpand(phase.num)}
+                                                        />
+                                                        {/* Log messages after collapsed phase */}
+                                                        <div className="pl-4 py-1 space-y-0.5">
+                                                            {getPhaseLogMessages(phase.num, data).map((msg, i) => (
+                                                                <SystemLogMessage key={i} message={msg} />
+                                                            ))}
+                                                        </div>
+                                                    </>
                                                 )}
-                                            </AnimatePresence>
-                                        </div>
 
-                                        <AnimatePresence>
-                                            {selectedPlace && (
-                                                <motion.div initial={{ opacity: 0, y: 8, height: 0 }} animate={{ opacity: 1, y: 0, height: 'auto' }} exit={{ opacity: 0, y: -8, height: 0 }} className="mb-6 overflow-hidden">
-                                                    <div className="p-4 border border-orange-500/30 bg-orange-500/[0.04] rounded-lg relative">
-                                                        <button onClick={clearPlace} className="absolute top-3 right-3 text-zinc-500 hover:text-white text-xs font-mono uppercase tracking-widest transition-colors">Change</button>
-                                                        <div className="flex items-center gap-2 mb-3">
-                                                            <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                                                            <span className="font-mono text-[9px] text-emerald-500 uppercase tracking-[0.2em]">Business Found</span>
-                                                        </div>
-                                                        <div className="font-heading font-bold text-lg text-white uppercase tracking-wide mb-1">{selectedPlace.name}</div>
-                                                        <div className="font-mono text-xs text-zinc-400 flex items-center gap-1.5 mb-1">
-                                                            <MapPin size={11} className="text-zinc-500" />
-                                                            {selectedPlace.formatted_address}
-                                                        </div>
-                                                        {selectedPlace.formatted_phone_number && (
-                                                            <div className="font-mono text-xs text-zinc-400 flex items-center gap-1.5 mb-1">
-                                                                <Phone size={11} className="text-zinc-500" />
-                                                                {selectedPlace.formatted_phone_number}
-                                                            </div>
-                                                        )}
-                                                        {selectedPlace.rating && (
-                                                            <div className="flex items-center gap-1.5 mt-2">
-                                                                {[...Array(5)].map((_, i) => (
-                                                                    <Star key={i} size={12} className={i < Math.round(selectedPlace.rating!) ? 'text-orange-500 fill-orange-500' : 'text-zinc-700'} />
-                                                                ))}
-                                                                <span className="font-mono text-xs text-zinc-400 ml-1">{selectedPlace.rating}</span>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-
-                                        {!selectedPlace && (
-                                            <div>
-                                                <button
-                                                    onClick={() => setShowManualEntry(!showManualEntry)}
-                                                    className="flex items-center gap-2 font-mono text-[11px] text-zinc-500 hover:text-zinc-300 uppercase tracking-widest transition-colors mt-2"
-                                                >
-                                                    <ChevronDown size={14} className={`transition-transform duration-200 ${showManualEntry ? 'rotate-180' : ''}`} />
-                                                    Or enter manually
-                                                </button>
+                                                {/* Expanded phase */}
                                                 <AnimatePresence>
-                                                    {showManualEntry && (
+                                                    {isExpanded && (
                                                         <motion.div
                                                             initial={{ height: 0, opacity: 0 }}
                                                             animate={{ height: 'auto', opacity: 1 }}
                                                             exit={{ height: 0, opacity: 0 }}
-                                                            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                                                            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                                                             className="overflow-hidden"
                                                         >
-                                                            <div className="space-y-4 pt-4">
-                                                                <InputField label="Business Name" value={data.businessName} onChange={(v) => update({ businessName: v })} placeholder="Acme HVAC Services" required icon={Building2} />
-                                                                <InputField label="Business Address" value={data.businessAddress} onChange={(v) => update({ businessAddress: v })} placeholder="123 Main St, City, State" icon={MapPin} />
-                                                                <InputField label="Business Phone" value={data.businessPhone} onChange={(v) => update({ businessPhone: v })} placeholder="+1 (555) 000-0000" type="tel" icon={Phone} />
+                                                            <div className="border border-zinc-800/40 bg-zinc-950/30 rounded p-4 sm:p-5">
+                                                                {/* Phase header */}
+                                                                <div className="flex items-center justify-between mb-3">
+                                                                    <div className="flex items-center gap-3">
+                                                                        <PhaseStatusBadge status={isComplete ? 'complete' : 'active'} />
+                                                                        <span className="font-mono text-[11px] text-zinc-300 uppercase tracking-wider">{phase.code}</span>
+                                                                    </div>
+                                                                    {isComplete && (
+                                                                        <button
+                                                                            onClick={() => togglePhaseExpand(phase.num)}
+                                                                            className="font-mono text-[10px] text-zinc-600 hover:text-zinc-400 uppercase tracking-widest transition-colors"
+                                                                        >
+                                                                            Collapse
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+
+                                                                {/* Typing prompt — only plays on first expansion */}
+                                                                {!hasBeenExpanded || (isActive && !phaseTypingComplete[phase.num]) ? (
+                                                                    <TerminalPrompt
+                                                                        text={phase.prompt}
+                                                                        enabled={true}
+                                                                        onComplete={() => setPhaseTypingComplete(prev => ({ ...prev, [phase.num]: true }))}
+                                                                    />
+                                                                ) : (
+                                                                    <div className="font-mono text-sm text-emerald-400/80 mb-4">
+                                                                        {phase.prompt}
+                                                                    </div>
+                                                                )}
+
+                                                                {/* Phase title */}
+                                                                <h3 className="font-heading font-bold text-lg sm:text-xl text-white uppercase tracking-tight mb-4">
+                                                                    {phase.title}
+                                                                </h3>
+
+                                                                {/* Phase form content */}
+                                                                {(phaseTypingComplete[phase.num] || hasBeenExpanded) && (
+                                                                    <motion.div
+                                                                        variants={staggerContainer}
+                                                                        initial={hasBeenExpanded ? 'show' : 'hidden'}
+                                                                        animate="show"
+                                                                    >
+                                                                        {phase.num === 1 && <Phase1Content data={data} update={update} searchQuery={searchQuery} handleSearchInput={handleSearchInput} selectedPlace={selectedPlace} selectPlace={selectPlace} clearPlace={clearPlace} predictions={predictions} showPredictions={showPredictions} isSearching={isSearching} searchRef={searchRef} showManualEntry={showManualEntry} setShowManualEntry={setShowManualEntry} setShowPredictions={setShowPredictions} />}
+                                                                        {phase.num === 2 && <Phase2Content data={data} update={update} toggleArrayItem={toggleArrayItem} />}
+                                                                        {phase.num === 3 && <Phase3Content data={data} toggleArrayItem={toggleArrayItem} />}
+                                                                        {phase.num === 4 && <Phase4Content data={data} update={update} />}
+                                                                        {phase.num === 5 && <Phase5Content data={data} update={update} emailError={emailError} phoneError={phoneError} setEmailError={setEmailError} setPhoneError={setPhoneError} />}
+
+                                                                        {/* Confirm / Deploy button */}
+                                                                        {!isComplete && (
+                                                                            <motion.div variants={staggerItem}>
+                                                                                {phase.num === 5 && allPhasesComplete ? null : (
+                                                                                    <PhaseConfirmButton
+                                                                                        enabled={canConfirmPhase(phase.num)}
+                                                                                        onClick={() => {
+                                                                                            if (phase.num === 5) {
+                                                                                                confirmPhase(5);
+                                                                                            } else {
+                                                                                                confirmPhase(phase.num);
+                                                                                            }
+                                                                                        }}
+                                                                                        isLast={phase.num === 5}
+                                                                                    />
+                                                                                )}
+                                                                            </motion.div>
+                                                                        )}
+                                                                    </motion.div>
+                                                                )}
                                                             </div>
                                                         </motion.div>
                                                     )}
                                                 </AnimatePresence>
+
+                                                {/* Scan line between phases */}
+                                                {isComplete && !isExpanded && phase.num < 5 && (
+                                                    <ScanLineTransition active={showScanLine && phase.num === activePhase - 1} />
+                                                )}
                                             </div>
-                                        )}
-                                    </motion.div>
-                                )}
+                                        );
+                                    })}
 
-                                {/* STEP 2: Industry & Services */}
-                                {step === 2 && (
-                                    <motion.div key="step2" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
-                                        <StepLabel tag={STEP_META[1].tag} title="What's your industry?" subtitle="This helps us customize your AI agent's knowledge base and integrations." />
-
-                                        <motion.div variants={staggerChildren} initial="hidden" animate="show" className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 mb-6">
-                                            {INDUSTRIES.map((ind) => {
-                                                const Icon = ind.icon;
-                                                const isSelected = data.industries.includes(ind.id);
-                                                return (
-                                                    <motion.button
-                                                        key={ind.id}
-                                                        variants={fadeInUp}
-                                                        onClick={() => {
-                                                            const current = data.industries;
-                                                            if (current.includes(ind.id)) {
-                                                                update({ industries: current.filter(id => id !== ind.id) });
-                                                            } else {
-                                                                update({ industries: [...current, ind.id] });
-                                                            }
-                                                        }}
-                                                        className={`relative flex flex-col items-center justify-center gap-2 p-3 rounded-lg border transition-all duration-200 aspect-square ${isSelected
-                                                            ? 'border-orange-500/50 bg-orange-500/[0.08] shadow-[0_0_12px_rgba(249,115,22,0.1)]'
-                                                            : 'border-zinc-800/60 bg-zinc-900/30 hover:border-zinc-700 hover:bg-zinc-800/40'
-                                                            }`}
-                                                    >
-                                                        <Icon size={20} className={`transition-colors ${isSelected ? 'text-orange-500' : 'text-zinc-500'}`} />
-                                                        <span className={`font-mono text-[10px] uppercase tracking-wider text-center leading-tight ${isSelected ? 'text-orange-400' : 'text-zinc-400'}`}>
-                                                            {ind.label}
-                                                        </span>
-                                                        {isSelected && (
-                                                            <motion.div
-                                                                initial={{ scale: 0 }}
-                                                                animate={{ scale: 1 }}
-                                                                className="absolute top-1.5 right-1.5 w-3 h-3 rounded-full bg-orange-500 flex items-center justify-center"
-                                                            >
-                                                                <Check size={8} className="text-black" />
-                                                            </motion.div>
-                                                        )}
-                                                    </motion.button>
-                                                );
-                                            })}
-                                        </motion.div>
-
-                                        <AnimatePresence
-                                            onExitComplete={() => { document.documentElement.style.overflowAnchor = ''; }}
+                                    {/* Deploy System button — after all 5 phases confirmed */}
+                                    {allPhasesComplete && !isDeploying && !deploymentComplete && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 16 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                                            className="pt-4"
                                         >
-                                            {data.industries.includes('other') && (
-                                                <motion.div
-                                                    key="other-industry"
-                                                    initial={{ height: 0, opacity: 0 }}
-                                                    animate={{ height: 'auto', opacity: 1 }}
-                                                    exit={{ height: 0, opacity: 0 }}
-                                                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                                                    className="overflow-hidden"
-                                                    onAnimationStart={() => { document.documentElement.style.overflowAnchor = 'none'; }}
-                                                    onAnimationComplete={() => { document.documentElement.style.overflowAnchor = ''; }}
-                                                >
-                                                    <div className="pt-2 pb-6">
-                                                        <InputField label="Your Industry" value={data.customIndustry} onChange={(v) => update({ customIndustry: v })} placeholder="e.g., Pool Cleaning, Window Tinting..." required />
-                                                    </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
+                                            <div className="h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent mb-6" />
 
-                                        <AnimatePresence>
-                                            {(() => {
-                                                const nonOtherIndustries = data.industries.filter(id => id !== 'other');
-                                                const allServices = [...new Set(nonOtherIndustries.flatMap(id => INDUSTRY_SERVICES[id] || []))];
-                                                if (allServices.length === 0) return null;
-                                                return (
-                                                    <motion.div
-                                                        key="services"
-                                                        initial={{ height: 0, opacity: 0 }}
-                                                        animate={{ height: 'auto', opacity: 1 }}
-                                                        exit={{ height: 0, opacity: 0 }}
-                                                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                                                        className="overflow-hidden"
-                                                    >
-                                                        <div className="pt-2 pb-2">
-                                                            <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">
-                                                                Services You Offer <span className="text-zinc-700">(optional)</span>
-                                                            </label>
-                                                            <div className="flex flex-wrap gap-2">
-                                                                {allServices.map((service) => (
-                                                                    <button
-                                                                        key={service}
-                                                                        onClick={() => toggleArrayItem('services', service)}
-                                                                        className={`px-3 py-1.5 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.services.includes(service)
-                                                                            ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
-                                                                            : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                                            }`}
-                                                                    >
-                                                                        {service}
-                                                                    </button>
-                                                                ))}
-                                                            </div>
-                                                        </div>
-                                                    </motion.div>
-                                                );
-                                            })()}
-                                        </AnimatePresence>
-
-                                        <AnimatePresence>
-                                            {(() => {
-                                                const firstInsightIndustry = data.industries.find(id => id !== 'other');
-                                                if (!firstInsightIndustry) return null;
-                                                return (
-                                                    <motion.div
-                                                        key="insight-wrap"
-                                                        initial={{ height: 0, opacity: 0 }}
-                                                        animate={{ height: 'auto', opacity: 1 }}
-                                                        exit={{ height: 0, opacity: 0 }}
-                                                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                                                        className="overflow-hidden"
-                                                    >
-                                                        <InsightCard key={firstInsightIndustry} industry={firstInsightIndustry} />
-                                                    </motion.div>
-                                                );
-                                            })()}
-                                        </AnimatePresence>
-                                    </motion.div>
-                                )}
-
-                                {/* STEP 3: Pain Points & Integrations */}
-                                {step === 3 && (
-                                    <motion.div key="step3" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
-                                        <StepLabel tag={STEP_META[2].tag} title="What are your biggest challenges?" subtitle="Select all that apply — we'll show you exactly how TaskRig solves each one." />
-
-                                        <motion.div variants={staggerChildren} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                            {PAIN_POINTS.map((pain) => (
-                                                <motion.div key={pain.id} variants={fadeInUp}>
-                                                    <ChipButton selected={data.painPoints.includes(pain.id)} onClick={() => toggleArrayItem('painPoints', pain.id)} icon={pain.icon} label={pain.label} />
-                                                </motion.div>
-                                            ))}
-                                        </motion.div>
-                                    </motion.div>
-                                )}
-
-                                {/* STEP 4: Team & Scale */}
-                                {step === 4 && (
-                                    <motion.div key="step4" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
-                                        <StepLabel tag={STEP_META[3].tag} title="How big is your operation?" subtitle="This helps us size your deployment and recommend the right plan." />
-
-                                        <motion.div variants={staggerChildren} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            {/* Team Size */}
-                                            <motion.div variants={fadeInUp} className="p-4 border border-zinc-800/60 bg-zinc-900/20 rounded-lg">
-                                                <div className="flex items-center gap-2 mb-4">
-                                                    <div className="w-6 h-6 rounded bg-orange-500/10 flex items-center justify-center">
-                                                        <Users size={12} className="text-orange-500" />
-                                                    </div>
-                                                    <label className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
-                                                        Team Size <span className="text-orange-500/60">*</span>
-                                                    </label>
-                                                </div>
-                                                <div className="flex flex-wrap gap-1.5">
-                                                    {TEAM_SIZES.map((size) => (
-                                                        <button
-                                                            key={size}
-                                                            onClick={() => update({ teamSize: size })}
-                                                            className={`px-3 py-2 font-mono text-[11px] uppercase tracking-wider border transition-all duration-200 rounded-md ${data.teamSize === size
-                                                                ? 'border-orange-500/50 bg-orange-500/10 text-orange-400 shadow-[0_0_8px_rgba(249,115,22,0.08)]'
-                                                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                                }`}
-                                                        >
-                                                            {size}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </motion.div>
-
-                                            {/* Call Volume */}
-                                            <motion.div variants={fadeInUp} className="p-4 border border-zinc-800/60 bg-zinc-900/20 rounded-lg">
-                                                <div className="flex items-center gap-2 mb-4">
-                                                    <div className="w-6 h-6 rounded bg-orange-500/10 flex items-center justify-center">
-                                                        <Phone size={12} className="text-orange-500" />
-                                                    </div>
-                                                    <label className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
-                                                        Monthly Calls / Inquiries
-                                                    </label>
-                                                </div>
-                                                <div className="flex flex-wrap gap-1.5">
-                                                    {CALL_VOLUMES.map((vol) => (
-                                                        <button
-                                                            key={vol}
-                                                            onClick={() => update({ monthlyCallVolume: vol })}
-                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.monthlyCallVolume === vol
-                                                                ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
-                                                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                                }`}
-                                                        >
-                                                            {vol}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </motion.div>
-
-                                            {/* Lead Volume */}
-                                            <motion.div variants={fadeInUp} className="p-4 border border-zinc-800/60 bg-zinc-900/20 rounded-lg">
-                                                <div className="flex items-center gap-2 mb-4">
-                                                    <div className="w-6 h-6 rounded bg-orange-500/10 flex items-center justify-center">
-                                                        <BarChart3 size={12} className="text-orange-500" />
-                                                    </div>
-                                                    <label className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
-                                                        Monthly New Leads
-                                                    </label>
-                                                </div>
-                                                <div className="flex flex-wrap gap-1.5">
-                                                    {LEAD_VOLUMES.map((vol) => (
-                                                        <button
-                                                            key={vol}
-                                                            onClick={() => update({ monthlyLeadVolume: vol })}
-                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.monthlyLeadVolume === vol
-                                                                ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
-                                                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                                }`}
-                                                        >
-                                                            {vol}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </motion.div>
-
-                                            {/* Operating Hours */}
-                                            <motion.div variants={fadeInUp} className="p-4 border border-zinc-800/60 bg-zinc-900/20 rounded-lg">
-                                                <div className="flex items-center gap-2 mb-4">
-                                                    <div className="w-6 h-6 rounded bg-orange-500/10 flex items-center justify-center">
-                                                        <Clock size={12} className="text-orange-500" />
-                                                    </div>
-                                                    <label className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">
-                                                        Operating Hours
-                                                    </label>
-                                                </div>
-                                                <div className="flex flex-wrap gap-1.5">
-                                                    {HOURS.map((hr) => (
-                                                        <button
-                                                            key={hr}
-                                                            onClick={() => update({ operatingHours: hr })}
-                                                            className={`px-3 py-2 font-mono text-[11px] border transition-all duration-200 rounded-md ${data.operatingHours === hr
-                                                                ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
-                                                                : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
-                                                                }`}
-                                                        >
-                                                            {hr}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </motion.div>
-                                        </motion.div>
-
-                                        <AnimatePresence>
-                                            {data.teamSize && (
-                                                <motion.div
-                                                    initial={{ height: 0, opacity: 0 }}
-                                                    animate={{ height: 'auto', opacity: 1 }}
-                                                    exit={{ height: 0, opacity: 0 }}
-                                                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                                                    className="overflow-hidden"
-                                                >
-                                                    <div className="mt-4 p-4 border border-zinc-800/60 bg-zinc-900/30 rounded-lg">
-                                                        <div className="flex items-center gap-2 mb-2">
-                                                            <Bot size={12} className="text-orange-500" />
-                                                            <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-[0.2em]">Recommended Config</span>
-                                                        </div>
-                                                        <p className="font-mono text-xs text-zinc-400 leading-relaxed">
-                                                            {data.teamSize === 'Solo' || data.teamSize === '2-5'
-                                                                ? 'For teams your size, most operators start with 1 AI Agent covering calls, SMS, and email. Average setup time: 15 minutes.'
-                                                                : data.teamSize === '6-15'
-                                                                    ? 'Teams of 6-15 typically deploy 2-3 AI Agents with CRM sync and calendar integration. We\'ll configure smart routing to your team.'
-                                                                    : 'Enterprise-scale deployments get dedicated AI Agents per department with custom training. Your specialist will design the optimal architecture.'}
-                                                        </p>
-                                                    </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </motion.div>
-                                )}
-
-                                {/* STEP 5: Contact Info */}
-                                {step === 5 && (
-                                    <motion.div key="step5" custom={direction} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={springTransition} className="flex-1 flex flex-col">
-                                        <StepLabel tag={STEP_META[4].tag} title="Connect With Us" subtitle="We'll build your custom TaskRig deployment and reach out within 24 hours." />
-
-                                        <div className="space-y-4">
-                                            <InputField label="Full Name" value={data.contactName} onChange={(v) => update({ contactName: v })} placeholder="Jane Doe" required icon={User} />
-                                            <div>
-                                                <InputField label="Email Address" value={data.contactEmail} onChange={(v) => { update({ contactEmail: v }); if (emailError) setEmailError(''); }} placeholder="jane@acmehvac.com" type="email" required icon={Mail} />
-                                                {emailError && <p className="text-red-400 font-mono text-xs mt-1">{emailError}</p>}
-                                            </div>
-                                            <div>
-                                                <InputField label="Phone Number" value={data.contactPhone} onChange={(v) => { update({ contactPhone: v }); if (phoneError) setPhoneError(''); }} placeholder="+1 (555) 000-0000" type="tel" required icon={Phone} />
-                                                {phoneError && <p className="text-red-400 font-mono text-xs mt-1">{phoneError}</p>}
-                                            </div>
-
-                                            <div>
-                                                <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Your Role</label>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {ROLES.map((role) => (
-                                                        <button key={role} onClick={() => update({ contactRole: role })} className={`px-3 py-1.5 font-mono text-[11px] border transition-all rounded-md ${data.contactRole === role ? 'border-orange-500/50 bg-orange-500/10 text-orange-400' : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'}`}>
-                                                            {role}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-3">Preferred Contact Method</label>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {[
-                                                        { id: 'phone', label: 'Phone Call', icon: Phone },
-                                                        { id: 'email', label: 'Email', icon: Mail },
-                                                        { id: 'text', label: 'Text / SMS', icon: MessageSquare },
-                                                    ].map((method) => (
-                                                        <button key={method.id} onClick={() => update({ preferredContactMethod: method.id })} className={`flex items-center gap-2 px-3 py-2 font-mono text-[11px] border transition-all rounded-md ${data.preferredContactMethod === method.id ? 'border-orange-500/50 bg-orange-500/10 text-orange-400' : 'border-zinc-800 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'}`}>
-                                                            <method.icon size={12} />
-                                                            {method.label}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <label className="block font-mono text-[10px] text-zinc-500 uppercase tracking-[0.15em] mb-2">
-                                                    Anything else we should know? <span className="text-zinc-700">(optional)</span>
-                                                </label>
-                                                <textarea
-                                                    value={data.notes}
-                                                    onChange={(e) => update({ notes: e.target.value })}
-                                                    placeholder="e.g., We're switching from another provider, need help migrating..."
-                                                    rows={3}
-                                                    className="w-full bg-zinc-950/60 border border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.08)] px-4 py-3 font-mono text-base text-white placeholder:text-zinc-700 outline-none transition-all rounded-md resize-none"
+                                            {/* SMS Consent */}
+                                            <div className="space-y-3 mb-6">
+                                                <TerminalCheckbox
+                                                    checked={data.consentMarketing}
+                                                    onChange={(v) => update({ consentMarketing: v })}
+                                                    label="I consent to receive marketing text messages from TaskRig at the phone number provided. Frequency may vary. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out."
+                                                />
+                                                <TerminalCheckbox
+                                                    checked={data.consentTransactional}
+                                                    onChange={(v) => update({ consentTransactional: v })}
+                                                    label="I consent to receive non-marketing text messages from TaskRig about my order updates, appointment reminders, etc. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out."
                                                 />
                                             </div>
-                                        </div>
 
-                                        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="mt-6 p-4 border border-zinc-800/60 bg-zinc-900/30 rounded-lg">
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <Shield size={12} className="text-orange-500" />
-                                                <span className="font-mono text-[9px] text-zinc-400 uppercase tracking-[0.2em]">What Happens Next</span>
+                                            <button
+                                                onClick={handleDeploy}
+                                                className="group relative w-full px-10 py-4 bg-orange-500 hover:bg-orange-600 text-black font-mono text-sm font-bold uppercase tracking-widest transition-all clip-path-slant shadow-[0_0_30px_rgba(249,115,22,0.3)] hover:shadow-[0_0_50px_rgba(249,115,22,0.5)] overflow-hidden"
+                                            >
+                                                <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
+                                                <span className="relative z-10 flex items-center justify-center gap-3">
+                                                    <ChevronRight size={16} />
+                                                    DEPLOY SYSTEM
+                                                </span>
+                                            </button>
+
+                                            <p className="text-center font-mono text-[10px] text-zinc-600/50 leading-relaxed mt-3">
+                                                By deploying, you agree to receive SMS updates from TaskRig. Msg &amp; data rates may apply. Reply STOP anytime.{' '}
+                                                <Link to="/privacy-policy" className="text-zinc-500/60 hover:text-zinc-400 underline underline-offset-2 transition-colors">
+                                                    Privacy Policy
+                                                </Link>
+                                            </p>
+                                        </motion.div>
+                                    )}
+
+                                    {/* Deployment Log */}
+                                    {isDeploying && (
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            className="pt-4"
+                                        >
+                                            <div className="h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent mb-4" />
+                                            <div className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em] mb-3">
+                                                Deployment Log
                                             </div>
-                                            <div className="space-y-2">
-                                                {[
-                                                    'A deployment specialist reviews your profile',
-                                                    'You get a personalized demo tailored to your business',
-                                                    'We build and launch your AI workforce — setup takes ~15 min',
-                                                ].map((item, i) => (
-                                                    <div key={i} className="flex items-center gap-2.5 font-mono text-xs text-zinc-400">
-                                                        <div className="w-5 h-5 rounded bg-orange-500/10 flex items-center justify-center shrink-0">
-                                                            <span className="text-orange-500 text-[10px] font-bold">{i + 1}</span>
-                                                        </div>
-                                                        {item}
-                                                    </div>
+                                            <div
+                                                ref={deployLogRef}
+                                                className="bg-zinc-950/60 border border-zinc-800/40 rounded p-4 max-h-[300px] overflow-y-auto space-y-1"
+                                            >
+                                                {deploymentLogLines.map((line, i) => (
+                                                    <motion.div
+                                                        key={i}
+                                                        initial={{ opacity: 0, x: -8 }}
+                                                        animate={{ opacity: 1, x: 0 }}
+                                                        transition={{ duration: 0.2 }}
+                                                        className={`font-mono text-xs ${
+                                                            line === 'DEPLOYMENT SUCCESSFUL'
+                                                                ? 'text-emerald-400 font-bold text-sm mt-2'
+                                                                : line.includes('██')
+                                                                    ? 'text-orange-400'
+                                                                    : line === ''
+                                                                        ? 'h-2'
+                                                                        : 'text-zinc-500'
+                                                        }`}
+                                                    >
+                                                        {line}
+                                                    </motion.div>
                                                 ))}
                                             </div>
                                         </motion.div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                                    )}
 
-                        </div>
+                                    {/* Deployment Complete */}
+                                    {deploymentComplete && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 16 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ type: 'spring', stiffness: 200, damping: 20, delay: 0.3 }}
+                                            className="pt-6"
+                                        >
+                                            {/* Success banner */}
+                                            <div className="text-center mb-8">
+                                                <motion.div
+                                                    initial={{ scale: 0, rotate: -180 }}
+                                                    animate={{ scale: 1, rotate: 0 }}
+                                                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                                                    className="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.15)]"
+                                                >
+                                                    <Check className="text-emerald-500" size={28} />
+                                                </motion.div>
+                                                <h2 className="font-heading font-bold text-2xl md:text-3xl text-white uppercase tracking-tight mb-2">
+                                                    System Deployed
+                                                </h2>
+                                                <p className="font-mono text-sm text-zinc-400">
+                                                    Your TaskRig instance for <span className="text-orange-400">{data.businessName || 'your business'}</span> is being configured.
+                                                </p>
+                                                <p className="font-mono text-xs text-zinc-500 mt-2">
+                                                    A deployment specialist will reach out within 24 hours.
+                                                </p>
+                                            </div>
 
-                        {/* SMS Consent Checkboxes */}
-                        {step === TOTAL_STEPS && (
-                            <div className="space-y-4 pt-6 border-t border-zinc-800/30">
-                                <label className="flex items-start gap-3 cursor-pointer group">
-                                    <div className="mt-0.5 relative flex items-center justify-center w-4 h-4 rounded border border-zinc-700 bg-zinc-900 group-hover:border-orange-500/50 transition-colors">
-                                        <input
-                                            type="checkbox"
-                                            checked={data.consentMarketing}
-                                            onChange={(e) => update({ consentMarketing: e.target.checked })}
-                                            className="absolute opacity-0 w-full h-full cursor-pointer"
-                                        />
-                                        {data.consentMarketing && <Check size={12} className="text-orange-500" />}
-                                    </div>
-                                    <span className="text-zinc-500 font-mono text-xs leading-relaxed flex-1 text-left">
-                                        I consent to receive marketing text messages from TaskRig at the phone number provided. Frequency may vary. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.
-                                    </span>
-                                </label>
+                                            {/* Summary card */}
+                                            <div className="border border-zinc-800/60 bg-zinc-900/30 rounded-lg overflow-hidden mb-6">
+                                                <div className="px-5 py-3 border-b border-zinc-800/40 flex items-center gap-2">
+                                                    <FileText size={14} className="text-orange-500" />
+                                                    <span className="font-mono text-[10px] text-zinc-400 uppercase tracking-[0.15em]">Deployment Summary</span>
+                                                </div>
+                                                <div className="p-5 space-y-3 font-mono text-sm">
+                                                    {data.businessName && (
+                                                        <div className="flex justify-between"><span className="text-zinc-500">Business</span><span className="text-zinc-300">{data.businessName}</span></div>
+                                                    )}
+                                                    {data.industries.length > 0 && (
+                                                        <div className="flex justify-between"><span className="text-zinc-500">Industry</span><span className="text-zinc-300">{data.industries.map(id => INDUSTRIES.find(i => i.id === id)?.label || data.customIndustry).join(', ')}</span></div>
+                                                    )}
+                                                    {data.teamSize && (
+                                                        <div className="flex justify-between"><span className="text-zinc-500">Team Size</span><span className="text-zinc-300">{data.teamSize}</span></div>
+                                                    )}
+                                                    {data.desiredIntegrations.length > 0 && (
+                                                        <div className="flex justify-between"><span className="text-zinc-500">Integrations</span><span className="text-zinc-300">{data.desiredIntegrations.length} selected</span></div>
+                                                    )}
+                                                    {data.painPoints.length > 0 && (
+                                                        <div className="flex justify-between"><span className="text-zinc-500">Focus Areas</span><span className="text-zinc-300">{data.painPoints.length} identified</span></div>
+                                                    )}
+                                                </div>
+                                            </div>
 
-                                <label className="flex items-start gap-3 cursor-pointer group">
-                                    <div className="mt-0.5 relative flex items-center justify-center w-4 h-4 rounded border border-zinc-700 bg-zinc-900 group-hover:border-orange-500/50 transition-colors">
-                                        <input
-                                            type="checkbox"
-                                            checked={data.consentTransactional}
-                                            onChange={(e) => update({ consentTransactional: e.target.checked })}
-                                            className="absolute opacity-0 w-full h-full cursor-pointer"
-                                        />
-                                        {data.consentTransactional && <Check size={12} className="text-orange-500" />}
-                                    </div>
-                                    <span className="text-zinc-500 font-mono text-xs leading-relaxed flex-1 text-left">
-                                        I consent to receive non-marketing text messages from TaskRig about my order updates, appointment reminders, etc. Message & data rates may apply. Text HELP for assistance, reply STOP to opt out.
-                                    </span>
-                                </label>
+                                            {/* CTAs */}
+                                            <div className="flex flex-col sm:flex-row items-center gap-4">
+                                                <a
+                                                    href="tel:+18442222486"
+                                                    className="group relative w-full sm:w-auto px-8 py-3.5 bg-orange-500 hover:bg-orange-600 text-black font-mono font-bold uppercase tracking-widest text-xs transition-all shadow-[0_0_25px_rgba(249,115,22,0.25)] hover:shadow-[0_0_40px_rgba(249,115,22,0.35)] flex items-center justify-center gap-2 no-underline overflow-hidden"
+                                                >
+                                                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
+                                                    <span className="relative z-10 flex items-center gap-2">
+                                                        <Phone size={14} />
+                                                        Call Now
+                                                    </span>
+                                                </a>
+                                                <a
+                                                    href="tel:+18442222486"
+                                                    className="w-full sm:w-auto px-8 py-3.5 border border-zinc-700 hover:border-orange-500/40 text-zinc-300 hover:text-white font-mono font-bold uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-2 no-underline"
+                                                >
+                                                    <Calendar size={14} />
+                                                    Schedule a Call
+                                                </a>
+                                            </div>
+
+                                            <div className="mt-8 text-center">
+                                                <Link to="/" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 font-mono text-xs uppercase tracking-widest transition-colors no-underline">
+                                                    <ArrowLeft size={14} />
+                                                    Back to Home
+                                                </Link>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </div>
                             </div>
-                        )}
-
                         </div>
                     </div>
-
-                    {/* Navigation Buttons — outside the card */}
-                    <div className="flex items-center justify-between mt-6 md:mt-8 px-1">
-                        <button
-                            onClick={goBack}
-                            disabled={step === 1}
-                            className={`flex items-center gap-2 px-4 md:px-5 py-2.5 font-mono text-xs uppercase tracking-widest transition-all rounded-md ${step === 1 ? 'text-zinc-700 cursor-not-allowed' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/40'
-                                }`}
-                        >
-                            <ArrowLeft size={14} />
-                            <span className="hidden sm:inline">Back</span>
-                        </button>
-
-                        {step < TOTAL_STEPS ? (
-                            <button
-                                onClick={goNext}
-                                disabled={!canAdvance()}
-                                className={`group relative flex items-center gap-2 px-8 md:px-10 py-3.5 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
-                                    ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
-                                    : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-                                    }`}
-                            >
-                                {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
-                                <span className="relative z-10">Continue</span>
-                                <ArrowRight size={14} className="relative z-10" />
-                            </button>
-                        ) : (
-                            <button
-                                onClick={handleSubmit}
-                                disabled={!canAdvance()}
-                                className={`group relative flex items-center gap-2 px-8 md:px-10 py-3.5 font-mono text-xs font-bold uppercase tracking-widest transition-all rounded-md overflow-hidden ${canAdvance()
-                                    ? 'bg-orange-500 hover:bg-orange-600 text-black shadow-[0_0_20px_rgba(249,115,22,0.2)] hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]'
-                                    : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
-                                    }`}
-                            >
-                                {canAdvance() && <div className="absolute inset-0 bg-white/15 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />}
-                                <Send size={14} className="relative z-10" />
-                                <span className="relative z-10">Get My Custom Plan</span>
-                            </button>
-                        )}
-                    </div>
-
-                    {/* Fine print - only on last step */}
-                    {step === TOTAL_STEPS && (
-                        <p className="text-center font-mono text-[10px] text-zinc-600/50 leading-relaxed mt-4 px-2">
-                            By submitting, you agree to receive SMS updates from TaskRig. Msg &amp; data rates may apply. Reply STOP anytime.{' '}
-                            <Link to="/privacy-policy" className="text-zinc-500/60 hover:text-zinc-400 underline underline-offset-2 transition-colors">
-                                Privacy Policy
-                            </Link>
-                        </p>
-                    )}
-
-                    {/* Step dots */}
-                <div className="flex items-center justify-center gap-2 mt-6">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                        <div key={s} className={`rounded-full transition-all duration-300 ${s === step ? 'w-6 h-1.5 bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.4)]'
-                            : s < step ? 'w-3 h-1.5 bg-orange-500/40'
-                                : 'w-3 h-1.5 bg-zinc-800'
-                            }`} />
-                    ))}
                 </div>
             </div>
 
@@ -1454,6 +1274,400 @@ export const GetStartedPage: React.FC = () => {
         </div>
     );
 };
+
+// ─── PHASE CONTENT COMPONENTS ────────────────────────────────────
+
+const Phase1Content: React.FC<{
+    data: LeadData;
+    update: (partial: Partial<LeadData>) => void;
+    searchQuery: string;
+    handleSearchInput: (v: string) => void;
+    selectedPlace: PlaceDetails | null;
+    selectPlace: (p: PlacePrediction) => void;
+    clearPlace: () => void;
+    predictions: PlacePrediction[];
+    showPredictions: boolean;
+    isSearching: boolean;
+    searchRef: React.RefObject<HTMLDivElement | null>;
+    showManualEntry: boolean;
+    setShowManualEntry: (v: boolean) => void;
+    setShowPredictions: (v: boolean) => void;
+}> = ({ data, update, searchQuery, handleSearchInput, selectedPlace, selectPlace, clearPlace, predictions, showPredictions, isSearching, searchRef, showManualEntry, setShowManualEntry, setShowPredictions }) => (
+    <div className="space-y-4">
+        {/* Business search */}
+        <motion.div variants={staggerItem} ref={searchRef} className="relative">
+            <label className="block font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] mb-1.5">
+                // BUSINESS_SEARCH <span className="text-orange-500/60">*</span>
+            </label>
+            <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                    {isSearching ? (
+                        <div className="w-3.5 h-3.5 border-2 border-orange-500/50 border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                        <Search size={13} className="text-zinc-600" />
+                    )}
+                </span>
+                <input
+                    type="text"
+                    value={selectedPlace ? data.businessName : searchQuery}
+                    onChange={(e) => {
+                        if (selectedPlace) {
+                            clearPlace();
+                            handleSearchInput(e.target.value);
+                        } else {
+                            handleSearchInput(e.target.value);
+                        }
+                    }}
+                    onFocus={() => !selectedPlace && setShowPredictions(true)}
+                    placeholder="Search for your business..."
+                    className="w-full bg-transparent border-b border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.06)] pl-9 pr-4 py-2.5 font-mono text-sm text-white placeholder:text-zinc-700 outline-none transition-all"
+                />
+            </div>
+
+            <AnimatePresence>
+                {showPredictions && predictions.length > 0 && !selectedPlace && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        className="absolute top-full left-0 right-0 mt-1 border border-zinc-700 bg-zinc-900 rounded shadow-xl z-20 overflow-hidden"
+                    >
+                        {predictions.map((p) => (
+                            <button
+                                key={p.place_id}
+                                onClick={() => selectPlace(p)}
+                                className="w-full text-left px-4 py-3 hover:bg-zinc-800/60 transition-colors border-b border-zinc-800/50 last:border-0 flex items-start gap-3"
+                            >
+                                <MapPin size={13} className="text-orange-500 mt-0.5 shrink-0" />
+                                <div>
+                                    <div className="font-mono text-sm text-white">{p.structured_formatting.main_text}</div>
+                                    <div className="font-mono text-[11px] text-zinc-500 mt-0.5">{p.structured_formatting.secondary_text}</div>
+                                </div>
+                            </button>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
+
+        {/* Selected place card */}
+        <AnimatePresence>
+            {selectedPlace && (
+                <motion.div
+                    initial={{ opacity: 0, y: 8, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: 'auto' }}
+                    exit={{ opacity: 0, y: -8, height: 0 }}
+                    className="overflow-hidden"
+                >
+                    <div className="p-4 border border-emerald-500/30 bg-emerald-500/[0.04] rounded relative">
+                        <button onClick={clearPlace} className="absolute top-3 right-3 text-zinc-500 hover:text-white text-xs font-mono uppercase tracking-widest transition-colors">Change</button>
+                        <div className="flex items-center gap-2 mb-2">
+                            <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                            <span className="font-mono text-[9px] text-emerald-500 uppercase tracking-[0.2em]">Business Found</span>
+                        </div>
+                        <div className="font-heading font-bold text-base text-white uppercase tracking-wide mb-1">{selectedPlace.name}</div>
+                        <div className="font-mono text-xs text-zinc-400 flex items-center gap-1.5 mb-1">
+                            <MapPin size={11} className="text-zinc-500" />
+                            {selectedPlace.formatted_address}
+                        </div>
+                        {selectedPlace.formatted_phone_number && (
+                            <div className="font-mono text-xs text-zinc-400 flex items-center gap-1.5 mb-1">
+                                <Phone size={11} className="text-zinc-500" />
+                                {selectedPlace.formatted_phone_number}
+                            </div>
+                        )}
+                        {selectedPlace.rating && (
+                            <div className="flex items-center gap-1.5 mt-2">
+                                {[...Array(5)].map((_, i) => (
+                                    <Star key={i} size={11} className={i < Math.round(selectedPlace.rating!) ? 'text-orange-500 fill-orange-500' : 'text-zinc-700'} />
+                                ))}
+                                <span className="font-mono text-xs text-zinc-400 ml-1">{selectedPlace.rating}</span>
+                            </div>
+                        )}
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+
+        {/* Manual entry toggle */}
+        {!selectedPlace && (
+            <motion.div variants={staggerItem}>
+                <button
+                    onClick={() => setShowManualEntry(!showManualEntry)}
+                    className="flex items-center gap-2 font-mono text-[11px] text-zinc-500 hover:text-zinc-300 uppercase tracking-widest transition-colors"
+                >
+                    <ChevronDown size={14} className={`transition-transform duration-200 ${showManualEntry ? 'rotate-180' : ''}`} />
+                    Or enter manually
+                </button>
+                <AnimatePresence>
+                    {showManualEntry && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                            className="overflow-hidden"
+                        >
+                            <div className="space-y-3 pt-3">
+                                <TerminalInputField label="Business Name" value={data.businessName} onChange={(v) => update({ businessName: v })} placeholder="Acme HVAC Services" required />
+                                <TerminalInputField label="Business Address" value={data.businessAddress} onChange={(v) => update({ businessAddress: v })} placeholder="123 Main St, City, State" />
+                                <TerminalInputField label="Business Phone" value={data.businessPhone} onChange={(v) => update({ businessPhone: v })} placeholder="+1 (555) 000-0000" type="tel" />
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </motion.div>
+        )}
+    </div>
+);
+
+const Phase2Content: React.FC<{
+    data: LeadData;
+    update: (partial: Partial<LeadData>) => void;
+    toggleArrayItem: (field: keyof LeadData, value: string) => void;
+}> = ({ data, update, toggleArrayItem }) => {
+    const nonOtherIndustries = data.industries.filter(id => id !== 'other');
+    const allServices = [...new Set(nonOtherIndustries.flatMap(id => INDUSTRY_SERVICES[id] || []))];
+
+    return (
+        <div className="space-y-4">
+            {/* Industry grid */}
+            <motion.div variants={staggerItem}>
+                <label className="block font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] mb-2">
+                    // SELECT_INDUSTRY <span className="text-orange-500/60">*</span>
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5">
+                    {INDUSTRIES.map((ind) => {
+                        const Icon = ind.icon;
+                        const isSelected = data.industries.includes(ind.id);
+                        return (
+                            <button
+                                key={ind.id}
+                                onClick={() => {
+                                    const current = data.industries;
+                                    if (current.includes(ind.id)) {
+                                        update({ industries: current.filter(id => id !== ind.id) });
+                                    } else {
+                                        update({ industries: [...current, ind.id] });
+                                    }
+                                }}
+                                className={`relative flex items-center gap-2 p-2.5 border transition-all duration-200 ${
+                                    isSelected
+                                        ? 'border-orange-500/40 bg-orange-500/[0.06]'
+                                        : 'border-zinc-800/50 bg-zinc-900/20 hover:border-zinc-700'
+                                }`}
+                            >
+                                <Icon size={14} className={isSelected ? 'text-orange-500' : 'text-zinc-600'} />
+                                <span className={`font-mono text-[10px] uppercase tracking-wider ${isSelected ? 'text-orange-400' : 'text-zinc-400'}`}>
+                                    {ind.label}
+                                </span>
+                                {isSelected && (
+                                    <span className="absolute top-1 right-1 font-mono text-[8px] text-orange-500">x</span>
+                                )}
+                            </button>
+                        );
+                    })}
+                </div>
+            </motion.div>
+
+            {/* Custom industry */}
+            <AnimatePresence>
+                {data.industries.includes('other') && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                    >
+                        <TerminalInputField
+                            label="Your Industry"
+                            value={data.customIndustry}
+                            onChange={(v) => update({ customIndustry: v })}
+                            placeholder="e.g., Pool Cleaning, Window Tinting..."
+                            required
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Services */}
+            <AnimatePresence>
+                {allServices.length > 0 && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                    >
+                        <label className="block font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] mb-2">
+                            // SERVICES <span className="text-zinc-700">(optional)</span>
+                        </label>
+                        <div className="flex flex-wrap gap-1.5">
+                            {allServices.map((service) => (
+                                <button
+                                    key={service}
+                                    onClick={() => toggleArrayItem('services', service)}
+                                    className={`px-2.5 py-1.5 font-mono text-[10px] border transition-all duration-200 ${
+                                        data.services.includes(service)
+                                            ? 'border-orange-500/40 bg-orange-500/10 text-orange-400'
+                                            : 'border-zinc-800/50 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                                    }`}
+                                >
+                                    {data.services.includes(service) && '> '}{service}
+                                </button>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+};
+
+const Phase3Content: React.FC<{
+    data: LeadData;
+    toggleArrayItem: (field: keyof LeadData, value: string) => void;
+}> = ({ data, toggleArrayItem }) => (
+    <div className="space-y-5">
+        {/* Pain points */}
+        <motion.div variants={staggerItem}>
+            <label className="block font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] mb-2">
+                // PAIN_POINTS <span className="text-orange-500/60">*</span>
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                {PAIN_POINTS.map((pain) => (
+                    <TerminalChipButton
+                        key={pain.id}
+                        selected={data.painPoints.includes(pain.id)}
+                        onClick={() => toggleArrayItem('painPoints', pain.id)}
+                        icon={pain.icon}
+                        label={pain.label}
+                    />
+                ))}
+            </div>
+        </motion.div>
+
+        {/* Current tools */}
+        <motion.div variants={staggerItem}>
+            <label className="block font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] mb-2">
+                // CURRENT_TOOLS <span className="text-zinc-700">(optional)</span>
+            </label>
+            <div className="flex flex-wrap gap-1.5">
+                {CURRENT_TOOLS_OPTIONS.map((tool) => (
+                    <button
+                        key={tool}
+                        onClick={() => toggleArrayItem('currentTools', tool)}
+                        className={`px-2.5 py-1.5 font-mono text-[10px] border transition-all duration-200 ${
+                            data.currentTools.includes(tool)
+                                ? 'border-orange-500/40 bg-orange-500/10 text-orange-400'
+                                : 'border-zinc-800/50 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'
+                        }`}
+                    >
+                        {data.currentTools.includes(tool) && '> '}{tool}
+                    </button>
+                ))}
+            </div>
+        </motion.div>
+
+        {/* Desired integrations */}
+        <motion.div variants={staggerItem}>
+            <label className="block font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] mb-2">
+                // DESIRED_INTEGRATIONS
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                {INTEGRATIONS.map((intg) => (
+                    <TerminalChipButton
+                        key={intg.id}
+                        selected={data.desiredIntegrations.includes(intg.id)}
+                        onClick={() => toggleArrayItem('desiredIntegrations', intg.id)}
+                        label={intg.label}
+                        desc={intg.desc}
+                    />
+                ))}
+            </div>
+        </motion.div>
+    </div>
+);
+
+const Phase4Content: React.FC<{
+    data: LeadData;
+    update: (partial: Partial<LeadData>) => void;
+}> = ({ data, update }) => (
+    <div className="space-y-5">
+        <motion.div variants={staggerItem} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <TerminalSelect label="Team Size" value={data.teamSize} options={TEAM_SIZES} onChange={(v) => update({ teamSize: v })} required icon={Users} />
+            <TerminalSelect label="Monthly Calls" value={data.monthlyCallVolume} options={CALL_VOLUMES} onChange={(v) => update({ monthlyCallVolume: v })} icon={Phone} />
+            <TerminalSelect label="Monthly Leads" value={data.monthlyLeadVolume} options={LEAD_VOLUMES} onChange={(v) => update({ monthlyLeadVolume: v })} icon={BarChart3} />
+            <TerminalSelect label="Operating Hours" value={data.operatingHours} options={HOURS} onChange={(v) => update({ operatingHours: v })} icon={Clock} />
+        </motion.div>
+    </div>
+);
+
+const Phase5Content: React.FC<{
+    data: LeadData;
+    update: (partial: Partial<LeadData>) => void;
+    emailError: string;
+    phoneError: string;
+    setEmailError: (v: string) => void;
+    setPhoneError: (v: string) => void;
+}> = ({ data, update, emailError, phoneError, setEmailError, setPhoneError }) => (
+    <div className="space-y-4">
+        <motion.div variants={staggerItem}>
+            <TerminalInputField label="Full Name" value={data.contactName} onChange={(v) => update({ contactName: v })} placeholder="Jane Doe" required />
+        </motion.div>
+        <motion.div variants={staggerItem}>
+            <TerminalInputField label="Email Address" value={data.contactEmail} onChange={(v) => { update({ contactEmail: v }); if (emailError) setEmailError(''); }} placeholder="jane@acmehvac.com" type="email" required error={emailError} />
+        </motion.div>
+        <motion.div variants={staggerItem}>
+            <TerminalInputField label="Phone Number" value={data.contactPhone} onChange={(v) => { update({ contactPhone: v }); if (phoneError) setPhoneError(''); }} placeholder="+1 (555) 000-0000" type="tel" required error={phoneError} />
+        </motion.div>
+
+        <motion.div variants={staggerItem}>
+            <label className="block font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] mb-2">// YOUR_ROLE</label>
+            <div className="flex flex-wrap gap-1.5">
+                {ROLES.map((role) => (
+                    <button key={role} onClick={() => update({ contactRole: role })} className={`px-2.5 py-1.5 font-mono text-[10px] border transition-all ${data.contactRole === role ? 'border-orange-500/40 bg-orange-500/10 text-orange-400' : 'border-zinc-800/50 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'}`}>
+                        {data.contactRole === role && '> '}{role}
+                    </button>
+                ))}
+            </div>
+        </motion.div>
+
+        <motion.div variants={staggerItem}>
+            <label className="block font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] mb-2">// CONTACT_METHOD</label>
+            <div className="flex flex-wrap gap-1.5">
+                {[
+                    { id: 'phone', label: 'Phone Call', icon: Phone },
+                    { id: 'email', label: 'Email', icon: Mail },
+                    { id: 'text', label: 'Text / SMS', icon: MessageSquare },
+                ].map((method) => (
+                    <button key={method.id} onClick={() => update({ preferredContactMethod: method.id })} className={`flex items-center gap-2 px-3 py-2 font-mono text-[10px] border transition-all ${data.preferredContactMethod === method.id ? 'border-orange-500/40 bg-orange-500/10 text-orange-400' : 'border-zinc-800/50 text-zinc-500 hover:border-zinc-700 hover:text-zinc-300'}`}>
+                        <method.icon size={11} />
+                        {data.preferredContactMethod === method.id && '> '}{method.label}
+                    </button>
+                ))}
+            </div>
+        </motion.div>
+
+        <motion.div variants={staggerItem}>
+            <label className="block font-mono text-[10px] text-zinc-600 uppercase tracking-[0.15em] mb-1.5">
+                // NOTES <span className="text-zinc-700">(optional)</span>
+            </label>
+            <div className="relative">
+                <span className="absolute left-3 top-3 font-mono text-zinc-600 text-sm pointer-events-none">&gt;</span>
+                <textarea
+                    value={data.notes}
+                    onChange={(e) => update({ notes: e.target.value })}
+                    placeholder="e.g., We're switching from another provider, need help migrating..."
+                    rows={3}
+                    className="w-full bg-transparent border-b border-zinc-800 focus:border-orange-500/50 focus:shadow-[0_0_12px_rgba(249,115,22,0.06)] pl-8 pr-4 py-2.5 font-mono text-sm text-white placeholder:text-zinc-700 outline-none transition-all resize-none"
+                />
+            </div>
+        </motion.div>
+    </div>
+);
 
 // Google Maps types
 declare global {
