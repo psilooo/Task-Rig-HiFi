@@ -35,7 +35,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
             </div>
 
             {/* Gear panel — right column, desktop only */}
-            <div className="absolute inset-y-0 right-0 w-[45%] pointer-events-none hidden md:flex items-center justify-center z-[5]">
+            <div className="absolute inset-y-0 right-0 w-[33%] pointer-events-none hidden md:flex items-center justify-center z-[5]">
                 {/* Vertical left-edge divider */}
                 <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-orange-500/20 to-transparent" />
 
@@ -60,7 +60,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
             <div className="flex-1 flex items-start pt-4 md:items-center relative z-20 w-full max-w-7xl mx-auto px-4 md:px-8 py-8">
 
                 {/* Left content column */}
-                <div className="w-full md:w-[52%] flex flex-col items-center md:items-start text-center md:text-left md:mt-10">
+                <div className="w-full md:w-[63%] flex flex-col items-center md:items-start text-center md:text-left md:mt-10">
 
                     {/* Mobile gear — above text, in flow */}
                     <div className="md:hidden flex items-center justify-center mix-blend-screen opacity-80 scale-[0.7] -mb-14">
@@ -110,26 +110,6 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                                 </span>
                             </Link>
 
-                            {/* Trust Signal — compact stat bar */}
-                            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-1 mt-4 opacity-80">
-                                <div className="flex items-center gap-1.5">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#FF6A15" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                                    </svg>
-                                    <span className="font-heading text-zinc-200 text-sm">4.9/5</span>
-                                    <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wide">Rating</span>
-                                </div>
-                                <div className="w-px h-3 bg-zinc-800" />
-                                <div className="flex items-center gap-1.5">
-                                    <span className="font-heading text-zinc-200 text-sm">2,400+</span>
-                                    <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wide">Active Operators</span>
-                                </div>
-                                <div className="w-px h-3 bg-zinc-800" />
-                                <div className="flex items-center gap-1.5">
-                                    <span className="font-heading text-zinc-200 text-sm">&lt;30s</span>
-                                    <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wide">Avg Response</span>
-                                </div>
-                            </div>
                         </div>
                     </Reveal>
                 </div>
