@@ -666,11 +666,19 @@ export const GetStartedPage: React.FC = () => {
                 <DynamicNoise opacity={0.06} />
             </div>
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0" />
-            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-                <div className="absolute w-[600px] h-[600px] top-[10%] left-[10%] bg-orange-500/[0.045] blur-[150px] rounded-full animate-[drift_20s_ease-in-out_infinite]" />
-                <div className="absolute w-[500px] h-[500px] bottom-[10%] right-[5%] bg-orange-600/[0.035] blur-[150px] rounded-full animate-[drift_25s_ease-in-out_infinite_reverse]" />
-                <div className="absolute w-[400px] h-[400px] top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-orange-500/[0.025] blur-[120px] rounded-full animate-[drift_30s_ease-in-out_infinite]" />
-            </div>
+            {/* Ambient orange gradients — CSS radial-gradient for smooth rendering */}
+            <div
+                className="fixed inset-0 pointer-events-none z-0 animate-[drift_20s_ease-in-out_infinite]"
+                style={{ background: 'radial-gradient(ellipse 80% 60% at 20% 30%, rgba(249,115,22,0.06) 0%, transparent 70%)' }}
+            />
+            <div
+                className="fixed inset-0 pointer-events-none z-0 animate-[drift_25s_ease-in-out_infinite_reverse]"
+                style={{ background: 'radial-gradient(ellipse 70% 50% at 80% 70%, rgba(234,88,12,0.05) 0%, transparent 70%)' }}
+            />
+            <div
+                className="fixed inset-0 pointer-events-none z-0 animate-[drift_30s_ease-in-out_infinite]"
+                style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(249,115,22,0.03) 0%, transparent 60%)' }}
+            />
 
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-14 md:h-20">
@@ -694,12 +702,12 @@ export const GetStartedPage: React.FC = () => {
                     </div>
 
                     {/* Glass Card */}
-                    <div ref={cardRef} className="relative bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-md rounded shadow-xl scroll-mt-20 md:scroll-mt-28">
+                    <div ref={cardRef} className="relative bg-zinc-900/30 border border-white/[0.06] backdrop-blur-md rounded shadow-2xl shadow-black/40 scroll-mt-20 md:scroll-mt-28">
                         {/* Corner brackets */}
-                        <div className="absolute -top-[1px] -left-[1px] w-4 h-4 border-t-2 border-l-2 border-orange-500/50 z-10" />
-                        <div className="absolute -top-[1px] -right-[1px] w-4 h-4 border-t-2 border-r-2 border-orange-500/50 z-10" />
-                        <div className="absolute -bottom-[1px] -left-[1px] w-4 h-4 border-b-2 border-l-2 border-orange-500/50 z-10" />
-                        <div className="absolute -bottom-[1px] -right-[1px] w-4 h-4 border-b-2 border-r-2 border-orange-500/50 z-10" />
+                        <div className="absolute -top-[1px] -left-[1px] w-3.5 h-3.5 border-t-2 border-l-2 border-orange-500/40 z-10" />
+                        <div className="absolute -top-[1px] -right-[1px] w-3.5 h-3.5 border-t-2 border-r-2 border-orange-500/40 z-10" />
+                        <div className="absolute -bottom-[1px] -left-[1px] w-3.5 h-3.5 border-b-2 border-l-2 border-orange-500/40 z-10" />
+                        <div className="absolute -bottom-[1px] -right-[1px] w-3.5 h-3.5 border-b-2 border-r-2 border-orange-500/40 z-10" />
 
                         {/* Card header: phase dots + step counter */}
                         <div className="flex items-center justify-between px-6 md:px-8 pt-5 md:pt-6 pb-3">
@@ -722,7 +730,7 @@ export const GetStartedPage: React.FC = () => {
                             </span>
                         </div>
 
-                        <div className="h-px bg-zinc-800/50 mx-6 md:mx-8" />
+                        <div className="h-px bg-white/[0.04] mx-6 md:mx-8" />
 
                         {/* Card body */}
                         <div className="px-6 md:px-8 py-5 md:py-6 space-y-1">
