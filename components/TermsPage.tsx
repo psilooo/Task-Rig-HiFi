@@ -12,6 +12,8 @@ export const TermsPage: React.FC = () => {
     return (
         <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
+            <div className="fixed inset-0 noise-dither opacity-[0.03] pointer-events-none z-0 mix-blend-overlay"></div>
+            <div className="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/4 w-[500px] h-[350px] bg-orange-500/[0.03] blur-[150px] rounded-full pointer-events-none z-0"></div>
 
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-20">

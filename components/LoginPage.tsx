@@ -22,8 +22,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
 
   return (
     <div className="min-h-[100svh] flex items-center justify-center relative overflow-hidden bg-zinc-950">
-      {/* Background Grid */}
+      {/* Background Grid + Noise Dither */}
       <div className="absolute inset-0 grid-bg opacity-[0.05] pointer-events-none"></div>
+      <div className="absolute inset-0 noise-dither opacity-[0.03] pointer-events-none mix-blend-overlay"></div>
 
       {/* Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-orange-600/5 rounded-full blur-[120px] pointer-events-none"></div>
