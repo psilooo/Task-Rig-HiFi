@@ -36,15 +36,6 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
             {/* Gear panel — right column, desktop only */}
             <div className="absolute inset-y-0 right-0 w-[33%] pointer-events-none hidden md:flex items-center justify-center z-[5]">
-                {/* Vertical left-edge divider */}
-                <div className="absolute top-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-orange-500/20 to-transparent" />
-
-                {/* Inner corner accents */}
-                <div className="absolute top-8 left-4 w-2.5 h-2.5 border-t border-l border-orange-500/20" />
-                <div className="absolute bottom-8 left-4 w-2.5 h-2.5 border-b border-l border-orange-500/20" />
-                <div className="absolute top-8 right-4 w-2.5 h-2.5 border-t border-r border-orange-500/20" />
-                <div className="absolute bottom-8 right-4 w-2.5 h-2.5 border-b border-r border-orange-500/20" />
-
                 {/* System Core label */}
                 <div className="absolute top-8 left-1/2 -translate-x-1/2">
                     <span className="font-mono text-[9px] text-orange-500/40 uppercase tracking-[0.3em]">System Core</span>
@@ -115,12 +106,6 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
                 </div>
             </div>
 
-            {/* Bottom connector dot */}
-            <div className="relative z-10 flex flex-col items-center pb-4">
-                <div className="relative w-px h-10 md:h-16 bg-gradient-to-b from-orange-500/30 via-orange-500/10 to-transparent overflow-hidden">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-orange-500/60 shadow-[0_0_12px_rgba(255,106,21,0.4)] animate-[connector-dot_2s_ease-in-out_infinite]" />
-                </div>
-            </div>
         </section>
     );
 };
