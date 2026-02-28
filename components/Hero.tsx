@@ -48,7 +48,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 flex items-start pt-4 md:items-center relative z-20 w-full max-w-7xl mx-auto px-4 md:px-8 py-8">
+            <div className="flex-1 flex items-start pt-4 md:items-center relative z-20 w-full max-w-7xl mx-auto px-6 md:px-16 lg:px-24 py-8">
 
                 {/* Left content column */}
                 <div className="w-full md:w-[63%] flex flex-col items-center md:items-start text-center md:text-left md:mt-10">
@@ -67,7 +67,7 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                     {/* Main Title */}
                     <Reveal delay={0.1}>
-                        <h1 className="font-heading font-bold text-[1.75rem] sm:text-[2.5rem] md:text-[3.5rem] lg:text-[4rem] leading-[1.0] text-zinc-100 tracking-wide flex flex-col items-center md:items-start relative z-10 w-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                        <h1 className="font-heading font-bold text-[1.75rem] sm:text-[2.5rem] md:text-[4rem] lg:text-[4.75rem] leading-[1.0] text-zinc-100 tracking-wide flex flex-col items-center md:items-start relative z-10 w-full drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                             <span>YOUR BUSINESS,</span>
                             <span className="text-zinc-300 relative">
                                 NEVER OFFLINE
@@ -77,8 +77,8 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
                     {/* Subtitle */}
                     <Reveal delay={0.2}>
-                        <div className="max-w-[480px] mt-5 mb-6 md:mt-8 md:mb-8">
-                            <p className="font-mono text-base text-zinc-400 leading-[1.6] tracking-wide">
+                        <div className="max-w-[540px] mt-5 mb-6 md:mt-8 md:mb-8">
+                            <p className="font-mono text-base md:text-lg text-zinc-400 leading-[1.6] tracking-wide">
                                 AI agents that answer calls, respond to messages, book jobs, and manage your systems — 24/7, across every platform your business runs on.
                             </p>
                         </div>
