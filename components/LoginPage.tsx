@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { CyberCard } from './ui/CyberCard';
 import { Reveal } from './ui/Reveal';
 import { Lock, User, ArrowRight, ShieldCheck, ChevronLeft, Fingerprint } from 'lucide-react';
-import { MeshGradient } from '@mesh-gradient/react';
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -23,18 +22,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
 
   return (
     <div className="min-h-[100svh] flex items-center justify-center relative overflow-hidden bg-zinc-950">
-      {/* Background */}
+      {/* Background Grid */}
       <div className="absolute inset-0 grid-bg opacity-[0.05] pointer-events-none"></div>
-      <div className="absolute inset-0 pointer-events-none">
-          <MeshGradient
-              className="w-full h-full opacity-[0.10]"
-              options={{
-                  colors: ['#09090b', '#f97316', '#ea580c', '#09090b'],
-                  animationSpeed: 0.25,
-                  seed: 9,
-              }}
-          />
-      </div>
+
+      {/* Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-orange-600/5 rounded-full blur-[120px] pointer-events-none"></div>
 
       {/* Back Button */}
       {onBack && (

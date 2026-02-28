@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { Hero } from './Hero';
 import { TaskRigLogo } from './ui/TaskRigLogo';
-import { MeshGradient } from '@mesh-gradient/react';
 import { Footer } from './Footer';
 
 interface LandingPageProps {
@@ -410,18 +409,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
     return (
         <MotionConfig reducedMotion="user">
         <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
-            {/* Fixed Background */}
+            {/* Fixed Background Grid */}
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
-            <div className="fixed inset-0 pointer-events-none z-0">
-                <MeshGradient
-                    className="w-full h-full opacity-[0.10]"
-                    options={{
-                        colors: ['#09090b', '#f97316', '#ea580c', '#09090b'],
-                        animationSpeed: 0.25,
-                        seed: 5,
-                    }}
-                />
-            </div>
 
             {/* Navigation - Fixed Top */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-14 md:h-20">
@@ -517,6 +506,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             ════════════════════════════════════════════════════════════════ */}
             <section className="py-10 md:py-14 px-4 md:px-6 relative z-10">
                 {/* Ambient glow */}
+                <div className="absolute top-1/3 left-1/4 w-[500px] h-[400px] bg-orange-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
                     {/* Section header — left-aligned to match testimonials */}
@@ -635,6 +625,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             ════════════════════════════════════════════════════════════════ */}
             <section className="py-8 md:py-10 px-4 md:px-6 relative z-10" ref={chatRef}>
                 {/* Ambient glow effects */}
+                <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/[0.03] blur-[180px] rounded-full pointer-events-none" />
+                <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
 
                 <div className="max-w-7xl mx-auto">
                     {/* Unified header */}
@@ -819,6 +811,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             <section className="py-10 md:py-14 px-4 md:px-6 relative z-10 overflow-visible">
                 {/* Ambient background effects — overflow-visible so glow bleeds into adjacent sections */}
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                    <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-orange-500/[0.03] blur-[150px] rounded-full" />
+                    <div className="absolute -bottom-32 -right-32 w-[400px] h-[400px] bg-orange-500/[0.02] blur-[120px] rounded-full" />
                 </div>
 
                 {/* Decorative vertical lines */}
@@ -1108,6 +1102,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
             ════════════════════════════════════════════════════════════════ */}
             <section className="py-10 md:py-14 px-4 md:px-6 relative z-10 border-t border-white/5 overflow-clip">
                 {/* Ambient effects */}
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-500/[0.02] blur-[180px] rounded-full pointer-events-none" />
 
                 {/* Horizontal scan line effect */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
@@ -1198,6 +1193,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                     <ScrollReveal>
                         <div className="relative text-center py-12 md:py-16 mt-6 border-t border-white/5">
                             {/* Ambient glow */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-orange-500/[0.06] blur-[100px] rounded-full pointer-events-none" />
 
                             <SectionBadge text="Get Started" />
                             <h2 className="font-heading font-bold text-xl md:text-2xl lg:text-3xl text-white uppercase tracking-tight mb-3 relative leading-[0.95]">

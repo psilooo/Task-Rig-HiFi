@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Reveal } from './ui/Reveal';
 import { DotMatrixLogo } from './DotMatrixLogo';
-import { MeshGradient } from '@mesh-gradient/react';
+import { DynamicNoise } from './DynamicNoise';
 
 interface HeroProps {
     onLoginClick: () => void;
@@ -12,16 +12,15 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
     return (
         <section className="relative min-h-[100svh] flex flex-col bg-zinc-950 overflow-clip">
 
-            {/* Background — WebGL mesh gradient */}
+            {/* Background — noise + dual offset glows */}
             <div className="absolute inset-0 pointer-events-none z-0">
-                <MeshGradient
-                    className="w-full h-full opacity-[0.14]"
-                    options={{
-                        colors: ['#09090b', '#f97316', '#ea580c', '#09090b'],
-                        animationSpeed: 0.3,
-                        seed: 3,
-                    }}
-                />
+                <DynamicNoise opacity={0.10} />
+
+                {/* Left glow — under text column */}
+                <div className="absolute top-1/2 left-[25%] -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] md:w-[600px] md:h-[400px] bg-orange-500/[0.05] blur-[180px] rounded-full" />
+
+                {/* Right glow — behind gear */}
+                <div className="absolute top-1/2 right-[10%] -translate-y-1/2 w-[300px] h-[250px] md:w-[500px] md:h-[350px] bg-orange-600/[0.03] blur-[150px] rounded-full" />
             </div>
 
             {/* Top-edge scan line */}

@@ -10,7 +10,7 @@ import {
     ChevronRight
 } from 'lucide-react';
 import { TaskRigLogo } from './ui/TaskRigLogo';
-import { MeshGradient } from '@mesh-gradient/react';
+import { DynamicNoise } from './DynamicNoise';
 import { Footer } from './Footer';
 
 // ─── TYPES ────────────────────────────────────────────────────────
@@ -199,9 +199,9 @@ const staggerItem = {
 
 // ─── SHARED STYLES ───────────────────────────────────────────────
 
-const labelClass = 'block text-zinc-400 font-mono text-xs uppercase tracking-widest mb-1.5';
-const inputClass = 'w-full bg-zinc-950/50 border border-zinc-800 rounded px-4 py-2.5 text-white font-mono text-sm focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700';
-const chipBaseClass = 'border rounded transition-all duration-200';
+const labelClass = 'block text-zinc-400 font-mono text-xs uppercase tracking-widest mb-2';
+const inputClass = 'w-full bg-zinc-950/50 border border-zinc-800 rounded-sm px-4 py-3 text-white font-mono text-base focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/50 transition-all placeholder:text-zinc-700';
+const chipBaseClass = 'border rounded-sm transition-all duration-200';
 const chipSelectedClass = 'border-orange-500/50 bg-orange-500/10 text-orange-400';
 const chipUnselectedClass = 'border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300';
 
@@ -353,7 +353,7 @@ const PhaseSubtitle: React.FC<{ text: string; enabled: boolean; onComplete?: () 
     if (!enabled) return null;
 
     return (
-        <p className="text-zinc-500 font-mono text-sm mb-4">
+        <p className="text-zinc-500 font-mono text-sm mb-6">
             {displayText}
         </p>
     );
@@ -411,7 +411,6 @@ export const GetStartedPage: React.FC = () => {
     const [phoneError, setPhoneError] = useState('');
 
     const phaseRefs = useRef<Record<number, HTMLDivElement | null>>({});
-    const cardRef = useRef<HTMLDivElement>(null);
 
     const update = useCallback((partial: Partial<LeadData>) => {
         setData(prev => ({ ...prev, ...partial }));
@@ -620,7 +619,7 @@ export const GetStartedPage: React.FC = () => {
             setPhaseHasBeenExpanded(prev => new Set(prev).add(nextPhase));
 
             setTimeout(() => {
-                cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                phaseRefs.current[nextPhase]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
         }
     };
@@ -663,15 +662,10 @@ export const GetStartedPage: React.FC = () => {
         <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30 flex flex-col">
             {/* Background layers */}
             <div className="fixed inset-0 pointer-events-none z-0">
-                <MeshGradient
-                    className="w-full h-full opacity-[0.07]"
-                    options={{
-                        colors: ['#09090b', '#f97316', '#ea580c', '#09090b'],
-                        animationSpeed: 0.3,
-                        seed: 7,
-                    }}
-                />
+                <DynamicNoise opacity={0.06} />
             </div>
+            <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0" />
+            <div className="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] bg-orange-600/[0.03] blur-[120px] rounded-full pointer-events-none z-0" />
 
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-14 md:h-20">
@@ -684,10 +678,10 @@ export const GetStartedPage: React.FC = () => {
             </nav>
 
             {/* Main Content */}
-            <div className="flex-1 relative z-10 pt-16 md:pt-24 pb-8 md:pb-16 px-4 md:px-6">
-                <div className="max-w-4xl mx-auto">
+            <div className="flex-1 relative z-10 pt-20 md:pt-28 pb-12 md:pb-20 px-4 md:px-6">
+                <div className="max-w-3xl mx-auto">
                     {/* Back link */}
-                    <div className="mb-4">
+                    <div className="mb-6">
                         <Link to="/" className="group inline-flex items-center gap-1.5 py-2 text-zinc-400 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors no-underline">
                             <ArrowLeft size={14} className="text-zinc-500 group-hover:text-orange-500 transition-colors" />
                             Back to Home
@@ -695,15 +689,15 @@ export const GetStartedPage: React.FC = () => {
                     </div>
 
                     {/* Glass Card */}
-                    <div ref={cardRef} className="relative bg-zinc-900/30 border border-white/[0.06] backdrop-blur-md rounded shadow-2xl shadow-black/40 scroll-mt-20 md:scroll-mt-28">
+                    <div className="relative bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-sm rounded-sm shadow-xl">
                         {/* Corner brackets */}
-                        <div className="absolute -top-[1px] -left-[1px] w-3.5 h-3.5 border-t-2 border-l-2 border-orange-500/40 z-10" />
-                        <div className="absolute -top-[1px] -right-[1px] w-3.5 h-3.5 border-t-2 border-r-2 border-orange-500/40 z-10" />
-                        <div className="absolute -bottom-[1px] -left-[1px] w-3.5 h-3.5 border-b-2 border-l-2 border-orange-500/40 z-10" />
-                        <div className="absolute -bottom-[1px] -right-[1px] w-3.5 h-3.5 border-b-2 border-r-2 border-orange-500/40 z-10" />
+                        <div className="absolute -top-[1px] -left-[1px] w-4 h-4 border-t-2 border-l-2 border-orange-500/50 z-10" />
+                        <div className="absolute -top-[1px] -right-[1px] w-4 h-4 border-t-2 border-r-2 border-orange-500/50 z-10" />
+                        <div className="absolute -bottom-[1px] -left-[1px] w-4 h-4 border-b-2 border-l-2 border-orange-500/50 z-10" />
+                        <div className="absolute -bottom-[1px] -right-[1px] w-4 h-4 border-b-2 border-r-2 border-orange-500/50 z-10" />
 
                         {/* Card header: phase dots + step counter */}
-                        <div className="flex items-center justify-between px-6 md:px-8 pt-5 md:pt-6 pb-3">
+                        <div className="flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8 pb-4">
                             <div className="flex items-center gap-2">
                                 {PHASES.map(p => (
                                     <div
@@ -723,10 +717,10 @@ export const GetStartedPage: React.FC = () => {
                             </span>
                         </div>
 
-                        <div className="h-px bg-white/[0.04] mx-6 md:mx-8" />
+                        <div className="h-px bg-zinc-800/50 mx-6 md:mx-10" />
 
                         {/* Card body */}
-                        <div className="px-6 md:px-8 py-5 md:py-6 space-y-1">
+                        <div className="px-6 md:px-10 py-6 md:py-8 space-y-2">
                             {isSubmitted ? (
                                 <SuccessState data={data} />
                             ) : (
@@ -770,9 +764,9 @@ export const GetStartedPage: React.FC = () => {
                                                             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                                                             className="overflow-hidden"
                                                         >
-                                                            <div className="py-3">
+                                                            <div className="py-4">
                                                                 {/* Phase header + collapse button */}
-                                                                <div className="flex items-start justify-between mb-0.5">
+                                                                <div className="flex items-start justify-between mb-1">
                                                                     <h3 className="font-heading font-bold text-2xl text-white uppercase tracking-tight">
                                                                         {phase.title}
                                                                     </h3>
@@ -794,7 +788,7 @@ export const GetStartedPage: React.FC = () => {
                                                                         onComplete={() => setPhaseTypingComplete(prev => ({ ...prev, [phase.num]: true }))}
                                                                     />
                                                                 ) : (
-                                                                    <p className="text-zinc-500 font-mono text-sm mb-4">
+                                                                    <p className="text-zinc-500 font-mono text-sm mb-6">
                                                                         {phase.subtitle}
                                                                     </p>
                                                                 )}
@@ -868,7 +862,7 @@ export const GetStartedPage: React.FC = () => {
 
                                             <button
                                                 onClick={handleSubmit}
-                                                className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-orange-500 hover:bg-orange-400 text-white font-mono text-xs uppercase tracking-widest transition-all rounded disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
+                                                className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-orange-500 hover:bg-orange-400 text-white font-mono text-xs uppercase tracking-widest transition-all rounded-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]"
                                             >
                                                 Submit
                                                 <ChevronRight size={14} />
@@ -900,7 +894,7 @@ const ContinueButton: React.FC<{ enabled: boolean; onClick: () => void; label: s
     <button
         onClick={onClick}
         disabled={!enabled}
-        className={`w-full flex items-center justify-center gap-2 px-6 py-3 font-mono text-xs uppercase tracking-widest transition-all rounded ${
+        className={`w-full flex items-center justify-center gap-2 px-6 py-4 font-mono text-xs uppercase tracking-widest transition-all rounded-sm ${
             enabled
                 ? 'bg-orange-500 hover:bg-orange-400 text-white shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]'
                 : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
@@ -941,7 +935,7 @@ const SuccessState: React.FC<{ data: LeadData }> = ({ data }) => (
         </div>
 
         {/* Summary card */}
-        <div className="border border-zinc-800/50 bg-zinc-950/40 rounded overflow-hidden mb-6">
+        <div className="border border-zinc-800/50 bg-zinc-950/40 rounded-sm overflow-hidden mb-6">
             <div className="px-5 py-3 border-b border-zinc-800/50">
                 <span className="font-mono text-xs text-zinc-400 uppercase tracking-widest">Summary</span>
             </div>
@@ -968,14 +962,14 @@ const SuccessState: React.FC<{ data: LeadData }> = ({ data }) => (
         <div className="flex flex-col sm:flex-row items-center gap-4">
             <a
                 href="tel:+18442222486"
-                className="w-full sm:flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-orange-500 hover:bg-orange-400 text-white font-mono text-xs uppercase tracking-widest transition-all rounded shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_20px_rgba(249,115,22,0.4)] no-underline"
+                className="w-full sm:flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-orange-500 hover:bg-orange-400 text-white font-mono text-xs uppercase tracking-widest transition-all rounded-sm shadow-[0_0_15px_rgba(249,115,22,0.2)] hover:shadow-[0_0_20px_rgba(249,115,22,0.4)] no-underline"
             >
                 <Phone size={14} />
                 Call Now
             </a>
             <a
                 href="tel:+18442222486"
-                className="w-full sm:flex-1 flex items-center justify-center gap-2 px-6 py-3.5 border border-zinc-700 hover:border-orange-500/40 text-zinc-300 hover:text-white font-mono text-xs uppercase tracking-widest transition-all rounded no-underline"
+                className="w-full sm:flex-1 flex items-center justify-center gap-2 px-6 py-4 border border-zinc-700 hover:border-orange-500/40 text-zinc-300 hover:text-white font-mono text-xs uppercase tracking-widest transition-all rounded-sm no-underline"
             >
                 <Calendar size={14} />
                 Schedule a Call
@@ -1046,7 +1040,7 @@ const Phase1Content: React.FC<{
                         initial={{ opacity: 0, y: -4 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -4 }}
-                        className="absolute top-full left-0 right-0 mt-1 border border-zinc-700 bg-zinc-900/95 backdrop-blur-md rounded shadow-xl z-20 overflow-hidden"
+                        className="absolute top-full left-0 right-0 mt-1 border border-zinc-700 bg-zinc-900 rounded-sm shadow-xl z-20 overflow-hidden"
                     >
                         {predictions.map((p) => (
                             <button
@@ -1075,7 +1069,7 @@ const Phase1Content: React.FC<{
                     exit={{ opacity: 0, y: -8, height: 0 }}
                     className="overflow-hidden"
                 >
-                    <div className="p-4 border border-emerald-500/20 bg-emerald-500/[0.04] rounded relative">
+                    <div className="p-4 border border-emerald-500/20 bg-emerald-500/[0.04] rounded-sm relative">
                         <button onClick={clearPlace} className="absolute top-3 right-3 text-zinc-500 hover:text-white text-xs font-mono uppercase tracking-widest transition-colors">Change</button>
                         <div className="flex items-center gap-2 mb-2">
                             <div className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -1146,7 +1140,7 @@ const Phase2Content: React.FC<{
     const allServices = [...new Set(nonOtherIndustries.flatMap(id => INDUSTRY_SERVICES[id] || []))];
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-5">
             {/* Industry grid */}
             <motion.div variants={staggerItem}>
                 <label className={labelClass}>
@@ -1239,7 +1233,7 @@ const Phase3Content: React.FC<{
     data: LeadData;
     toggleArrayItem: (field: keyof LeadData, value: string) => void;
 }> = ({ data, toggleArrayItem }) => (
-    <div className="space-y-4">
+    <div className="space-y-6">
         {/* Pain points */}
         <motion.div variants={staggerItem}>
             <label className={labelClass}>
@@ -1282,8 +1276,8 @@ const Phase4Content: React.FC<{
     data: LeadData;
     update: (partial: Partial<LeadData>) => void;
 }> = ({ data, update }) => (
-    <div className="space-y-4">
-        <motion.div variants={staggerItem} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="space-y-5">
+        <motion.div variants={staggerItem} className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <SelectChips label="Team Size" value={data.teamSize} options={TEAM_SIZES} onChange={(v) => update({ teamSize: v })} required />
             <SelectChips label="Monthly Calls" value={data.monthlyCallVolume} options={CALL_VOLUMES} onChange={(v) => update({ monthlyCallVolume: v })} />
             <SelectChips label="Monthly Leads" value={data.monthlyLeadVolume} options={LEAD_VOLUMES} onChange={(v) => update({ monthlyLeadVolume: v })} />
