@@ -664,7 +664,7 @@ export const GetStartedPage: React.FC = () => {
             {/* Background layers */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <MeshGradient
-                    className="w-full h-full opacity-[0.12]"
+                    className="w-full h-full opacity-[0.07]"
                     options={{
                         colors: ['#09090b', '#f97316', '#ea580c', '#09090b'],
                         animationSpeed: 0.3,

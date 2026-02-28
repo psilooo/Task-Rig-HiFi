@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowLeft, Send, CheckCircle2, AlertCircle, Loader2, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { TaskRigLogo } from './ui/TaskRigLogo';
+import { MeshGradient } from '@mesh-gradient/react';
 import { Footer } from './Footer';
 
 export const ContactPage: React.FC = () => {
@@ -54,6 +55,16 @@ export const ContactPage: React.FC = () => {
     return (
         <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30">
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0"></div>
+            <div className="fixed inset-0 pointer-events-none z-0">
+                <MeshGradient
+                    className="w-full h-full opacity-[0.10]"
+                    options={{
+                        colors: ['#09090b', '#f97316', '#ea580c', '#09090b'],
+                        animationSpeed: 0.25,
+                        seed: 11,
+                    }}
+                />
+            </div>
 
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-20">
