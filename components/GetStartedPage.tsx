@@ -10,7 +10,7 @@ import {
     ChevronRight
 } from 'lucide-react';
 import { TaskRigLogo } from './ui/TaskRigLogo';
-import { DynamicNoise } from './DynamicNoise';
+import { MeshGradient } from '@mesh-gradient/react';
 import { Footer } from './Footer';
 
 // ─── TYPES ────────────────────────────────────────────────────────
@@ -663,22 +663,15 @@ export const GetStartedPage: React.FC = () => {
         <div className="min-h-[100svh] bg-zinc-950 text-zinc-100 relative overflow-x-clip selection:bg-orange-500/30 flex flex-col">
             {/* Background layers */}
             <div className="fixed inset-0 pointer-events-none z-0">
-                <DynamicNoise opacity={0.06} />
+                <MeshGradient
+                    className="w-full h-full opacity-[0.12]"
+                    options={{
+                        colors: ['#09090b', '#f97316', '#ea580c', '#09090b'],
+                        animationSpeed: 0.3,
+                        seed: 7,
+                    }}
+                />
             </div>
-            <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0" />
-            {/* Ambient orange gradients — CSS radial-gradient for smooth rendering */}
-            <div
-                className="fixed inset-0 pointer-events-none z-0 animate-[drift_20s_ease-in-out_infinite]"
-                style={{ background: 'radial-gradient(ellipse 80% 60% at 20% 30%, rgba(249,115,22,0.06) 0%, transparent 70%)' }}
-            />
-            <div
-                className="fixed inset-0 pointer-events-none z-0 animate-[drift_25s_ease-in-out_infinite_reverse]"
-                style={{ background: 'radial-gradient(ellipse 70% 50% at 80% 70%, rgba(234,88,12,0.05) 0%, transparent 70%)' }}
-            />
-            <div
-                className="fixed inset-0 pointer-events-none z-0 animate-[drift_30s_ease-in-out_infinite]"
-                style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(249,115,22,0.03) 0%, transparent 60%)' }}
-            />
 
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-14 md:h-20">
