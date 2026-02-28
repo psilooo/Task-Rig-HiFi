@@ -411,6 +411,7 @@ export const GetStartedPage: React.FC = () => {
     const [phoneError, setPhoneError] = useState('');
 
     const phaseRefs = useRef<Record<number, HTMLDivElement | null>>({});
+    const cardRef = useRef<HTMLDivElement>(null);
 
     const update = useCallback((partial: Partial<LeadData>) => {
         setData(prev => ({ ...prev, ...partial }));
@@ -619,7 +620,7 @@ export const GetStartedPage: React.FC = () => {
             setPhaseHasBeenExpanded(prev => new Set(prev).add(nextPhase));
 
             setTimeout(() => {
-                phaseRefs.current[nextPhase]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
         }
     };
@@ -665,7 +666,11 @@ export const GetStartedPage: React.FC = () => {
                 <DynamicNoise opacity={0.06} />
             </div>
             <div className="fixed inset-0 grid-bg opacity-[0.03] pointer-events-none z-0" />
-            <div className="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[250px] bg-orange-600/[0.03] blur-[120px] rounded-full pointer-events-none z-0" />
+            <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+                <div className="absolute w-[600px] h-[600px] top-[10%] left-[10%] bg-orange-500/[0.045] blur-[150px] rounded-full animate-[drift_20s_ease-in-out_infinite]" />
+                <div className="absolute w-[500px] h-[500px] bottom-[10%] right-[5%] bg-orange-600/[0.035] blur-[150px] rounded-full animate-[drift_25s_ease-in-out_infinite_reverse]" />
+                <div className="absolute w-[400px] h-[400px] top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-orange-500/[0.025] blur-[120px] rounded-full animate-[drift_30s_ease-in-out_infinite]" />
+            </div>
 
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-zinc-950/95 backdrop-blur-md h-14 md:h-20">
@@ -689,13 +694,7 @@ export const GetStartedPage: React.FC = () => {
                     </div>
 
                     {/* Glass Card */}
-                    <div className="relative">
-                        {/* Slow-moving ambient orange gradient behind card */}
-                        <div className="absolute -inset-12 pointer-events-none z-0 overflow-hidden rounded-3xl">
-                            <div className="absolute w-[500px] h-[400px] top-1/4 -left-20 bg-orange-500/[0.04] blur-[100px] rounded-full animate-[drift_20s_ease-in-out_infinite]" />
-                            <div className="absolute w-[400px] h-[350px] bottom-1/4 -right-16 bg-orange-600/[0.03] blur-[100px] rounded-full animate-[drift_25s_ease-in-out_infinite_reverse]" />
-                        </div>
-                    <div className="relative bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-md rounded shadow-xl z-[1]">
+                    <div ref={cardRef} className="relative bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-md rounded shadow-xl scroll-mt-20 md:scroll-mt-28">
                         {/* Corner brackets */}
                         <div className="absolute -top-[1px] -left-[1px] w-4 h-4 border-t-2 border-l-2 border-orange-500/50 z-10" />
                         <div className="absolute -top-[1px] -right-[1px] w-4 h-4 border-t-2 border-r-2 border-orange-500/50 z-10" />
@@ -885,7 +884,6 @@ export const GetStartedPage: React.FC = () => {
                                 </>
                             )}
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
