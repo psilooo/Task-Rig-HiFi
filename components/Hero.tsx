@@ -28,8 +28,8 @@ export const Hero: React.FC<HeroProps> = ({ onLoginClick }) => {
 
             {/* Corner bracket accents (desktop) */}
             <div className="absolute inset-0 pointer-events-none hidden md:block z-10">
-                <div className="absolute top-20 left-6 w-3 h-3 border-t border-l border-orange-500/30" />
-                <div className="absolute top-20 right-6 w-3 h-3 border-t border-r border-orange-500/30" />
+                <div className="absolute top-24 left-6 w-3 h-3 border-t border-l border-orange-500/30" />
+                <div className="absolute top-24 right-6 w-3 h-3 border-t border-r border-orange-500/30" />
                 <div className="absolute bottom-6 left-6 w-3 h-3 border-b border-l border-orange-500/30" />
                 <div className="absolute bottom-6 right-6 w-3 h-3 border-b border-r border-orange-500/30" />
             </div>
