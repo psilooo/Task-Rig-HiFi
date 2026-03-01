@@ -1,0 +1,65 @@
+import {
+    Wrench, Zap, Home, TreePine, PaintBucket, Hammer, Sparkles,
+    Car, Stethoscope, Heart, Briefcase, Building2, UtensilsCrossed,
+    Scissors, Truck, Shield, FileText, Cog,
+    Phone, Clock, Calendar, MessageSquare, CreditCard, BarChart3,
+    Globe, Star, Users
+} from 'lucide-react';
+
+export const INDUSTRIES = [
+    { id: 'hvac', label: 'HVAC', icon: Wrench },
+    { id: 'plumbing', label: 'Plumbing', icon: Wrench },
+    { id: 'electrical', label: 'Electrical', icon: Zap },
+    { id: 'roofing', label: 'Roofing', icon: Home },
+    { id: 'landscaping', label: 'Landscaping', icon: TreePine },
+    { id: 'painting', label: 'Painting', icon: PaintBucket },
+    { id: 'construction', label: 'Construction', icon: Hammer },
+    { id: 'cleaning', label: 'Cleaning', icon: Sparkles },
+    { id: 'auto-repair', label: 'Auto Repair', icon: Car },
+    { id: 'healthcare', label: 'Healthcare', icon: Stethoscope },
+    { id: 'dental', label: 'Dental', icon: Heart },
+    { id: 'legal', label: 'Legal', icon: Briefcase },
+    { id: 'real-estate', label: 'Real Estate', icon: Building2 },
+    { id: 'restaurant', label: 'Restaurant', icon: UtensilsCrossed },
+    { id: 'salon-spa', label: 'Salon & Spa', icon: Scissors },
+    { id: 'logistics', label: 'Logistics', icon: Truck },
+    { id: 'pest-control', label: 'Pest Control', icon: Shield },
+    { id: 'general-contracting', label: 'General Contractor', icon: FileText },
+    { id: 'moving', label: 'Moving & Hauling', icon: Truck },
+    { id: 'other', label: 'Other', icon: Cog },
+];
+
+export const PAIN_POINTS = [
+    { id: 'missed-calls', label: 'Missed calls & leads', icon: Phone },
+    { id: 'slow-response', label: 'Slow response times', icon: Clock },
+    { id: 'scheduling-chaos', label: 'Scheduling chaos', icon: Calendar },
+    { id: 'manual-dispatch', label: 'Manual dispatch', icon: Truck },
+    { id: 'no-after-hours', label: 'No after-hours coverage', icon: Globe },
+    { id: 'lost-reviews', label: 'Not enough reviews', icon: Star },
+    { id: 'invoicing', label: 'Invoicing delays', icon: CreditCard },
+    { id: 'customer-followup', label: 'Customer follow-up', icon: MessageSquare },
+    { id: 'data-silos', label: 'Data spread across tools', icon: BarChart3 },
+    { id: 'hiring', label: 'Hard to hire/retain staff', icon: Users },
+];
+
+export const INDUSTRY_SERVICES: Record<string, string[]> = {
+    'hvac': ['AC Repair', 'Heating Repair', 'Installation', 'Maintenance', 'Duct Work', 'Commercial HVAC'],
+    'plumbing': ['Drain Cleaning', 'Water Heater', 'Pipe Repair', 'Sewer Line', 'Emergency Service', 'Repiping'],
+    'electrical': ['Wiring', 'Panel Upgrades', 'Lighting', 'EV Charger Install', 'Emergency Service', 'Inspections'],
+    'roofing': ['Roof Repair', 'Replacement', 'Inspection', 'Storm Damage', 'Gutters', 'Commercial'],
+    'landscaping': ['Lawn Care', 'Design', 'Irrigation', 'Tree Service', 'Hardscaping', 'Snow Removal'],
+    'painting': ['Interior', 'Exterior', 'Commercial', 'Cabinet Refinishing', 'Staining', 'Pressure Washing'],
+    'construction': ['Residential', 'Commercial', 'Remodeling', 'Additions', 'Foundation', 'Permits'],
+    'cleaning': ['Residential', 'Commercial', 'Move-In/Out', 'Deep Clean', 'Window Cleaning', 'Carpet'],
+    'auto-repair': ['Oil Change', 'Brakes', 'Engine', 'Transmission', 'Diagnostics', 'Body Work'],
+    'healthcare': ['Primary Care', 'Urgent Care', 'Telehealth', 'Lab Work', 'Referrals', 'Follow-ups'],
+    'dental': ['Cleaning', 'Fillings', 'Crown', 'Implants', 'Emergency', 'Cosmetic'],
+    'legal': ['Consultation', 'Litigation', 'Estate Planning', 'Business Law', 'Personal Injury', 'Family Law'],
+    'real-estate': ['Buying', 'Selling', 'Property Mgmt', 'Commercial', 'Rentals', 'Appraisals'],
+    'restaurant': ['Dine-In', 'Takeout', 'Catering', 'Delivery', 'Events', 'Reservations'],
+    'salon-spa': ['Haircut', 'Color', 'Massage', 'Facial', 'Nails', 'Waxing'],
+    'logistics': ['Last Mile', 'Freight', 'Warehousing', 'Fleet Mgmt', 'Route Planning', 'Tracking'],
+    'pest-control': ['Termites', 'Rodents', 'Mosquitoes', 'Bed Bugs', 'Wildlife Removal', 'Quarterly Plans'],
+    'general-contracting': ['New Builds', 'Remodels', 'Additions', 'Permit Management', 'Sub Coordination', 'Inspections'],
+    'moving': ['Local Moves', 'Long Distance', 'Packing', 'Storage', 'Junk Removal', 'Commercial'],
+};
