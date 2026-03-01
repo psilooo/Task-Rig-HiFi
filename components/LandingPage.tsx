@@ -978,41 +978,41 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                 </ScrollReveal>
 
                 {/* Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-[20px] items-start w-full mt-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-start w-full mt-4">
                     {pricingTiers.map((tier, i) => {
                         const isFeatured = tier.highlighted;
 
                         // Dynamic Color mapping
                         const getTagColors = (scheme?: string) => {
                             switch (scheme) {
-                                case 'green': return 'text-emerald-400 bg-emerald-400/10 border-emerald-400/30';
-                                case 'blue': return 'text-blue-400 bg-blue-400/10 border-blue-400/30';
-                                case 'silver': return 'text-zinc-300 bg-zinc-300/[0.08] border-zinc-300/25';
+                                case 'green': return 'text-zinc-300 bg-zinc-800/50 border-zinc-700';
+                                case 'blue': return 'text-orange-400 bg-orange-500/10 border-orange-500/30';
+                                case 'silver': return 'text-zinc-400 bg-zinc-800/50 border-zinc-700';
                                 default: return 'text-zinc-300 bg-zinc-800/50 border-zinc-700/50';
                             }
                         };
 
                         const getCheckColor = (scheme?: string) => {
                             switch (scheme) {
-                                case 'green': return '#34d399';
-                                case 'blue': return '#60a5fa';
-                                case 'silver': return '#ffffff';
+                                case 'green': return '#d4d4d8';
+                                case 'blue': return '#f97316';
+                                case 'silver': return '#a1a1aa';
                                 default: return '#d4d4d8';
                             }
                         };
 
                         return (
                             <ScrollReveal key={i} delay={i * 0.1}>
-                                <div className={`relative p-[28px] md:p-[26px] lg:p-[30px] border rounded-[12px] flex flex-col h-full bg-zinc-950 transition-all duration-300 ${isFeatured ? 'border-orange-500/60 hover:-translate-y-[4px]' : 'border-zinc-800 hover:border-zinc-700 hover:-translate-y-[4px]'}`}>
+                                <div className={`relative p-6 md:p-7 border rounded-sm flex flex-col h-full bg-zinc-900/40 backdrop-blur-sm transition-all duration-300 ${isFeatured ? 'border-orange-500/60 hover:-translate-y-[4px]' : 'border-zinc-800/50 hover:border-zinc-700 hover:-translate-y-[4px]'}`}>
                                     {isFeatured && (
                                         <>
-                                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white font-mono text-[10px] font-bold tracking-[0.14em] uppercase px-4 py-[3px] pt-[4px] rounded-[12px] whitespace-nowrap z-10 leading-none">
+                                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white font-mono text-[10px] font-bold tracking-[0.14em] uppercase px-4 py-[3px] pt-[4px] rounded-sm whitespace-nowrap z-10 leading-none">
                                                 Most Popular
                                             </div>
                                             {/* Animated orbiting glow border — sharp ring */}
-                                            <div className="glow-border absolute -inset-[2px] rounded-[14px] pointer-events-none" />
+                                            <div className="glow-border absolute -inset-[2px] rounded-sm pointer-events-none" />
                                             {/* Blurred halo behind the ring */}
-                                            <div className="glow-border absolute -inset-[2px] rounded-[14px] pointer-events-none blur-[8px] opacity-40" />
+                                            <div className="glow-border absolute -inset-[2px] rounded-sm pointer-events-none blur-[8px] opacity-40" />
                                             {/* Slow pulsing ambient glow */}
                                             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[120px] bg-orange-500/[0.04] blur-[60px] rounded-full pointer-events-none animate-pulse" />
                                         </>
@@ -1033,14 +1033,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             </span>
                                             <span className="font-mono text-[13px] text-zinc-500 pb-2 tracking-[0.04em]">CAD /mo</span>
                                         </div>
-                                        <div className="font-mono text-[11px] text-orange-500 mb-[24px] min-h-[16px] tracking-[0.04em]">
+                                        <div className="font-mono text-[11px] text-orange-500 mb-6 min-h-[16px] tracking-[0.04em]">
                                             {isAnnual ? 'Billed annually — save 20%' : ''}
                                         </div>
 
-                                        <ul className="flex flex-col gap-[10px] mb-[24px] flex-1 list-none p-0">
+                                        <ul className="flex flex-col gap-2.5 mb-6 flex-1 list-none p-0">
                                             {tier.features.map((feat, j) => (
-                                                <li key={j} className="flex items-start gap-[10px] text-[14px] text-zinc-300 leading-[1.45]">
-                                                    <svg className="flex-shrink-0 mt-[3px] w-4 h-4" viewBox="0 0 16 16" fill="none">
+                                                <li key={j} className="flex items-start gap-2.5 font-mono text-sm text-zinc-300 leading-[1.45]">
+                                                    <svg className="flex-shrink-0 mt-0.5 w-4 h-4" viewBox="0 0 16 16" fill="none">
                                                         <circle cx="8" cy="8" r="7.5" stroke={getCheckColor(tier.colorScheme)} strokeOpacity="0.3" />
                                                         <path d="M5 8l2 2 4-4" stroke={getCheckColor(tier.colorScheme)} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                                     </svg>
@@ -1059,16 +1059,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLoginClick }) => {
                                             ))}
                                         </ul>
 
-                                        <div className="font-mono text-[10px] text-zinc-500 tracking-[0.04em] mt-1 mb-[24px]">
+                                        <div className="font-mono text-[10px] text-zinc-500 tracking-[0.04em] mt-1 mb-6">
                                             {tier.overage}
                                         </div>
 
-                                        <div className="h-px bg-zinc-800 w-full mb-[24px]"></div>
+                                        <div className="h-px bg-zinc-800 w-full mb-6"></div>
 
-                                        <Link to="/get-started" className="no-underline block w-full focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 rounded-[8px]">
-                                            <div className={`block w-full py-[14px] rounded-[8px] font-mono text-[12px] font-bold tracking-[0.12em] uppercase text-center transition-all cursor-pointer ${isFeatured
+                                        <Link to="/get-started" className="no-underline block w-full focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950 rounded-sm">
+                                            <div className={`block w-full py-3.5 rounded-sm font-mono text-[12px] font-bold tracking-[0.12em] uppercase text-center transition-all cursor-pointer ${isFeatured
                                                 ? 'bg-orange-500 text-white shadow-[0_4px_24px_rgba(245,98,15,0.25)] hover:bg-orange-600 hover:shadow-[0_4px_32px_rgba(245,98,15,0.55)] hover:-translate-y-px border-none'
-                                                : 'bg-transparent border border-orange-500/40 text-orange-400 shadow-[0_0_12px_rgba(249,115,22,0.15)] hover:border-orange-500/70 hover:text-orange-300 hover:shadow-[0_0_20px_rgba(249,115,22,0.3)]'
+                                                : 'bg-transparent border border-zinc-700 text-zinc-300 hover:border-orange-500/40 hover:text-white'
                                                 }`}>
                                                 {tier.ctaText}
                                             </div>
