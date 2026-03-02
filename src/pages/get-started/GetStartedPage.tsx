@@ -161,18 +161,8 @@ export const GetStartedPage: React.FC = () => {
                     }
                 );
             } else {
-                setPredictions([
-                    {
-                        place_id: 'demo-1',
-                        description: `${query} - 123 Main St, Your City`,
-                        structured_formatting: { main_text: query, secondary_text: '123 Main St, Your City, ST 12345' },
-                    },
-                    {
-                        place_id: 'demo-2',
-                        description: `${query} Services LLC - 456 Oak Ave`,
-                        structured_formatting: { main_text: `${query} Services LLC`, secondary_text: '456 Oak Ave, Nearby Town, ST 67890' },
-                    },
-                ]);
+                // API not loaded — no fake results, user should use manual entry
+                setPredictions([]);
                 setIsSearching(false);
             }
         } catch {
@@ -217,22 +207,6 @@ export const GetStartedPage: React.FC = () => {
                     }
                 }
             );
-        } else {
-            const details: PlaceDetails = {
-                name: prediction.structured_formatting.main_text,
-                formatted_address: prediction.structured_formatting.secondary_text,
-                rating: 4.6,
-                types: ['establishment'],
-            };
-            setSelectedPlace(details);
-            update({
-                businessName: details.name,
-                businessAddress: details.formatted_address,
-                businessPhone: '',
-                businessRating: details.rating || null,
-                businessPlaceId: prediction.place_id,
-                businessCategory: 'business',
-            });
         }
     };
 
@@ -581,38 +555,3 @@ export const GetStartedPage: React.FC = () => {
         </div>
     );
 };
-
-// Google Maps types
-declare global {
-    interface Window {
-        google?: {
-            maps: {
-                places: {
-                    AutocompleteService: new () => {
-                        getPlacePredictions: (
-                            request: { input: string; types?: string[] },
-                            callback: (results: Array<{
-                                place_id?: string;
-                                description: string;
-                                structured_formatting?: { main_text: string; secondary_text: string };
-                            }> | null, status: string) => void
-                        ) => void;
-                    };
-                    PlacesService: new (div: HTMLElement) => {
-                        getDetails: (
-                            request: { placeId: string; fields: string[] },
-                            callback: (place: {
-                                name?: string;
-                                formatted_address?: string;
-                                formatted_phone_number?: string;
-                                rating?: number;
-                                types?: string[];
-                            } | null, status: string) => void
-                        ) => void;
-                    };
-                    PlacesServiceStatus: { OK: string };
-                };
-            };
-        };
-    }
-}
