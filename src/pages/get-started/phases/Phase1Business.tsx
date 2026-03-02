@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MapPin, Phone, Star, ChevronDown } from 'lucide-react';
+import { Search, MapPin, Phone, Star, PenLine } from 'lucide-react';
 import { InputField } from '../../../components/forms/InputField';
 import { INDUSTRIES, INDUSTRY_SERVICES } from '../../../constants/industries';
 import { chipBaseClass, chipSelectedClass, chipUnselectedClass, labelClass, inputClass } from '../../../components/forms/styles';
@@ -134,10 +134,10 @@ export const Phase1Business: React.FC<{
                 <motion.div variants={staggerItem}>
                     <button
                         onClick={() => setShowManualEntry(!showManualEntry)}
-                        className="flex items-center gap-2 font-mono text-xs text-zinc-500 hover:text-zinc-300 uppercase tracking-widest transition-colors"
+                        className="flex items-center gap-2 font-mono text-xs text-orange-500/80 hover:text-orange-400 uppercase tracking-widest transition-colors"
                     >
-                        <ChevronDown size={14} className={`transition-transform duration-200 ${showManualEntry ? 'rotate-180' : ''}`} />
-                        Or enter manually
+                        <PenLine size={14} />
+                        Can't find your business? Enter manually
                     </button>
                     <AnimatePresence>
                         {showManualEntry && (
