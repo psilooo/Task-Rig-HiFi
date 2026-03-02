@@ -18,6 +18,7 @@ const App: React.FC = () => {
       {initialLoading && <LoadingScreen onComplete={() => setInitialLoading(false)} />}
       <Routes>
         <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/get-started" element={<GetStartedPage />} />

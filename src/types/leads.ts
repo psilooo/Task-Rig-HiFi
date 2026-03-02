@@ -1,25 +1,20 @@
 export interface LeadData {
-    // Step 1: Business
+    // Phase 1: Your Business
     businessName: string;
     businessAddress: string;
     businessPhone: string;
     businessCategory: string;
     businessRating: number | null;
     businessPlaceId: string;
-    // Step 2: Industry & Services
     industries: string[];
     customIndustry: string;
     services: string[];
-    // Step 3: Pain Points & Needs
+    // Phase 2: Your Needs
     painPoints: string[];
     currentTools: string[];
     desiredIntegrations: string[];
-    // Step 4: Team & Volume
     teamSize: string;
-    monthlyCallVolume: string;
-    monthlyLeadVolume: string;
-    operatingHours: string;
-    // Step 5: Contact
+    // Phase 3: Let's Connect
     contactName: string;
     contactEmail: string;
     contactPhone: string;

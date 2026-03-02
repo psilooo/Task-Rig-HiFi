@@ -1,9 +1,7 @@
 export const PHASES = [
-    { num: 1, title: 'Find Your Business', subtitle: 'Search or enter your details below' },
-    { num: 2, title: 'Your Industry', subtitle: 'Select your industry to customize your setup' },
-    { num: 3, title: 'Challenges & Tools', subtitle: 'Tell us what you\'re solving for' },
-    { num: 4, title: 'Scale', subtitle: 'How big is your operation?' },
-    { num: 5, title: 'Contact', subtitle: 'We\'ll reach out within 24 hours' },
+    { num: 1, title: 'Your Business', subtitle: 'Find your business and tell us what you do' },
+    { num: 2, title: 'Your Needs', subtitle: 'What tools and support does your team need?' },
+    { num: 3, title: "Let's Connect", subtitle: "We'll reach out within 24 hours" },
 ];
 
 export const INTEGRATIONS = [
