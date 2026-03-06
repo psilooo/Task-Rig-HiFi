@@ -1,28 +1,31 @@
 export interface LeadData {
-    // Phase 1: Your Business
+    // Phase 1: Trade
     businessName: string;
     businessAddress: string;
     businessPhone: string;
-    businessCategory: string;
     businessRating: number | null;
     businessPlaceId: string;
-    industries: string[];
+    industry: string;        // single selection now (was industries[])
     customIndustry: string;
-    services: string[];
-    // Phase 2: Your Needs
-    painPoints: string[];
-    currentTools: string[];
-    desiredIntegrations: string[];
+
+    // Phase 2: Needs
+    painPoints: string[];    // max 3
     teamSize: string;
-    // Phase 3: Let's Connect
+
+    // Phase 3: Preview (no new data — computed from Phase 1+2)
+
+    // Phase 4: Book
     contactName: string;
     contactEmail: string;
     contactPhone: string;
-    contactRole: string;
-    preferredContactMethod: string;
-    notes: string;
-    consentMarketing: boolean;
-    consentTransactional: boolean;
+    consentSms: boolean;     // single consolidated consent
+
+    // Booking
+    appointmentSlot: string | null;  // ISO datetime from calendar
+
+    // Meta
+    source: string;
+    completedAt: string | null;
 }
 
 export interface PlacePrediction {

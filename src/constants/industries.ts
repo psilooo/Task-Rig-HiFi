@@ -2,8 +2,6 @@ import {
     Wrench, Zap, Home, TreePine, PaintBucket, Hammer, Sparkles,
     Car, Stethoscope, Heart, Briefcase, Building2, UtensilsCrossed,
     Scissors, Truck, Shield, FileText, Cog,
-    Phone, Clock, Calendar, MessageSquare, CreditCard, BarChart3,
-    Globe, Star, Users
 } from 'lucide-react';
 
 export const INDUSTRIES = [
@@ -30,16 +28,12 @@ export const INDUSTRIES = [
 ];
 
 export const PAIN_POINTS = [
-    { id: 'missed-calls', label: 'Missed calls & leads', icon: Phone },
-    { id: 'slow-response', label: 'Slow response times', icon: Clock },
-    { id: 'scheduling-chaos', label: 'Scheduling chaos', icon: Calendar },
-    { id: 'manual-dispatch', label: 'Manual dispatch', icon: Truck },
-    { id: 'no-after-hours', label: 'No after-hours coverage', icon: Globe },
-    { id: 'lost-reviews', label: 'Not enough reviews', icon: Star },
-    { id: 'invoicing', label: 'Invoicing delays', icon: CreditCard },
-    { id: 'customer-followup', label: 'Customer follow-up', icon: MessageSquare },
-    { id: 'data-silos', label: 'Data spread across tools', icon: BarChart3 },
-    { id: 'hiring', label: 'Hard to hire/retain staff', icon: Users },
+    { id: 'missed-calls',  label: 'Missed calls & leads',     icon: 'PhoneOff' },
+    { id: 'slow-response', label: 'Slow response times',      icon: 'Clock' },
+    { id: 'scheduling',    label: 'Scheduling chaos',         icon: 'CalendarX' },
+    { id: 'after-hours',   label: 'No after-hours coverage',  icon: 'Moon' },
+    { id: 'manual-work',   label: 'Manual paperwork & admin', icon: 'ClipboardList' },
+    { id: 'reviews',       label: 'Not enough reviews',       icon: 'Star' },
 ];
 
 export const INDUSTRY_SERVICES: Record<string, string[]> = {

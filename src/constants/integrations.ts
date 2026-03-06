@@ -1,7 +1,8 @@
 export const PHASES = [
-    { num: 1, title: 'Your Business', subtitle: 'Find your business and tell us what you do' },
-    { num: 2, title: 'Your Needs', subtitle: 'What tools and support does your team need?' },
-    { num: 3, title: "Let's Connect", subtitle: "We'll reach out within 24 hours" },
+    { num: 1, title: 'Your Trade',   subtitle: 'Find your business' },
+    { num: 2, title: 'Your Needs',   subtitle: 'What should we focus on?' },
+    { num: 3, title: 'Your Preview', subtitle: 'See what Task Rig does for you' },
+    { num: 4, title: 'Book a Call',  subtitle: "Pick a time — it's free" },
 ];
 
 export const INTEGRATIONS = [
@@ -19,10 +20,7 @@ export const INTEGRATIONS = [
     { id: 'ai-agent', label: 'AI Phone Agent', desc: 'Autonomous call handling' },
 ];
 
-export const TEAM_SIZES = ['Solo', '2-5', '6-15', '16-50', '51-200', '200+'];
-export const CALL_VOLUMES = ['< 50/mo', '50-200/mo', '200-500/mo', '500-1000/mo', '1000+/mo'];
-export const LEAD_VOLUMES = ['< 20/mo', '20-100/mo', '100-500/mo', '500+/mo'];
-export const HOURS = ['Standard (9-5)', 'Extended (7-7)', '24/7', 'Varies / Seasonal'];
+export const TEAM_SIZES = ['Just me', '2–5', '6–15', '16–50', '50+'];
 export const ROLES = ['Owner', 'Manager', 'Operations Lead', 'Marketing', 'IT / Tech', 'Other'];
 
 export const MARQUEE_INTEGRATIONS = [
