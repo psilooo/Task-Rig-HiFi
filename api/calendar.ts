@@ -4,14 +4,13 @@ const GHL_BASE = 'https://services.leadconnectorhq.com';
 const GHL_VERSION = '2021-04-15';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const allowedOrigins = [
-    'https://taskrig.com',
-    'https://www.taskrig.com',
-    ...(process.env.VERCEL_ENV === 'preview' ? [process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : ''] : []),
-    ...(process.env.NODE_ENV === 'development' ? ['http://localhost:5173', 'http://localhost:3000'] : []),
-  ].filter(Boolean);
   const origin = req.headers.origin ?? '';
-  if (allowedOrigins.includes(origin)) {
+  const isAllowed =
+    origin === 'https://taskrig.ca' ||
+    origin === 'https://www.taskrig.ca' ||
+    origin.endsWith('.vercel.app') ||
+    (process.env.NODE_ENV === 'development' && (origin === 'http://localhost:5173' || origin === 'http://localhost:3000'));
+  if (isAllowed) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
