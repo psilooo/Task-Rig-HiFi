@@ -15,7 +15,7 @@ interface Phase4BookProps {
 
 const calendarUrl = import.meta.env.VITE_GHL_CALENDAR_URL as string | undefined;
 
-const errorInputClass = inputClass.replace('border-zinc-800', 'border-red-500/50');
+const errorInputClass = 'w-full bg-zinc-950/50 border border-red-500/50 rounded-sm px-4 py-3 text-white font-mono text-base focus:outline-none focus:border-red-400/50 focus:ring-1 focus:ring-red-400/50 transition-all placeholder:text-zinc-700';
 
 export const Phase4Book: React.FC<Phase4BookProps> = ({ data, update, errors, setErrors }) => {
     const validateEmail = (value: string) => {

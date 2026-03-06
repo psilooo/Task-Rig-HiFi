@@ -15,25 +15,27 @@ import type { LeadData, PlacePrediction } from '../../types';
 
 // ─── SLIDE VARIANTS ──────────────────────────────────────────────
 
-const slideVariants = {
-    enter: (dir: number) => ({
-        x: dir > 0 ? 80 : -80,
-        opacity: 0,
-    }),
-    center: {
-        x: 0,
-        opacity: 1,
-    },
-    exit: (dir: number) => ({
-        x: dir > 0 ? -80 : 80,
-        opacity: 0,
-    }),
-};
+const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const slideTransition = {
-    x: { type: 'spring' as const, stiffness: 300, damping: 30 },
-    opacity: { duration: 0.2 },
-};
+const slideVariants = prefersReducedMotion
+    ? {
+          enter: () => ({ opacity: 0 }),
+          center: { opacity: 1 },
+          exit: () => ({ opacity: 0 }),
+      }
+    : {
+          enter: (dir: number) => ({ x: dir > 0 ? 80 : -80, opacity: 0 }),
+          center: { x: 0, opacity: 1 },
+          exit: (dir: number) => ({ x: dir > 0 ? -80 : 80, opacity: 0 }),
+      };
+
+const slideTransition = prefersReducedMotion
+    ? { opacity: { duration: 0.01 } }
+    : {
+          x: { type: 'spring' as const, stiffness: 300, damping: 30 },
+          opacity: { duration: 0.2 },
+      };
 
 // ─── PHASE HEADINGS ──────────────────────────────────────────────
 

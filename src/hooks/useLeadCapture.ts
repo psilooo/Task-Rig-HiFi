@@ -37,17 +37,18 @@ interface GHLPayload {
 /**
  * Map LeadData fields to the GHL contact payload shape.
  */
-function mapLeadDataToGHL(data: Partial<LeadData>): GHLPayload {
+function mapLeadDataToGHL(data: Partial<LeadData>, stage: 'partial' | 'complete' = 'partial'): GHLPayload {
   const nameParts = (data.contactName ?? '').trim().split(/\s+/);
   const firstName = nameParts[0] || '';
   const lastName = nameParts.slice(1).join(' ') || '';
   const fullName = [firstName, lastName].filter(Boolean).join(' ');
 
   const tags: string[] = [
-    'get-started-complete',
+    stage === 'complete' ? 'get-started-complete' : 'get-started-partial',
     data.industry ? `industry:${data.industry}` : '',
     data.teamSize ? `team:${data.teamSize}` : '',
     ...(data.painPoints ?? []).map((p) => `pain:${p}`),
+    data.consentSms ? 'sms-consent' : 'no-sms-consent',
   ].filter(Boolean);
 
   return {
@@ -67,8 +68,25 @@ export function useLeadCapture() {
   const leadIdRef = useRef<string>(getOrCreateLeadId());
 
   const savePartialLead = useCallback(async (data: Partial<LeadData>): Promise<string | null> => {
+    // If we already have a contactId, update instead of creating a duplicate
+    const existingId = getStoredContactId();
+    const payload = mapLeadDataToGHL(data);
+
     try {
-      const payload = mapLeadDataToGHL(data);
+      if (existingId) {
+        const response = await fetch('/api/lead', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...payload, contactId: existingId }),
+        });
+        if (!response.ok) {
+          console.warn('[LeadCapture] Failed to update partial lead:', response.status);
+          return null;
+        }
+        const result = await response.json();
+        return result.contactId ?? existingId;
+      }
+
       const response = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -127,7 +145,7 @@ export function useLeadCapture() {
     }
 
     try {
-      const payload = mapLeadDataToGHL(data);
+      const payload = mapLeadDataToGHL(data, 'complete');
       const response = await fetch('/api/lead', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },

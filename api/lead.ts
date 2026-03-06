@@ -34,8 +34,17 @@ function buildGHLPayload(body: LeadBody, locationId: string) {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const allowedOrigins = [
+    'https://taskrig.com',
+    'https://www.taskrig.com',
+    ...(process.env.VERCEL_ENV === 'preview' ? [process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : ''] : []),
+    ...(process.env.NODE_ENV === 'development' ? ['http://localhost:5173', 'http://localhost:3000'] : []),
+  ].filter(Boolean);
+  const origin = req.headers.origin ?? '';
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',
