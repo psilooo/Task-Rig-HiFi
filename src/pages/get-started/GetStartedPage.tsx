@@ -171,9 +171,12 @@ export const GetStartedPage: React.FC = () => {
 
     const isPhaseValid = (p: number): boolean => {
         switch (p) {
-            case 1:
-                if (data.industry === 'other') return data.customIndustry.trim() !== '';
-                return data.industry !== '';
+            case 1: {
+                const industryValid = data.industry === 'other'
+                    ? data.customIndustry.trim() !== ''
+                    : data.industry !== '';
+                return industryValid && data.businessName.trim() !== '';
+            }
             case 2:
                 return data.teamSize !== '';
             case 3:

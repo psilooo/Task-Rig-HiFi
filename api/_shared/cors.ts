@@ -11,7 +11,10 @@ if (process.env.NODE_ENV === 'development') {
 
 export function setCorsHeaders(req: VercelRequest, res: VercelResponse): boolean {
   const origin = req.headers.origin ?? '';
-  if (ALLOWED_ORIGINS.includes(origin)) {
+
+  // Same-origin requests (e.g. Vercel frontend → Vercel API) have no Origin header.
+  // Only set CORS headers when a cross-origin request provides a known origin.
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,PUT');
@@ -22,7 +25,8 @@ export function setCorsHeaders(req: VercelRequest, res: VercelResponse): boolean
   }
 
   if (req.method === 'OPTIONS') {
-    res.status(origin && ALLOWED_ORIGINS.includes(origin) ? 200 : 403).end();
+    // Preflight: allow same-origin (no origin header) or known origins
+    res.status(!origin || ALLOWED_ORIGINS.includes(origin) ? 200 : 403).end();
     return true;
   }
 

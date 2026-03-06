@@ -127,7 +127,7 @@ export const Phase1Trade: React.FC<Phase1TradeProps> = ({
             {/* ── Business Search (optional) ────────────────────── */}
             <motion.div variants={staggerItem} className="relative">
                 <label className={labelClass}>
-                    Find your business <span className="text-zinc-600">(optional)</span>
+                    Find your business <span className="text-orange-500">*</span>
                 </label>
 
                 {/* Search input — hidden once a business is selected */}

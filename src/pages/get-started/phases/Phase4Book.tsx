@@ -108,26 +108,32 @@ export const Phase4Book: React.FC<Phase4BookProps> = ({ data, update, errors, se
                 <label className={labelClass}>
                     Where should we text your confirmation? <span className="text-orange-500">*</span>
                 </label>
-                <input
-                    type="tel"
-                    value={data.contactPhone}
-                    onChange={(e) => {
-                        update({ contactPhone: e.target.value });
-                        if (errors.contactPhone) {
-                            setErrors((prev) => {
-                                const next = { ...prev };
-                                delete next.contactPhone;
-                                return next;
-                            });
-                        }
-                    }}
-                    onBlur={() => {
-                        if (data.contactPhone) validatePhone(data.contactPhone);
-                    }}
-                    autoComplete="tel"
-                    placeholder="+1 (555) 000-0000"
-                    className={errors.contactPhone ? errorInputClass : inputClass}
-                />
+                <div className="flex">
+                    <div className="flex items-center gap-1.5 px-3 border border-r-0 border-zinc-800 rounded-l-sm bg-zinc-900/50 shrink-0">
+                        <span className="text-sm leading-none">🇨🇦</span>
+                        <span className="font-mono text-xs text-zinc-400">+1</span>
+                    </div>
+                    <input
+                        type="tel"
+                        value={data.contactPhone}
+                        onChange={(e) => {
+                            update({ contactPhone: e.target.value });
+                            if (errors.contactPhone) {
+                                setErrors((prev) => {
+                                    const next = { ...prev };
+                                    delete next.contactPhone;
+                                    return next;
+                                });
+                            }
+                        }}
+                        onBlur={() => {
+                            if (data.contactPhone) validatePhone(data.contactPhone);
+                        }}
+                        autoComplete="tel-national"
+                        placeholder="(555) 000-0000"
+                        className={`flex-1 bg-zinc-950/50 border ${errors.contactPhone ? 'border-red-500/50 focus:border-red-400/50 focus:ring-red-400/50' : 'border-zinc-800 focus:border-orange-500/50 focus:ring-orange-500/50'} rounded-r-sm rounded-l-none px-4 py-3 text-white font-mono text-base focus:outline-none focus:ring-1 transition-all placeholder:text-zinc-700`}
+                    />
+                </div>
                 {errors.contactPhone && (
                     <p className="text-red-400 font-mono text-xs mt-1.5">{errors.contactPhone}</p>
                 )}
