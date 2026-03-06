@@ -114,7 +114,7 @@ export const ProductShowcase: React.FC<ProductShowcaseProps> = ({
                                             initial={{ opacity: 0, y: 12 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -12 }}
-                                            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                                            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] as const }}
                                             className="flex-1 flex flex-col"
                                         >
                                             <h3 className="font-heading font-bold text-lg md:text-xl text-white uppercase tracking-tight mb-2">{featureTabs[activeFeature].title}</h3>

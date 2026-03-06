@@ -110,7 +110,7 @@ export const Phase1Trade: React.FC<Phase1TradeProps> = ({
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] as const }}
                         className="overflow-hidden"
                     >
                         <InputField
@@ -243,7 +243,7 @@ export const Phase1Trade: React.FC<Phase1TradeProps> = ({
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: 'auto', opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] as const }}
                                 className="overflow-hidden"
                             >
                                 <div className="space-y-4 pt-4">

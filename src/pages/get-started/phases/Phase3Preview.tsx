@@ -49,7 +49,7 @@ interface Phase3PreviewProps {
 
 export const Phase3Preview: React.FC<Phase3PreviewProps> = ({ data }) => {
     const industryLabel =
-        INDUSTRIES.find((i) => i.id === data.industry)?.label ?? data.customIndustry || 'Your business';
+        INDUSTRIES.find((i) => i.id === data.industry)?.label ?? (data.customIndustry || 'Your business');
 
     const actions =
         data.painPoints.length > 0

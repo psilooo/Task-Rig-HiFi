@@ -43,7 +43,7 @@ export const ContactPage: React.FC = () => {
             }
 
             setStatus('success');
-            setFormData({ name: '', email: '', company: '', message: '' });
+            setFormData({ name: '', email: '', company: '', message: '', consentMarketing: false, consentTransactional: false });
         } catch (error: any) {
             console.error('Submission error:', error);
             setStatus('error');

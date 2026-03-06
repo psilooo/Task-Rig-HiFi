@@ -12,7 +12,7 @@ export const Reveal: React.FC<RevealProps> = ({ children, delay = 0, className =
     <motion.div
       initial={{ filter: 'blur(10px)', opacity: 0, y: 20 }}
       animate={{ filter: 'blur(0px)', opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }} // Smooth ease
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const, delay }}
       className={className}
     >
       {children}
