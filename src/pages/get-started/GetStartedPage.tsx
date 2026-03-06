@@ -82,7 +82,7 @@ export const GetStartedPage: React.FC = () => {
     const placesServiceRef = useRef<HTMLDivElement>(null);
     const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-    const { savePartialLead, updateLead, submitLead } = useLeadCapture();
+    const { createLead } = useLeadCapture();
 
     // ─── UPDATE ──────────────────────────────────────────────────
 
@@ -191,21 +191,8 @@ export const GetStartedPage: React.FC = () => {
 
     // ─── NAVIGATION ──────────────────────────────────────────────
 
-    const goNext = async () => {
+    const goNext = () => {
         if (phase < 4) {
-            // Save partial lead on phase transitions (best-effort, non-blocking)
-            try {
-                if (phase === 1) {
-                    // First phase complete — create the lead in GHL
-                    await savePartialLead(data);
-                } else {
-                    // Subsequent phases — update the existing lead
-                    await updateLead(data);
-                }
-            } catch {
-                // Silent fail — don't block navigation for a failed API call
-            }
-
             setDirection(1);
             setPhase((p) => p + 1);
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -227,34 +214,29 @@ export const GetStartedPage: React.FC = () => {
 
         setIsSubmitting(true);
         const completedAt = new Date().toISOString();
+        const finalData = { ...data, completedAt };
 
         // Update local state with timestamp
         setData((prev) => ({ ...prev, completedAt }));
 
+        // Create the contact in GHL with all collected data
         try {
-            await submitLead({ ...data, completedAt });
-        } catch (err) {
-            console.warn('[GetStartedPage] submitLead failed:', err);
-        }
+            const contactId = await createLead(finalData);
 
-        // Book the appointment if a slot was selected
-        if (data.appointmentSlot) {
-            try {
-                const contactId = sessionStorage.getItem('taskrig_ghl_contact_id');
-                if (contactId) {
-                    await fetch('/api/calendar', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contactId,
-                            startTime: data.appointmentSlot,
-                            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                        }),
-                    });
-                }
-            } catch (err) {
-                console.warn('[GetStartedPage] appointment booking failed:', err);
+            // Book the appointment if a slot was selected and contact was created
+            if (data.appointmentSlot && contactId) {
+                await fetch('/api/calendar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contactId,
+                        startTime: data.appointmentSlot,
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    }),
+                });
             }
+        } catch (err) {
+            console.warn('[GetStartedPage] submit failed:', err);
         }
 
         setIsSubmitting(false);
