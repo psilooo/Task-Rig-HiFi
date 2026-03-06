@@ -217,20 +217,7 @@ export const GetStartedPage: React.FC = () => {
         setData((prev) => ({ ...prev, completedAt }));
 
         try {
-            await submitLead({
-                firstName: data.contactName.split(' ')[0],
-                lastName: data.contactName.split(' ').slice(1).join(' '),
-                email: data.contactEmail,
-                phone: data.contactPhone,
-                companyName: data.businessName,
-                address1: data.businessAddress,
-                source: 'Task Rig Website - Get Started',
-                tags: [
-                    `industry:${data.industry}`,
-                    `team:${data.teamSize}`,
-                    ...data.painPoints.map((p) => `pain:${p}`),
-                ],
-            });
+            await submitLead({ ...data, completedAt });
         } catch (err) {
             // Best-effort — GHL may fail but we still show success
             console.warn('[GetStartedPage] submitLead failed:', err);

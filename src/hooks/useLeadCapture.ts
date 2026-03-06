@@ -1,4 +1,5 @@
 import { useRef, useCallback } from 'react';
+import type { LeadData } from '../types/leads';
 
 const SESSION_LEAD_ID_KEY = 'taskrig_lead_id';
 const SESSION_CONTACT_ID_KEY = 'taskrig_ghl_contact_id';
@@ -20,7 +21,7 @@ function storeContactId(id: string): void {
   sessionStorage.setItem(SESSION_CONTACT_ID_KEY, id);
 }
 
-interface LeadFields {
+interface GHLPayload {
   firstName?: string;
   lastName?: string;
   name?: string;
@@ -30,21 +31,48 @@ interface LeadFields {
   address1?: string;
   source?: string;
   tags?: string[];
-  [key: string]: unknown;
+  contactId?: string;
+}
+
+/**
+ * Map LeadData fields to the GHL contact payload shape.
+ */
+function mapLeadDataToGHL(data: Partial<LeadData>): GHLPayload {
+  const nameParts = (data.contactName ?? '').trim().split(/\s+/);
+  const firstName = nameParts[0] || '';
+  const lastName = nameParts.slice(1).join(' ') || '';
+  const fullName = [firstName, lastName].filter(Boolean).join(' ');
+
+  const tags: string[] = [
+    'get-started-complete',
+    data.industry ? `industry:${data.industry}` : '',
+    data.teamSize ? `team:${data.teamSize}` : '',
+    ...(data.painPoints ?? []).map((p) => `pain:${p}`),
+  ].filter(Boolean);
+
+  return {
+    ...(firstName && { firstName }),
+    ...(lastName && { lastName }),
+    ...(fullName && { name: fullName }),
+    ...(data.contactEmail && { email: data.contactEmail }),
+    ...(data.contactPhone && { phone: data.contactPhone }),
+    ...(data.businessName && { companyName: data.businessName }),
+    ...(data.businessAddress && { address1: data.businessAddress }),
+    source: data.source ?? 'get-started',
+    ...(tags.length > 0 && { tags }),
+  };
 }
 
 export function useLeadCapture() {
   const leadIdRef = useRef<string>(getOrCreateLeadId());
 
-  const savePartialLead = useCallback(async (data: LeadFields): Promise<string | null> => {
+  const savePartialLead = useCallback(async (data: Partial<LeadData>): Promise<string | null> => {
     try {
+      const payload = mapLeadDataToGHL(data);
       const response = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          source: data.source ?? 'Task Rig Website - Get Started',
-        }),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -63,7 +91,7 @@ export function useLeadCapture() {
     }
   }, []);
 
-  const updateLead = useCallback(async (data: LeadFields): Promise<string | null> => {
+  const updateLead = useCallback(async (data: Partial<LeadData>): Promise<string | null> => {
     const contactId = getStoredContactId();
     if (!contactId) {
       console.warn('[LeadCapture] No contactId stored, cannot update');
@@ -71,10 +99,11 @@ export function useLeadCapture() {
     }
 
     try {
+      const payload = mapLeadDataToGHL(data);
       const response = await fetch('/api/lead', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, contactId }),
+        body: JSON.stringify({ ...payload, contactId }),
       });
 
       if (!response.ok) {
@@ -90,7 +119,7 @@ export function useLeadCapture() {
     }
   }, []);
 
-  const submitLead = useCallback(async (data: LeadFields): Promise<string | null> => {
+  const submitLead = useCallback(async (data: Partial<LeadData>): Promise<string | null> => {
     const contactId = getStoredContactId();
     if (!contactId) {
       console.warn('[LeadCapture] No contactId stored, cannot submit');
@@ -98,14 +127,11 @@ export function useLeadCapture() {
     }
 
     try {
+      const payload = mapLeadDataToGHL(data);
       const response = await fetch('/api/lead', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          contactId,
-          tags: [...(data.tags ?? []), 'get-started-complete'],
-        }),
+        body: JSON.stringify({ ...payload, contactId }),
       });
 
       if (!response.ok) {
