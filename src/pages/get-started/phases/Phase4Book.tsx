@@ -1,9 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Lock, Shield, Phone } from 'lucide-react';
+import { Lock, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { labelClass, inputClass } from '../../../components/forms/styles';
 import { staggerContainer, staggerItem } from '../animations';
+import { SlotPicker } from '../SlotPicker';
 import type { LeadData } from '../../../types';
 
 interface Phase4BookProps {
@@ -12,8 +13,6 @@ interface Phase4BookProps {
     errors: Record<string, string>;
     setErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
 }
-
-const calendarUrl = import.meta.env.VITE_GHL_CALENDAR_URL as string | undefined;
 
 const errorInputClass = 'w-full bg-zinc-950/50 border border-red-500/50 rounded-sm px-4 py-3 text-white font-mono text-base focus:outline-none focus:border-red-400/50 focus:ring-1 focus:ring-red-400/50 transition-all placeholder:text-zinc-700';
 
@@ -137,31 +136,13 @@ export const Phase4Book: React.FC<Phase4BookProps> = ({ data, update, errors, se
                 </div>
             </motion.div>
 
-            {/* Calendar embed */}
+            {/* Slot picker */}
             <motion.div variants={staggerItem}>
                 <label className={labelClass}>Pick a time for your walkthrough</label>
-                {calendarUrl ? (
-                    <div className="border border-zinc-800 rounded-sm overflow-hidden">
-                        <iframe
-                            src={calendarUrl}
-                            title="Schedule your walkthrough"
-                            className="w-full h-[400px] border-0"
-                        />
-                    </div>
-                ) : (
-                    <div className="border border-zinc-800 rounded-sm p-6 text-center space-y-3">
-                        <p className="text-zinc-400 font-mono text-sm">
-                            We'll reach out within 24 hours to schedule your walkthrough.
-                        </p>
-                        <a
-                            href="tel:+18442222486"
-                            className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 font-mono text-xs transition-colors"
-                        >
-                            <Phone className="w-3.5 h-3.5" />
-                            Or call us: (844) 222-2486
-                        </a>
-                    </div>
-                )}
+                <SlotPicker
+                    selected={data.appointmentSlot}
+                    onSelect={(slot) => update({ appointmentSlot: slot })}
+                />
             </motion.div>
 
             {/* SMS consent checkbox */}

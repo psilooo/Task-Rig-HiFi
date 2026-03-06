@@ -234,8 +234,27 @@ export const GetStartedPage: React.FC = () => {
         try {
             await submitLead({ ...data, completedAt });
         } catch (err) {
-            // Best-effort — GHL may fail but we still show success
             console.warn('[GetStartedPage] submitLead failed:', err);
+        }
+
+        // Book the appointment if a slot was selected
+        if (data.appointmentSlot) {
+            try {
+                const contactId = sessionStorage.getItem('taskrig_ghl_contact_id');
+                if (contactId) {
+                    await fetch('/api/calendar', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contactId,
+                            startTime: data.appointmentSlot,
+                            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        }),
+                    });
+                }
+            } catch (err) {
+                console.warn('[GetStartedPage] appointment booking failed:', err);
+            }
         }
 
         setIsSubmitting(false);
@@ -264,9 +283,9 @@ export const GetStartedPage: React.FC = () => {
                         </span>
                     </Link>
                     <Link to="/" className="flex items-center gap-2 no-underline">
-                        <TaskRigLogo className="h-5 w-auto text-orange-500" />
+                        <TaskRigLogo className="h-5 w-auto text-orange-500 drop-shadow-[0_0_5px_rgba(249,115,22,0.5)]" />
                         <span className="font-heading font-bold text-base tracking-tight text-white">
-                            TASK<span className="text-orange-500">RIG</span>
+                            TASK RIG
                         </span>
                     </Link>
                     {/* Spacer for centering */}
