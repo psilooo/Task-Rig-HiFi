@@ -252,6 +252,7 @@ export const Phase1Trade: React.FC<Phase1TradeProps> = ({
                                         value={data.businessName}
                                         onChange={(v) => update({ businessName: v })}
                                         placeholder="Acme HVAC Services"
+                                        required
                                     />
                                     <InputField
                                         label="Business Address"

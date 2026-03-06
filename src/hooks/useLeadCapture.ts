@@ -24,6 +24,14 @@ interface GHLPayload {
   contactId?: string;
 }
 
+function formatPhone(raw: string): string {
+  const digits = raw.replace(/\D/g, '');
+  // If already has country code (11+ digits starting with 1), use as-is
+  if (digits.length >= 11 && digits.startsWith('1')) return `+${digits}`;
+  // Otherwise prepend +1 for Canada
+  return `+1${digits}`;
+}
+
 function mapLeadDataToGHL(data: Partial<LeadData>): GHLPayload {
   const nameParts = (data.contactName ?? '').trim().split(/\s+/);
   const firstName = nameParts[0] || '';
@@ -43,7 +51,9 @@ function mapLeadDataToGHL(data: Partial<LeadData>): GHLPayload {
     ...(lastName && { lastName }),
     ...(fullName && { name: fullName }),
     ...(data.contactEmail && { email: data.contactEmail }),
-    ...(data.contactPhone && { phone: data.contactPhone }),
+    ...(data.contactPhone && {
+      phone: formatPhone(data.contactPhone),
+    }),
     ...(data.businessName && { companyName: data.businessName }),
     ...(data.businessAddress && { address1: data.businessAddress }),
     source: data.source ?? 'get-started',

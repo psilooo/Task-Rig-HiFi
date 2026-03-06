@@ -39,6 +39,8 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect, onAv
   const [error, setError] = useState<string | null>(null);
   const [dateIndex, setDateIndex] = useState(0);
   const cachedRef = useRef(false);
+  const onAvailabilityRef = useRef(onAvailabilityChange);
+  onAvailabilityRef.current = onAvailabilityChange;
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -57,14 +59,14 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect, onAv
       }
       setSlots(filtered);
       cachedRef.current = true;
-      onAvailabilityChange?.(Object.keys(filtered).length > 0);
+      onAvailabilityRef.current?.(Object.keys(filtered).length > 0);
     } catch {
       setError('Could not load available times. We\'ll reach out to schedule your walkthrough.');
-      onAvailabilityChange?.(false);
+      onAvailabilityRef.current?.(false);
     } finally {
       setLoading(false);
     }
-  }, [timezone, onAvailabilityChange]);
+  }, [timezone]);
 
   useEffect(() => { fetchSlots(); }, [fetchSlots]);
 
@@ -151,12 +153,19 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect, onAv
             {currentSlots.map((slot) => {
               const isSelected = selected === slot;
               return (
-                <button
+                <div
                   key={slot}
                   role="option"
                   aria-selected={isSelected}
+                  tabIndex={0}
                   onClick={() => onSelect(slot)}
-                  className={`flex items-center justify-center gap-1.5 px-2 py-2.5 rounded-sm font-mono text-xs transition-all ${
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onSelect(slot);
+                    }
+                  }}
+                  className={`flex items-center justify-center gap-1.5 px-2 py-2.5 rounded-sm font-mono text-xs transition-all cursor-pointer ${
                     isSelected
                       ? 'bg-orange-500/15 border border-orange-500/50 text-orange-400'
                       : 'bg-zinc-900/50 border border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300'
@@ -164,7 +173,7 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect, onAv
                 >
                   {isSelected && <Clock size={12} />}
                   {formatTime(slot)}
-                </button>
+                </div>
               );
             })}
           </motion.div>

@@ -1,13 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const ALLOWED_ORIGINS = [
+const ALLOWED_ORIGINS: readonly string[] = Object.freeze([
   'https://taskrig.ca',
   'https://www.taskrig.ca',
-];
-
-if (process.env.NODE_ENV === 'development') {
-  ALLOWED_ORIGINS.push('http://localhost:5173', 'http://localhost:3000');
-}
+  ...(process.env.NODE_ENV === 'development'
+    ? ['http://localhost:5173', 'http://localhost:3000']
+    : []),
+]);
 
 export function setCorsHeaders(req: VercelRequest, res: VercelResponse): boolean {
   const origin = req.headers.origin ?? '';
