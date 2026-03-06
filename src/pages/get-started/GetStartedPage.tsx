@@ -78,6 +78,7 @@ export const GetStartedPage: React.FC = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [predictions, setPredictions] = useState<PlacePrediction[]>([]);
     const [isSearching, setIsSearching] = useState(false);
+    const [calendarAvailable, setCalendarAvailable] = useState(false);
 
     const placesServiceRef = useRef<HTMLDivElement>(null);
     const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -177,13 +178,16 @@ export const GetStartedPage: React.FC = () => {
                 return data.teamSize !== '';
             case 3:
                 return true; // Preview — always valid
-            case 4:
-                return (
+            case 4: {
+                const contactValid =
                     data.contactName.trim() !== '' &&
                     data.contactEmail.includes('@') &&
                     data.contactEmail.includes('.') &&
-                    data.contactPhone.replace(/\D/g, '').length >= 10
-                );
+                    data.contactPhone.replace(/\D/g, '').length >= 10;
+                // Require a time slot only when the calendar loaded successfully
+                const slotValid = !calendarAvailable || data.appointmentSlot !== null;
+                return contactValid && slotValid;
+            }
             default:
                 return false;
         }
@@ -216,16 +220,16 @@ export const GetStartedPage: React.FC = () => {
         const completedAt = new Date().toISOString();
         const finalData = { ...data, completedAt };
 
-        // Update local state with timestamp
         setData((prev) => ({ ...prev, completedAt }));
 
-        // Create the contact in GHL with all collected data
+        let bookingSucceeded = false;
+
         try {
             const contactId = await createLead(finalData);
 
             // Book the appointment if a slot was selected and contact was created
             if (data.appointmentSlot && contactId) {
-                await fetch('/api/calendar', {
+                const bookingRes = await fetch('/api/calendar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -234,9 +238,15 @@ export const GetStartedPage: React.FC = () => {
                         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                     }),
                 });
+                bookingSucceeded = bookingRes.ok;
             }
         } catch (err) {
             console.warn('[GetStartedPage] submit failed:', err);
+        }
+
+        // If booking failed, clear the slot so SuccessState shows the fallback message
+        if (data.appointmentSlot && !bookingSucceeded) {
+            setData((prev) => ({ ...prev, appointmentSlot: null }));
         }
 
         setIsSubmitting(false);
@@ -329,6 +339,7 @@ export const GetStartedPage: React.FC = () => {
                                             update={update}
                                             errors={errors}
                                             setErrors={setErrors}
+                                            onCalendarAvailability={setCalendarAvailable}
                                         />
                                     )}
                                 </motion.div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Loader2, CalendarDays, Clock } from 'lucide-react';
 
@@ -9,6 +9,7 @@ interface SlotsByDate {
 interface SlotPickerProps {
   selected: string | null;
   onSelect: (slot: string) => void;
+  onAvailabilityChange?: (hasSlots: boolean) => void;
 }
 
 function formatDateHeading(dateStr: string): string {
@@ -32,34 +33,38 @@ function formatTime(isoStr: string): string {
   });
 }
 
-export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect }) => {
+export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect, onAvailabilityChange }) => {
   const [slots, setSlots] = useState<SlotsByDate>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [dateIndex, setDateIndex] = useState(0);
+  const cachedRef = useRef(false);
 
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const fetchSlots = useCallback(async () => {
+    if (cachedRef.current) return;
     setLoading(true);
     setError(null);
     try {
       const res = await fetch(`/api/calendar?timezone=${encodeURIComponent(timezone)}`);
       if (!res.ok) throw new Error('Failed to load');
       const data = await res.json();
-      // Filter out dates with no slots
       const filtered: SlotsByDate = {};
       for (const [date, val] of Object.entries(data)) {
         const v = val as { slots: string[] };
         if (v.slots?.length > 0) filtered[date] = v;
       }
       setSlots(filtered);
+      cachedRef.current = true;
+      onAvailabilityChange?.(Object.keys(filtered).length > 0);
     } catch {
       setError('Could not load available times. We\'ll reach out to schedule your walkthrough.');
+      onAvailabilityChange?.(false);
     } finally {
       setLoading(false);
     }
-  }, [timezone]);
+  }, [timezone, onAvailabilityChange]);
 
   useEffect(() => { fetchSlots(); }, [fetchSlots]);
 
@@ -67,9 +72,19 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect }) =>
   const currentDate = dates[dateIndex];
   const currentSlots = currentDate ? slots[currentDate]?.slots ?? [] : [];
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft' && dateIndex > 0) {
+      e.preventDefault();
+      setDateIndex((i) => i - 1);
+    } else if (e.key === 'ArrowRight' && dateIndex < dates.length - 1) {
+      e.preventDefault();
+      setDateIndex((i) => i + 1);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="border border-zinc-800 rounded-sm p-8 flex flex-col items-center gap-3">
+      <div className="border border-zinc-800 rounded-sm p-8 flex flex-col items-center gap-3" aria-live="polite">
         <Loader2 className="w-5 h-5 text-orange-500 animate-spin" />
         <p className="text-zinc-500 font-mono text-xs">Loading available times...</p>
       </div>
@@ -78,7 +93,7 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect }) =>
 
   if (error || dates.length === 0) {
     return (
-      <div className="border border-zinc-800 rounded-sm p-6 text-center space-y-2">
+      <div className="border border-zinc-800 rounded-sm p-6 text-center space-y-2" aria-live="polite">
         <p className="text-zinc-400 font-mono text-sm">
           {error || 'No available times right now.'}
         </p>
@@ -90,25 +105,32 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect }) =>
   }
 
   return (
-    <div className="border border-zinc-800 rounded-sm overflow-hidden">
+    <div
+      className="border border-zinc-800 rounded-sm overflow-hidden"
+      onKeyDown={handleKeyDown}
+      role="group"
+      aria-label="Time slot picker"
+    >
       {/* Date navigator */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800 bg-zinc-900/50">
         <button
           onClick={() => setDateIndex((i) => Math.max(0, i - 1))}
           disabled={dateIndex === 0}
+          aria-label="Previous day"
           className="p-1 text-zinc-400 hover:text-white disabled:text-zinc-700 disabled:cursor-not-allowed transition-colors"
         >
           <ChevronLeft size={16} />
         </button>
         <div className="flex items-center gap-2">
           <CalendarDays className="w-3.5 h-3.5 text-orange-500" />
-          <span className="font-mono text-sm text-white font-medium">
+          <span className="font-mono text-sm text-white font-medium" aria-live="polite">
             {formatDateHeading(currentDate)}
           </span>
         </div>
         <button
           onClick={() => setDateIndex((i) => Math.min(dates.length - 1, i + 1))}
           disabled={dateIndex === dates.length - 1}
+          aria-label="Next day"
           className="p-1 text-zinc-400 hover:text-white disabled:text-zinc-700 disabled:cursor-not-allowed transition-colors"
         >
           <ChevronRight size={16} />
@@ -116,7 +138,7 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect }) =>
       </div>
 
       {/* Time slots grid */}
-      <div className="p-3 max-h-[240px] overflow-y-auto">
+      <div className="p-3 max-h-[240px] overflow-y-auto" role="listbox" aria-label="Available time slots">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentDate}
@@ -131,6 +153,8 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect }) =>
               return (
                 <button
                   key={slot}
+                  role="option"
+                  aria-selected={isSelected}
                   onClick={() => onSelect(slot)}
                   className={`flex items-center justify-center gap-1.5 px-2 py-2.5 rounded-sm font-mono text-xs transition-all ${
                     isSelected
@@ -149,7 +173,7 @@ export const SlotPicker: React.FC<SlotPickerProps> = ({ selected, onSelect }) =>
 
       {/* Selected confirmation */}
       {selected && (
-        <div className="px-4 py-2.5 border-t border-zinc-800 bg-emerald-500/5">
+        <div className="px-4 py-2.5 border-t border-zinc-800 bg-emerald-500/5" aria-live="polite">
           <p className="text-emerald-400 font-mono text-xs flex items-center gap-2">
             <Clock size={12} />
             {formatDateHeading(selected.split('T')[0])} at {formatTime(selected)}

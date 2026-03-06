@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { setCorsHeaders } from './_shared/cors';
 
 const GHL_BASE = 'https://services.leadconnectorhq.com';
 const GHL_VERSION = '2021-07-28';
@@ -34,25 +35,7 @@ function buildGHLPayload(body: LeadBody, locationId: string) {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const origin = req.headers.origin ?? '';
-  const isAllowed =
-    origin === 'https://taskrig.ca' ||
-    origin === 'https://www.taskrig.ca' ||
-    origin.endsWith('.vercel.app') ||
-    (process.env.NODE_ENV === 'development' && (origin === 'http://localhost:5173' || origin === 'http://localhost:3000'));
-  if (isAllowed) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (setCorsHeaders(req, res)) return;
 
   const apiKey = process.env.GHL_API_KEY;
   const locationId = process.env.GHL_LOCATION_ID;
@@ -68,22 +51,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   };
 
   if (req.method === 'POST') {
-    const payload = buildGHLPayload(req.body as LeadBody, locationId);
+    try {
+      const payload = buildGHLPayload(req.body as LeadBody, locationId);
+      const response = await fetch(`${GHL_BASE}/contacts/`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(payload),
+      });
 
-    const response = await fetch(`${GHL_BASE}/contacts/`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(payload),
-    });
+      const data = await response.json();
 
-    const data = await response.json();
+      if (!response.ok) {
+        console.error('GHL create contact error:', data);
+        return res.status(response.status).json({ error: 'Failed to create contact' });
+      }
 
-    if (!response.ok) {
-      console.error('GHL create contact error:', data);
-      return res.status(response.status).json({ error: 'Failed to create contact', details: data });
+      return res.status(200).json({ contactId: data.contact?.id ?? data.id });
+    } catch (err) {
+      console.error('GHL API unreachable (POST /contacts/):', err);
+      return res.status(502).json({ error: 'Contact service temporarily unavailable' });
     }
-
-    return res.status(200).json({ contactId: data.contact?.id ?? data.id });
   }
 
   if (req.method === 'PUT') {
@@ -93,22 +80,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'contactId is required for updates' });
     }
 
-    const payload = buildGHLPayload(fields, locationId);
+    try {
+      const payload = buildGHLPayload(fields, locationId);
+      const response = await fetch(`${GHL_BASE}/contacts/${contactId}`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(payload),
+      });
 
-    const response = await fetch(`${GHL_BASE}/contacts/${contactId}`, {
-      method: 'PUT',
-      headers,
-      body: JSON.stringify(payload),
-    });
+      const data = await response.json();
 
-    const data = await response.json();
+      if (!response.ok) {
+        console.error('GHL update contact error:', data);
+        return res.status(response.status).json({ error: 'Failed to update contact' });
+      }
 
-    if (!response.ok) {
-      console.error('GHL update contact error:', data);
-      return res.status(response.status).json({ error: 'Failed to update contact', details: data });
+      return res.status(200).json({ contactId: data.contact?.id ?? contactId });
+    } catch (err) {
+      console.error('GHL API unreachable (PUT /contacts/):', err);
+      return res.status(502).json({ error: 'Contact service temporarily unavailable' });
     }
-
-    return res.status(200).json({ contactId: data.contact?.id ?? contactId });
   }
 
   return res.status(405).json({ error: 'Method not allowed' });

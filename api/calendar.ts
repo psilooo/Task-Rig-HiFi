@@ -1,28 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { setCorsHeaders } from './_shared/cors';
 
 const GHL_BASE = 'https://services.leadconnectorhq.com';
 const GHL_VERSION = '2021-04-15';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const origin = req.headers.origin ?? '';
-  const isAllowed =
-    origin === 'https://taskrig.ca' ||
-    origin === 'https://www.taskrig.ca' ||
-    origin.endsWith('.vercel.app') ||
-    (process.env.NODE_ENV === 'development' && (origin === 'http://localhost:5173' || origin === 'http://localhost:3000'));
-  if (isAllowed) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (setCorsHeaders(req, res)) return;
 
   const apiKey = process.env.GHL_API_KEY;
   const locationId = process.env.GHL_LOCATION_ID;
@@ -38,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     'Content-Type': 'application/json',
   };
 
-  // GET — fetch available slots
+  // GET — fetch available slots (startDate/endDate are epoch milliseconds per GHL OpenAPI spec)
   if (req.method === 'GET') {
     const timezone = (req.query.timezone as string) || 'America/New_York';
     const now = Date.now();
@@ -49,15 +32,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     url.searchParams.set('endDate', String(twoWeeks));
     url.searchParams.set('timezone', timezone);
 
-    const response = await fetch(url.toString(), { method: 'GET', headers });
-    const data = await response.json();
+    try {
+      const response = await fetch(url.toString(), { method: 'GET', headers });
+      const data = await response.json();
 
-    if (!response.ok) {
-      console.error('GHL free-slots error:', data);
-      return res.status(response.status).json({ error: 'Failed to fetch slots', details: data });
+      if (!response.ok) {
+        console.error('GHL free-slots error:', data);
+        return res.status(response.status).json({ error: 'Failed to fetch available times' });
+      }
+
+      return res.status(200).json(data);
+    } catch (err) {
+      console.error('GHL API unreachable (GET free-slots):', err);
+      return res.status(502).json({ error: 'Calendar service temporarily unavailable' });
     }
-
-    return res.status(200).json(data);
   }
 
   // POST — book an appointment
@@ -72,28 +60,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'contactId and startTime are required' });
     }
 
-    const response = await fetch(`${GHL_BASE}/calendars/events/appointments`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        calendarId,
-        locationId,
-        contactId,
-        startTime,
-        title: 'TaskRig Walkthrough',
-        appointmentStatus: 'new',
-        ...(timezone && { timezone }),
-      }),
-    });
+    try {
+      const response = await fetch(`${GHL_BASE}/calendars/events/appointments`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          calendarId,
+          locationId,
+          contactId,
+          startTime,
+          title: 'TaskRig Walkthrough',
+          appointmentStatus: 'new',
+          ...(timezone && { timezone }),
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!response.ok) {
-      console.error('GHL create appointment error:', data);
-      return res.status(response.status).json({ error: 'Failed to book appointment', details: data });
+      if (!response.ok) {
+        console.error('GHL create appointment error:', data);
+        return res.status(response.status).json({ error: 'Failed to book appointment' });
+      }
+
+      return res.status(200).json({ appointmentId: data.id, startTime: data.startTime, endTime: data.endTime });
+    } catch (err) {
+      console.error('GHL API unreachable (POST appointments):', err);
+      return res.status(502).json({ error: 'Calendar service temporarily unavailable' });
     }
-
-    return res.status(200).json({ appointmentId: data.id, startTime: data.startTime, endTime: data.endTime });
   }
 
   return res.status(405).json({ error: 'Method not allowed' });

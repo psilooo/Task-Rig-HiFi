@@ -12,11 +12,12 @@ interface Phase4BookProps {
     update: (partial: Partial<LeadData>) => void;
     errors: Record<string, string>;
     setErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+    onCalendarAvailability?: (hasSlots: boolean) => void;
 }
 
 const errorInputClass = 'w-full bg-zinc-950/50 border border-red-500/50 rounded-sm px-4 py-3 text-white font-mono text-base focus:outline-none focus:border-red-400/50 focus:ring-1 focus:ring-red-400/50 transition-all placeholder:text-zinc-700';
 
-export const Phase4Book: React.FC<Phase4BookProps> = ({ data, update, errors, setErrors }) => {
+export const Phase4Book: React.FC<Phase4BookProps> = ({ data, update, errors, setErrors, onCalendarAvailability }) => {
     const validateEmail = (value: string) => {
         if (!value.includes('@') || !value.includes('.')) {
             setErrors((prev) => ({ ...prev, contactEmail: 'Please enter a valid email address' }));
@@ -142,6 +143,7 @@ export const Phase4Book: React.FC<Phase4BookProps> = ({ data, update, errors, se
                 <SlotPicker
                     selected={data.appointmentSlot}
                     onSelect={(slot) => update({ appointmentSlot: slot })}
+                    onAvailabilityChange={onCalendarAvailability}
                 />
             </motion.div>
 
