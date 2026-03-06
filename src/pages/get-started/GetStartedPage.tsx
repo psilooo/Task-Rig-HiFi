@@ -80,7 +80,7 @@ export const GetStartedPage: React.FC = () => {
     const placesServiceRef = useRef<HTMLDivElement>(null);
     const searchTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-    const { submitLead } = useLeadCapture();
+    const { savePartialLead, updateLead, submitLead } = useLeadCapture();
 
     // ─── UPDATE ──────────────────────────────────────────────────
 
@@ -189,8 +189,21 @@ export const GetStartedPage: React.FC = () => {
 
     // ─── NAVIGATION ──────────────────────────────────────────────
 
-    const goNext = () => {
+    const goNext = async () => {
         if (phase < 4) {
+            // Save partial lead on phase transitions (best-effort, non-blocking)
+            try {
+                if (phase === 1) {
+                    // First phase complete — create the lead in GHL
+                    await savePartialLead(data);
+                } else {
+                    // Subsequent phases — update the existing lead
+                    await updateLead(data);
+                }
+            } catch {
+                // Silent fail — don't block navigation for a failed API call
+            }
+
             setDirection(1);
             setPhase((p) => p + 1);
             window.scrollTo({ top: 0, behavior: 'smooth' });
